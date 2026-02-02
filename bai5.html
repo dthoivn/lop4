@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>🎮 Game kiểm tra – Thao tác với thư mục, tệp (Lớp 4)</title>
+<style>
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#ffeaa7,#74b9ff)}
+#app{max-width:1100px;margin:20px auto;background:#fff;border-radius:18px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{text-align:center;color:#2d3436}
+#top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#progress{flex:1;height:12px;background:#dfe6e9;border-radius:10px;overflow:hidden;margin:0 15px}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,#55efc4,#0984e3);transition:.4s}
+#timer{font-weight:bold;color:#d63031}
+.question{font-size:20px;margin:20px 0}
+.answers button{display:block;width:100%;margin:10px 0;padding:12px;border:none;border-radius:14px;font-size:16px;cursor:pointer;background:#f1f2f6;transition:.25s}
+.answers button:hover{background:#dff9fb;transform:scale(1.02)}
+.correct{background:#c8e6c9 !important}
+.wrong{background:#ffcdd2 !important}
+#next{display:none;margin:20px auto;padding:10px 40px;font-size:16px;border:none;border-radius:20px;background:#0984e3;color:#fff;cursor:pointer}
+#result{display:none;text-align:center;font-size:22px}
+#report{display:none;margin-top:20px}
+#report table{width:100%;border-collapse:collapse}
+#report th,#report td{border:1px solid #ccc;padding:6px;text-align:center}
+</style>
+</head>
+<body>
+<div id="app">
+<h1>🎮 GAME KIỂM TRA – THAO TÁC VỚI THƯ MỤC, TỆP (LỚP 4)</h1>
+<div id="top">
+  <div id="timer">⏱️ 15:00</div>
+  <div id="progress"><div id="bar"></div></div>
+</div>
+<div id="quiz">
+  <div class="question" id="question"></div>
+  <div class="answers" id="answers"></div>
+</div>
+<button id="next">Câu tiếp theo ▶</button>
+<div id="result"></div>
+<div id="report"></div>
+</div>
+<script>
+// ====== 70 CÂU KHÔNG TRÙNG – BÀI 5 LỚP 4 ======
+const questions=[
+{q:"Thư mục dùng để làm gì trên máy tính?",a:["Chứa tệp và thư mục khác","Chỉ để trang trí","Chạy chương trình","Nghe nhạc"],c:0},
+{q:"Tệp là gì?",a:["Một thư mục","Một chương trình","Một đơn vị lưu trữ dữ liệu","Một ổ đĩa"],c:2},
+{q:"Thao tác sao chép thư mục có nghĩa là gì?",a:["Xóa thư mục","Tạo bản sao thư mục","Đổi tên thư mục","Di chuyển thư mục"],c:1},
+{q:"Sau khi sao chép thư mục, kết quả như thế nào?",a:["Chỉ còn ở thư mục đích","Chỉ còn ở thư mục nguồn","Có ở cả nguồn và đích","Bị xóa"],c:2},
+{q:"Thao tác di chuyển thư mục có nghĩa là gì?",a:["Tạo bản sao","Đổi tên","Chuyển vị trí và không còn ở chỗ cũ","Chỉ xem"],c:2},
+{q:"Sau khi di chuyển thư mục, điều gì xảy ra?",a:["Còn ở cả hai nơi","Chỉ ở thư mục nguồn","Chỉ ở thư mục đích","Bị nhân đôi"],c:2},
+{q:"Muốn sao chép thư mục, trước tiên em cần làm gì?",a:["Chọn thư mục","Xóa thư mục","Đổi tên","Mở Word"],c:0},
+{q:"Nút lệnh nào dùng để sao chép thư mục?",a:["Cut","Copy","Paste","Delete"],c:1},
+{q:"Nút lệnh nào dùng để di chuyển thư mục?",a:["Copy","Paste","Cut","Rename"],c:2},
+{q:"Nút lệnh Paste dùng để làm gì?",a:["Sao chép","Dán đối tượng","Xóa","Đổi tên"],c:1},
+
+{q:"Tổ hợp phím dùng để sao chép là gì?",a:["Ctrl + X","Ctrl + V","Ctrl + C","Ctrl + A"],c:2},
+{q:"Tổ hợp phím dùng để dán là gì?",a:["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + Z"],c:1},
+{q:"Tổ hợp phím dùng để di chuyển là gì?",a:["Ctrl + C","Ctrl + V","Ctrl + X","Ctrl + P"],c:2},
+{q:"Muốn sao chép nhiều thư mục cùng lúc, em cần làm gì?",a:["Nháy từng cái","Giữ Ctrl và nháy chuột","Giữ Shift","Không thể"],c:1},
+{q:"Muốn mở một thư mục, em làm thế nào?",a:["Nháy đúp chuột","Nháy chuột phải","Nhấn Delete","Nhấn Enter"],c:0},
+{q:"Thao tác đổi tên thư mục bắt đầu bằng việc gì?",a:["Gõ tên mới","Chọn thư mục","Nhấn Enter","Mở thư mục khác"],c:1},
+{q:"Nút lệnh Rename dùng để làm gì?",a:["Xóa","Sao chép","Đổi tên","Di chuyển"],c:2},
+{q:"Sau khi gõ tên mới, cần nhấn phím nào để hoàn tất?",a:["Ctrl","Shift","Enter","Delete"],c:2},
+{q:"Nút lệnh Delete dùng để làm gì?",a:["Sao chép","Di chuyển","Xóa","Đổi tên"],c:2},
+{q:"Xóa nhầm thư mục có thể gây ra điều gì?",a:["Mất dữ liệu","Máy nhanh hơn","Không sao","Đẹp hơn"],c:0},
+
+{q:"Vì sao cần cẩn thận khi thao tác với thư mục và tệp?",a:["Vì dễ nhầm","Vì có thể gây mất dữ liệu","Vì tốn thời gian","Không cần"],c:1},
+{q:"Sao chép cùng một tệp vào nhiều nơi có thể gây hậu quả gì?",a:["Máy nhanh hơn","Bộ nhớ đầy","Không ảnh hưởng","Máy sáng hơn"],c:1},
+{q:"Di chuyển nhầm tệp chương trình có thể gây gì?",a:["Lỗi phần mềm","Chạy nhanh","Không sao","Màn hình sáng"],c:0},
+{q:"Đổi tên nhầm tệp chương trình có thể gây gì?",a:["Không mở được chương trình","Máy nhanh","Không ảnh hưởng","Âm thanh to"],c:0},
+{q:"Thư mục nguồn là gì?",a:["Nơi chứa thư mục ban đầu","Nơi dán thư mục","Nơi xóa","Nơi đổi tên"],c:0},
+{q:"Thư mục đích là gì?",a:["Nơi sao chép hoặc di chuyển đến","Nơi xóa","Nơi tạo mới","Nơi đổi tên"],c:0},
+{q:"Khi di chuyển thư mục, thư mục nguồn sẽ như thế nào?",a:["Vẫn còn","Bị xóa","Được nhân đôi","Không thay đổi"],c:1},
+{q:"Muốn sao chép tệp, em cần làm gì đầu tiên?",a:["Chọn tệp","Xóa tệp","Đổi tên","Mở Paint"],c:0},
+{q:"Thao tác với tệp cũng tương tự thao tác với gì?",a:["Thư mục","Ổ đĩa","Màn hình","Chuột"],c:0},
+{q:"Khi thực hiện thao tác, nên làm gì để tránh sai sót?",a:["Làm nhanh","Không cần suy nghĩ","Cân nhắc kỹ","Làm ngẫu nhiên"],c:2},
+
+{q:"Thao tác nhầm với thư mục và tệp có thể gây hậu quả nào sau đây?",a:["Mất dữ liệu","Khó quản lí","Lỗi phần mềm","Tất cả đều đúng"],c:3},
+{q:"Muốn quay lại thao tác trước đó, em có thể dùng phím nào?",a:["Ctrl + Z","Ctrl + C","Ctrl + V","Ctrl + X"],c:0},
+{q:"Muốn chọn nhiều tệp liên tiếp, em có thể dùng phím nào?",a:["Ctrl","Shift","Alt","Enter"],c:1},
+{q:"Khi sao chép thư mục sang USB, thư mục gốc sẽ thế nào?",a:["Bị xóa","Vẫn còn","Bị đổi tên","Bị ẩn"],c:1},
+{q:"USB thường dùng để làm gì?",a:["Lưu trữ và sao chép dữ liệu","Nghe nhạc","Vẽ","In"],c:0},
+{q:"Muốn mang bài trình chiếu từ nhà đến lớp, em nên làm gì?",a:["Xóa bài","Sao chép vào USB","Đổi tên","Không mang"],c:1},
+{q:"Khi dán tệp vào thư mục đích, cần làm gì trước đó?",a:["Mở thư mục đích","Xóa thư mục","Đổi tên","Tắt máy"],c:0},
+{q:"Thao tác Cut khác Copy ở điểm nào?",a:["Cut làm mất ở chỗ cũ","Copy thì không","Cả hai giống nhau","Không khác"],c:0},
+{q:"Thao tác Copy khác Cut ở điểm nào?",a:["Copy không làm mất bản gốc","Copy làm mất bản gốc","Không khác","Copy nhanh hơn"],c:0},
+
+{q:"Thao tác đổi tên tệp giúp ích điều gì?",a:["Dễ quản lí","Dễ tìm","Không nhầm lẫn","Tất cả đều đúng"],c:3},
+{q:"Khi đổi tên tệp, em cần lưu ý điều gì?",a:["Không đổi phần mở rộng","Đổi tùy ý","Xóa tệp","Không cần lưu ý"],c:0},
+{q:"Phần mở rộng của tệp giúp nhận biết điều gì?",a:["Loại tệp","Màu sắc","Kích thước","Giá trị"],c:0},
+{q:"Xóa thư mục có nghĩa là gì?",a:["Di chuyển","Loại bỏ khỏi máy tính","Sao chép","Đổi tên"],c:1},
+{q:"Sau khi xóa, dữ liệu thường đi đâu?",a:["Thùng rác","Ổ C","USB","Không đâu"],c:0},
+{q:"Muốn khôi phục tệp vừa xóa, em cần làm gì?",a:["Mở Thùng rác","Tắt máy","Sao chép lại","Không thể"],c:0},
+{q:"Sắp xếp thư mục hợp lí giúp điều gì?",a:["Dễ tìm","Dễ quản lí","Tiết kiệm thời gian","Tất cả đều đúng"],c:3},
+{q:"Nội dung chính của bài học là gì?",a:["Thao tác với thư mục và tệp","Gõ bàn phím","Soạn thảo văn bản","Vẽ tranh"],c:0}
+];
+
+// TRỘN CÂU HỎI
+questions.sort(()=>Math.random()-0.5);
+let index=0,score=0;let details=[];
+const qEl=document.getElementById('question');
+const aEl=document.getElementById('answers');
+const bar=document.getElementById('bar');
+const next=document.getElementById('next');
+const result=document.getElementById('result');
+const report=document.getElementById('report');
+
+// ĐẾM NGƯỢC 15 PHÚT
+let total=15*60;const timerEl=document.getElementById('timer');
+const countdown=setInterval(()=>{total--;let m=Math.floor(total/60),s=total%60;timerEl.textContent=`⏱️ ${m}:${s.toString().padStart(2,'0')}`;if(total<=0){clearInterval(countdown);finish();}},1000);
+
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
+function load(){next.style.display='none';const q=questions[index];qEl.textContent=`Câu ${index+1}: ${q.q}`;aEl.innerHTML='';const answers=shuffle(q.a.map((t,i)=>({t,i})));answers.forEach(obj=>{const b=document.createElement('button');b.textContent=obj.t;b.onclick=()=>choose(b,obj.i,q.c,q.q,obj.t);aEl.appendChild(b)});bar.style.width=(index/questions.length*100)+'%';}
+function choose(btn,choice,correct,qtext,ans){[...aEl.children].forEach(b=>b.disabled=true);const ok=choice===correct;btn.classList.add(ok?'correct':'wrong');if(!ok){[...aEl.children].find(b=>b.textContent===questions[index].a[correct]).classList.add('correct');}if(ok)score++;details.push({q:qtext,choose:ans,correct:questions[index].a[correct],ok});next.style.display='block';}
+next.onclick=()=>{index++;if(index<questions.length)load();else finish();};
+function finish(){clearInterval(countdown);document.getElementById('quiz').style.display='none';next.style.display='none';bar.style.width='100%';result.style.display='block';result.innerHTML=`🎉 Hoàn thành!<br>Điểm: <b>${score}/${questions.length}</b>`;report.style.display='block';let html='<h3>📊 BÁO CÁO CHI TIẾT</h3><table><tr><th>Câu</th><th>Đáp án HS</th><th>Đáp án đúng</th><th>Kết quả</th></tr>';details.forEach((d,i)=>{html+=`<tr><td>${i+1}</td><td>${d.choose}</td><td>${d.correct}</td><td>${d.ok?'✔':'✘'}</td></tr>`});html+='</table>';re
