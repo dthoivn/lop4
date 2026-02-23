@@ -102,7 +102,18 @@ function load(){if(cur>=70){finish();return;}bar.style.width=(cur/70*100)+'%';qu
 function startTimer(){clearInterval(timer);time=20;timer=setInterval(()=>{time--;timeEl.innerText=time;if(time<=0){clearInterval(timer);show(null);}},1000);} 
 const timeEl=document.getElementById('time');
 function pick(i,e){clearInterval(timer);show(i,e);} 
-function show(i,e){let c=questions[cur][2];document.querySelectorAll('.answer').forEach(x=>{if(x.innerText==questions[cur][1][c])x.classList.add('zoomCorrect');else x.classList.add('zoomWrong');});if(i===c)score++;setTimeout(()=>{cur++;load();},1200);} 
+function show(i,e){let c=questions[cur][2];
+// hiển thị đáp án đúng
+let correctText=questions[cur][1][c];
+let fb=document.createElement('div');
+fb.style.marginTop='10px';
+fb.style.color='#22c55e';
+fb.innerHTML='👉 Câu trả lời đúng là: <b>'+correctText+'</b>';
+answers.appendChild(fb);
+
+document.querySelectorAll('.answer').forEach(x=>{if(x.innerText==correctText)x.classList.add('zoomCorrect');else x.classList.add('zoomWrong');});
+if(i===c)score++;
+setTimeout(()=>{cur++;load();},1200);} 
 function finish(){quiz.style.display='none';end.style.display='block';let n=name.value||'HS';let c=cls.value||'';result.innerText=n+' ('+c+') đạt '+score+'/70';}
 </script>
 </body>
