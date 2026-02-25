@@ -1,90 +1,178 @@
-<h2><br>NHẤN VÀO BIỂU TƯỢNG 👉 ĐỂ MỞ TỪNG BÀI RA THỰC HÀNH</h2>
-<br>
-<h3>🌟 Bài 1: Tạo cây thư mục</h3>
-<details>
-<summary><b>👉 Nhấn vào đây để xem các bước thực hành</b></summary>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài thực hành</title>
 
-<div class="code">
-D:<br>
-└── Tên lớp học sinh<br>
-&nbsp;&nbsp;&nbsp;&nbsp;├── Lớp 4A<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── Tin học<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── Tiếng Việt<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── Toán<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── Truyện<br>
-&nbsp;&nbsp;&nbsp;&nbsp;└── Lưu trữ
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f1f5f9;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:15px;
+  max-width:700px;
+  margin:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+h2{text-align:center}
+
+/* ===== MÀU TỪNG BÀI ===== */
+
+.bai1{background:linear-gradient(135deg,#bbf7d0,#86efac)}
+.bai2{background:linear-gradient(135deg,#bae6fd,#7dd3fc)}
+.bai3{background:linear-gradient(135deg,#fed7aa,#fdba74)}
+.bai4{background:linear-gradient(135deg,#e9d5ff,#c084fc)}
+.bai5{background:linear-gradient(135deg,#fecaca,#f87171)}
+
+details{
+  padding:12px;
+  border-radius:14px;
+  margin-bottom:15px;
+  color:#111;
+}
+
+.step-line{
+  opacity:0;
+  transform:translateX(-10px);
+  transition:.4s;
+  margin:5px 0;
+}
+
+.show{
+  opacity:1;
+  transform:translateX(0);
+}
+
+button{
+  margin-top:10px;
+  padding:6px 15px;
+  border:none;
+  border-radius:20px;
+  background:#111;
+  color:white;
+  cursor:pointer;
+}
+
+.star{
+  font-size:22px;
+  cursor:pointer;
+  color:#ccc;
+}
+.star.active{color:gold}
+
+/* pháo hoa */
+.fire{
+  position:fixed;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  pointer-events:none;
+  animation:boom 1s ease-out forwards;
+}
+@keyframes boom{
+  from{transform:translate(0,0);opacity:1}
+  to{transform:translate(var(--x),var(--y));opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>📚 BÀI THỰC HÀNH TIN HỌC</h2>
+
+<!-- ===== BÀI 1 ===== -->
+<details class="bai1" onclick="openLesson(this)">
+<summary><b>🌟 Bài 1: Tạo cây thư mục</b></summary>
+<div class="step-line">📁 Mở ổ D:</div>
+<div class="step-line">📂 Tạo thư mục lớp</div>
+<div class="step-line">📂 Tạo Lớp 4A và Lưu trữ</div>
+<button onclick="done(event)">HOÀN THÀNH</button>
+<div>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
 </div>
-
-<div class="step">
-1. Mở ổ đĩa D:<br>
-2. Tạo thư mục có tên là Tên lớp học sinh<br>
-3. Mở thư mục Tên lớp học sinh → tạo hai thư mục: Lớp 4A và Lưu trữ<br>
-4. Mở thư mục Lớp 4A → tạo các thư mục: Tin học, Tiếng Việt, Toán, Truyện
-</div>
-
 </details>
 
-<hr>
-
-<h3>📋 Bài 2: Sao chép thư mục</h3>
-
-<details>
-<summary><b>👉 Nhấn vào đây để xem cách thực hiện</b></summary>
-
-<div class="step">
-1. Mở thư mục Lớp 4A<br>
-2. Chọn hai thư mục Tiếng Việt và Toán (giữ phím Ctrl để chọn nhiều)<br>
-3. Nhấn tổ hợp phím Ctrl + C để sao chép<br>
-4. Mở thư mục Lưu trữ<br>
-5. Nhấn tổ hợp phím Ctrl + V để dán
+<!-- ===== BÀI 2 ===== -->
+<details class="bai2" onclick="openLesson(this)">
+<summary><b>📋 Bài 2: Sao chép thư mục</b></summary>
+<div class="step-line">📂 Mở thư mục Lớp 4A</div>
+<div class="step-line">⌨ Ctrl + C</div>
+<div class="step-line">⌨ Ctrl + V</div>
+<button onclick="done(event)">HOÀN THÀNH</button>
+<div>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
 </div>
-
 </details>
 
-<hr>
-
-<h3>✂️ Bài 3: Di chuyển thư mục</h3>
-
-<details>
-<summary><b>👉 Nhấn vào đây để xem cách thực hiện</b></summary>
-
-<div class="step">
-1. Mở thư mục Lớp 4A<br>
-2. Chọn thư mục Truyện<br>
-3. Nhấn tổ hợp phím Ctrl + X để cắt<br>
-4. Mở thư mục Lưu trữ<br>
-5. Nhấn tổ hợp phím Ctrl + V để dán
+<!-- ===== BÀI 3 ===== -->
+<details class="bai3" onclick="openLesson(this)">
+<summary><b>✂️ Bài 3: Di chuyển thư mục</b></summary>
+<div class="step-line">✂ Ctrl + X</div>
+<div class="step-line">📥 Ctrl + V</div>
+<button onclick="done(event)">HOÀN THÀNH</button>
+<div>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
 </div>
-
 </details>
 
-<hr>
-
-<h3>✏️ Bài 4: Đổi tên thư mục</h3>
-
-<details>
-<summary><b>👉 Nhấn vào đây để xem cách thực hiện</b></summary>
-
-<div class="step">
-1. Trong thư mục Lớp 4A, chọn thư mục Tin học<br>
-2. Nháy chuột phải → chọn Rename<br>
-3. Gõ tên mới: Tin học lớp 4 → nhấn Enter
 </div>
 
-</details>
+<script>
+function openLesson(el){
+ const steps = el.querySelectorAll(".step-line")
+ steps.forEach((s,i)=>{
+   setTimeout(()=>s.classList.add("show"),i*300)
+ })
+}
 
-<hr>
+function rate(el){
+ const stars = el.parentNode.querySelectorAll(".star")
+ stars.forEach(s=>s.classList.remove("active"))
+ let c=el
+ while(c){c.classList.add("active");c=c.previousElementSibling}
+}
 
-<h3>📄 Bài 5: Thao tác với tệp</h3>
+function done(e){
+ e.stopPropagation()
+ firework()
+ alert("🎉 Em đã hoàn thành bài này!")
+}
 
-<details>
-<summary><b>👉 Nhấn vào đây để xem cách thực hiện</b></summary>
+function firework(){
+ for(let i=0;i<25;i++){
+   const d=document.createElement("div")
+   d.className="fire"
+   d.style.left=innerWidth/2+"px"
+   d.style.top=innerHeight/2+"px"
+   d.style.background=`hsl(${Math.random()*360},100%,60%)`
+   d.style.setProperty("--x",(Math.random()*400-200)+"px")
+   d.style.setProperty("--y",(Math.random()*400-200)+"px")
+   document.body.appendChild(d)
+   setTimeout(()=>d.remove(),1000)
+ }
+}
+</script>
 
-<div class="step">
-✔ Tạo một tệp văn bản tên là Tệp.txt bằng cách: Nháy chuột phải → Chọn New → Text Document<br><br>
-✔ Sao chép tệp vào thư mục Tin học lớp 4<br>
-✔ Di chuyển tệp đó sang thư mục Lưu trữ<br>
-✔ Đổi tên tệp thành: Filename.txt
-</div>
-
-</details>
+</body>
+</html>
