@@ -2,15 +2,22 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Bài thực hành</title>
+<title>Bài thực hành Tin học</title>
 
 <style>
 body{font-family:Arial;background:#f1f5f9;padding:20px}
-.card{background:white;border-radius:16px;padding:15px;max-width:750px;margin:auto;box-shadow:0 10px 25px rgba(0,0,0,.2)}
-h2{text-align:center}
+h2{text-align:center;color:#2563eb}
 
-details{padding:12px;border-radius:14px;margin-bottom:15px;background:#e0f2fe}
-.step{padding:6px;border-radius:6px;margin:4px 0;color:#000}
+details{margin:10px 0;padding:12px;border-radius:12px}
+.bai1{background:#dcfce7}
+.bai2{background:#e0f2fe}
+.bai3{background:#ffedd5}
+.bai4{background:#ede9fe}
+.bai5{background:#fee2e2}
+
+.code{background:#111;color:#0f0;padding:10px;border-radius:8px;font-family:consolas;margin:8px 0}
+
+.step div{padding:6px;border-radius:6px;margin:4px 0}
 
 .c1{background:#fecaca}
 .c2{background:#fde68a}
@@ -20,115 +27,153 @@ details{padding:12px;border-radius:14px;margin-bottom:15px;background:#e0f2fe}
 
 button{margin-top:8px;padding:6px 15px;border:none;border-radius:20px;background:#22c55e;color:white;cursor:pointer}
 
+.star{font-size:20px;cursor:pointer;color:#ccc}
+.star.active{color:gold}
+
 .progress{height:20px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin:10px 0}
 .bar{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:.5s}
 
-table{width:100%;border-collapse:collapse;margin-top:10px}
-td,th{border:1px solid #ccc;padding:6px;text-align:center}
-
-.fire{
-position:fixed;width:8px;height:8px;border-radius:50%;
-animation:boom 1s forwards
-}
-@keyframes boom{
-to{transform:translate(var(--x),var(--y));opacity:0}
-}
+input{padding:6px;border-radius:6px;border:1px solid #ccc}
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<h2>NHẤN VÀO BIỂU TƯỢNG 👉 ĐỂ MỞ TỪNG BÀI RA THỰC HÀNH</h2>
 
-<h2>📚 BÀI THỰC HÀNH TIN HỌC</h2>
+<input id="studentName" placeholder="Nhập tên học sinh">
+<button onclick="loadStudent()">OK</button>
 
-<div>Tiến độ học tập:</div>
+<div>Tiến độ:</div>
 <div class="progress"><div id="bar" class="bar"></div></div>
 <div id="percent">0%</div>
 
-<input id="student" placeholder="Tên học sinh">
+<!-- ================= BÀI 1 ================= -->
+<h3>🌟 Bài 1: Tạo cây thư mục</h3>
+<details class="bai1">
+<summary><b>👉 Nhấn vào đây</b></summary>
 
-<details>
-<summary><b>🌟 Bài 1</b></summary>
-<div class="step c1">Mở ổ D:</div>
-<div class="step c2">Tạo thư mục lớp</div>
-<div class="step c3">Tạo Lớp 4A</div>
-<div class="step c4">Tạo Lưu trữ</div>
-<button onclick="done(event,1)">HOÀN THÀNH</button>
-</details>
-
-<details>
-<summary><b>📋 Bài 2</b></summary>
-<div class="step c1">Chọn thư mục</div>
-<div class="step c2">Ctrl + C</div>
-<div class="step c3">Ctrl + V</div>
-<button onclick="done(event,2)">HOÀN THÀNH</button>
-</details>
-
-<details>
-<summary><b>✂️ Bài 3</b></summary>
-<div class="step c1">Chọn Truyện</div>
-<div class="step c2">Ctrl + X</div>
-<div class="step c3">Ctrl + V</div>
-<button onclick="done(event,3)">HOÀN THÀNH</button>
-</details>
-
-<h3>🏆 Bảng thành tích</h3>
-
-<table>
-<thead>
-<tr><th>Học sinh</th><th>Bài hoàn thành</th></tr>
-</thead>
-<tbody id="board"></tbody>
-</table>
-
+<div class="code">
+D:<br>
+└── Tên lớp học sinh<br>
+&nbsp;&nbsp;├── Lớp 4A<br>
+&nbsp;&nbsp;│&nbsp;&nbsp;├── Tin học<br>
+&nbsp;&nbsp;│&nbsp;&nbsp;├── Tiếng Việt<br>
+&nbsp;&nbsp;│&nbsp;&nbsp;├── Toán<br>
+&nbsp;&nbsp;│&nbsp;&nbsp;└── Truyện<br>
+&nbsp;&nbsp;└── Lưu trữ
 </div>
 
+<div class="step">
+<div class="c1">1. Mở ổ đĩa D:</div>
+<div class="c2">2. Tạo thư mục có tên là Tên lớp học sinh</div>
+<div class="c3">3. Tạo Lớp 4A và Lưu trữ</div>
+<div class="c4">4. Tạo Tin học, Tiếng Việt, Toán, Truyện</div>
+</div>
+
+<button onclick="done(1)">HOÀN THÀNH</button>
+<div>
+<span class="star" onclick="rate(this)">★</span><span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span><span class="star" onclick="rate(this)">★</span>
+<span class="star" onclick="rate(this)">★</span>
+</div>
+</details>
+
+<hr>
+
+<!-- ================= BÀI 2 ================= -->
+<h3>📋 Bài 2: Sao chép thư mục</h3>
+<details class="bai2">
+<summary><b>👉 Nhấn vào đây</b></summary>
+<div class="step">
+<div class="c1">1. Mở thư mục Lớp 4A</div>
+<div class="c2">2. Chọn Tiếng Việt và Toán</div>
+<div class="c3">3. Ctrl + C</div>
+<div class="c4">4. Mở Lưu trữ</div>
+<div class="c5">5. Ctrl + V</div>
+</div>
+<button onclick="done(2)">HOÀN THÀNH</button>
+</details>
+
+<hr>
+
+<!-- ================= BÀI 3 ================= -->
+<h3>✂️ Bài 3: Di chuyển thư mục</h3>
+<details class="bai3">
+<summary><b>👉 Nhấn vào đây</b></summary>
+<div class="step">
+<div class="c1">1. Mở Lớp 4A</div>
+<div class="c2">2. Chọn Truyện</div>
+<div class="c3">3. Ctrl + X</div>
+<div class="c4">4. Mở Lưu trữ</div>
+<div class="c5">5. Ctrl + V</div>
+</div>
+<button onclick="done(3)">HOÀN THÀNH</button>
+</details>
+
+<hr>
+
+<!-- ================= BÀI 4 ================= -->
+<h3>✏️ Bài 4: Đổi tên thư mục</h3>
+<details class="bai4">
+<summary><b>👉 Nhấn vào đây</b></summary>
+<div class="step">
+<div class="c1">1. Chọn Tin học</div>
+<div class="c2">2. Rename</div>
+<div class="c3">3. Tin học lớp 4 → Enter</div>
+</div>
+<button onclick="done(4)">HOÀN THÀNH</button>
+</details>
+
+<hr>
+
+<!-- ================= BÀI 5 ================= -->
+<h3>📄 Bài 5: Thao tác với tệp</h3>
+<details class="bai5">
+<summary><b>👉 Nhấn vào đây</b></summary>
+<div class="step">
+<div class="c1">✔ Tạo Tệp.txt</div>
+<div class="c2">✔ Sao chép vào Tin học lớp 4</div>
+<div class="c3">✔ Di chuyển sang Lưu trữ</div>
+<div class="c4">✔ Đổi tên Filename.txt</div>
+</div>
+<button onclick="done(5)">HOÀN THÀNH</button>
+</details>
+
 <script>
-let finished = new Set()
-let scores = {}
+let currentStudent=""
+let doneSet=new Set()
 
-function done(e,n){
- e.stopPropagation()
- if(finished.has(n)) return
- finished.add(n)
+function loadStudent(){
+ currentStudent=studentName.value.trim()
+ if(!currentStudent) return alert("Nhập tên học sinh!")
 
- fire()
-
- updateProgress()
-
- const name = student.value || "Chưa nhập tên"
- scores[name] = finished.size
-
- renderBoard()
+ doneSet=new Set(JSON.parse(localStorage.getItem(currentStudent+"_done")||"[]"))
+ update()
+ alert("Đã tải dữ liệu cho "+currentStudent)
 }
 
-function updateProgress(){
- const total=3
- const p=Math.round(finished.size/total*100)
+function done(n){
+ if(!currentStudent) return alert("Nhập tên trước!")
+ if(doneSet.has(n)) return
+ doneSet.add(n)
+ localStorage.setItem(currentStudent+"_done",JSON.stringify([...doneSet]))
+ update()
+ alert("🎉 Hoàn thành!")
+}
+
+function update(){
+ let p=Math.round(doneSet.size/5*100)
  bar.style.width=p+"%"
  percent.innerText=p+"%"
 }
 
-function renderBoard(){
- board.innerHTML=""
- Object.keys(scores).forEach(k=>{
-  board.innerHTML+=`<tr><td>${k}</td><td>${scores[k]}</td></tr>`
- })
-}
-
-function fire(){
- for(let i=0;i<20;i++){
-  const d=document.createElement("div")
-  d.className="fire"
-  d.style.left=innerWidth/2+"px"
-  d.style.top=innerHeight/2+"px"
-  d.style.background=`hsl(${Math.random()*360},100%,60%)`
-  d.style.setProperty("--x",(Math.random()*300-150)+"px")
-  d.style.setProperty("--y",(Math.random()*300-150)+"px")
-  document.body.appendChild(d)
-  setTimeout(()=>d.remove(),1000)
- }
+function rate(el){
+ if(!currentStudent) return alert("Nhập tên trước!")
+ const stars=el.parentNode.querySelectorAll(".star")
+ stars.forEach(s=>s.classList.remove("active"))
+ let c=el
+ while(c){c.classList.add("active");c=c.previousElementSibling}
 }
 </script>
 
