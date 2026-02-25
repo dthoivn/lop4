@@ -5,80 +5,33 @@
 <title>Bài thực hành</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#f1f5f9;
-  padding:20px;
-}
-
-.card{
-  background:white;
-  border-radius:16px;
-  padding:15px;
-  max-width:700px;
-  margin:auto;
-  box-shadow:0 10px 30px rgba(0,0,0,.2);
-}
-
+body{font-family:Arial;background:#f1f5f9;padding:20px}
+.card{background:white;border-radius:16px;padding:15px;max-width:750px;margin:auto;box-shadow:0 10px 25px rgba(0,0,0,.2)}
 h2{text-align:center}
 
-/* ===== MÀU TỪNG BÀI ===== */
+details{padding:12px;border-radius:14px;margin-bottom:15px;background:#e0f2fe}
+.step{padding:6px;border-radius:6px;margin:4px 0;color:#000}
 
-.bai1{background:linear-gradient(135deg,#bbf7d0,#86efac)}
-.bai2{background:linear-gradient(135deg,#bae6fd,#7dd3fc)}
-.bai3{background:linear-gradient(135deg,#fed7aa,#fdba74)}
-.bai4{background:linear-gradient(135deg,#e9d5ff,#c084fc)}
-.bai5{background:linear-gradient(135deg,#fecaca,#f87171)}
+.c1{background:#fecaca}
+.c2{background:#fde68a}
+.c3{background:#bbf7d0}
+.c4{background:#bae6fd}
+.c5{background:#ddd6fe}
 
-details{
-  padding:12px;
-  border-radius:14px;
-  margin-bottom:15px;
-  color:#111;
-}
+button{margin-top:8px;padding:6px 15px;border:none;border-radius:20px;background:#22c55e;color:white;cursor:pointer}
 
-.step-line{
-  opacity:0;
-  transform:translateX(-10px);
-  transition:.4s;
-  margin:5px 0;
-}
+.progress{height:20px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin:10px 0}
+.bar{height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:.5s}
 
-.show{
-  opacity:1;
-  transform:translateX(0);
-}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+td,th{border:1px solid #ccc;padding:6px;text-align:center}
 
-button{
-  margin-top:10px;
-  padding:6px 15px;
-  border:none;
-  border-radius:20px;
-  background:#111;
-  color:white;
-  cursor:pointer;
-}
-
-.star{
-  font-size:22px;
-  cursor:pointer;
-  color:#ccc;
-}
-.star.active{color:gold}
-
-/* pháo hoa */
 .fire{
-  position:fixed;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  pointer-events:none;
-  animation:boom 1s ease-out forwards;
+position:fixed;width:8px;height:8px;border-radius:50%;
+animation:boom 1s forwards
 }
 @keyframes boom{
-  from{transform:translate(0,0);opacity:1}
-  to{transform:translate(var(--x),var(--y));opacity:0}
+to{transform:translate(var(--x),var(--y));opacity:0}
 }
 </style>
 </head>
@@ -89,87 +42,92 @@ button{
 
 <h2>📚 BÀI THỰC HÀNH TIN HỌC</h2>
 
-<!-- ===== BÀI 1 ===== -->
-<details class="bai1" onclick="openLesson(this)">
-<summary><b>🌟 Bài 1: Tạo cây thư mục</b></summary>
-<div class="step-line">📁 Mở ổ D:</div>
-<div class="step-line">📂 Tạo thư mục lớp</div>
-<div class="step-line">📂 Tạo Lớp 4A và Lưu trữ</div>
-<button onclick="done(event)">HOÀN THÀNH</button>
-<div>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-</div>
+<div>Tiến độ học tập:</div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="percent">0%</div>
+
+<input id="student" placeholder="Tên học sinh">
+
+<details>
+<summary><b>🌟 Bài 1</b></summary>
+<div class="step c1">Mở ổ D:</div>
+<div class="step c2">Tạo thư mục lớp</div>
+<div class="step c3">Tạo Lớp 4A</div>
+<div class="step c4">Tạo Lưu trữ</div>
+<button onclick="done(event,1)">HOÀN THÀNH</button>
 </details>
 
-<!-- ===== BÀI 2 ===== -->
-<details class="bai2" onclick="openLesson(this)">
-<summary><b>📋 Bài 2: Sao chép thư mục</b></summary>
-<div class="step-line">📂 Mở thư mục Lớp 4A</div>
-<div class="step-line">⌨ Ctrl + C</div>
-<div class="step-line">⌨ Ctrl + V</div>
-<button onclick="done(event)">HOÀN THÀNH</button>
-<div>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-</div>
+<details>
+<summary><b>📋 Bài 2</b></summary>
+<div class="step c1">Chọn thư mục</div>
+<div class="step c2">Ctrl + C</div>
+<div class="step c3">Ctrl + V</div>
+<button onclick="done(event,2)">HOÀN THÀNH</button>
 </details>
 
-<!-- ===== BÀI 3 ===== -->
-<details class="bai3" onclick="openLesson(this)">
-<summary><b>✂️ Bài 3: Di chuyển thư mục</b></summary>
-<div class="step-line">✂ Ctrl + X</div>
-<div class="step-line">📥 Ctrl + V</div>
-<button onclick="done(event)">HOÀN THÀNH</button>
-<div>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-<span class="star" onclick="rate(this)">★</span>
-</div>
+<details>
+<summary><b>✂️ Bài 3</b></summary>
+<div class="step c1">Chọn Truyện</div>
+<div class="step c2">Ctrl + X</div>
+<div class="step c3">Ctrl + V</div>
+<button onclick="done(event,3)">HOÀN THÀNH</button>
 </details>
+
+<h3>🏆 Bảng thành tích</h3>
+
+<table>
+<thead>
+<tr><th>Học sinh</th><th>Bài hoàn thành</th></tr>
+</thead>
+<tbody id="board"></tbody>
+</table>
 
 </div>
 
 <script>
-function openLesson(el){
- const steps = el.querySelectorAll(".step-line")
- steps.forEach((s,i)=>{
-   setTimeout(()=>s.classList.add("show"),i*300)
+let finished = new Set()
+let scores = {}
+
+function done(e,n){
+ e.stopPropagation()
+ if(finished.has(n)) return
+ finished.add(n)
+
+ fire()
+
+ updateProgress()
+
+ const name = student.value || "Chưa nhập tên"
+ scores[name] = finished.size
+
+ renderBoard()
+}
+
+function updateProgress(){
+ const total=3
+ const p=Math.round(finished.size/total*100)
+ bar.style.width=p+"%"
+ percent.innerText=p+"%"
+}
+
+function renderBoard(){
+ board.innerHTML=""
+ Object.keys(scores).forEach(k=>{
+  board.innerHTML+=`<tr><td>${k}</td><td>${scores[k]}</td></tr>`
  })
 }
 
-function rate(el){
- const stars = el.parentNode.querySelectorAll(".star")
- stars.forEach(s=>s.classList.remove("active"))
- let c=el
- while(c){c.classList.add("active");c=c.previousElementSibling}
-}
-
-function done(e){
- e.stopPropagation()
- firework()
- alert("🎉 Em đã hoàn thành bài này!")
-}
-
-function firework(){
- for(let i=0;i<25;i++){
-   const d=document.createElement("div")
-   d.className="fire"
-   d.style.left=innerWidth/2+"px"
-   d.style.top=innerHeight/2+"px"
-   d.style.background=`hsl(${Math.random()*360},100%,60%)`
-   d.style.setProperty("--x",(Math.random()*400-200)+"px")
-   d.style.setProperty("--y",(Math.random()*400-200)+"px")
-   document.body.appendChild(d)
-   setTimeout(()=>d.remove(),1000)
+function fire(){
+ for(let i=0;i<20;i++){
+  const d=document.createElement("div")
+  d.className="fire"
+  d.style.left=innerWidth/2+"px"
+  d.style.top=innerHeight/2+"px"
+  d.style.background=`hsl(${Math.random()*360},100%,60%)`
+  d.style.setProperty("--x",(Math.random()*300-150)+"px")
+  d.style.setProperty("--y",(Math.random()*300-150)+"px")
+  document.body.appendChild(d)
+  setTimeout(()=>d.remove(),1000)
  }
 }
 </script>
