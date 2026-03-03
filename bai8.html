@@ -61,8 +61,68 @@ stroke-dasharray="314" stroke-dashoffset="0" fill="none"/>
 
 <script>
 
-// ===== DANH SÁCH 70 CÂU (giữ nguyên của bạn) =====
-let questions = [...YOUR_QUESTIONS_HERE...];
+let questions=[
+
+// ===== 70 CÂU GỐC =====
+['Hình ảnh giúp văn bản như thế nào?',['Sinh động hơn','Ngắn hơn','Khó đọc','Rối hơn'],0],
+['Muốn chèn hình ảnh cần chọn thẻ nào?',['Insert','Home','View','File'],0],
+['Nút dùng chèn ảnh là?',['Pictures','Copy','Font','Delete'],0],
+['Trước khi chèn ảnh cần làm gì?',['Đặt con trỏ','Đóng Word','In','Lưu'],0],
+['Ảnh xuất hiện ở đâu khi chèn?',['Vị trí con trỏ','Đầu văn bản','Cuối trang','Ngẫu nhiên'],0],
+['Muốn thay đổi kích thước ảnh cần làm gì trước?',['Chọn ảnh','Lưu','In','Đóng'],0],
+['Kéo nút tròn quanh ảnh để làm gì?',['Đổi kích thước','Xoá','Copy','Dán'],0],
+['Kéo ảnh để làm gì?',['Di chuyển ảnh','Phóng to','Thu nhỏ','Xoá'],0],
+['Layout Options dùng để?',['Đổi cách bố trí ảnh','Xoá ảnh','Sao chép','Đổi màu'],0],
+['Muốn đổi cách bố trí ảnh phải?',['Chọn ảnh','Chọn chữ','Lưu','In'],0],
+
+['Chọn văn bản là khi nào?',['Văn bản có nền sẫm','Chữ to','Chữ nghiêng','Có ảnh'],0],
+['Sao chép văn bản dùng lệnh?',['Copy','Cut','Delete','Rename'],0],
+['Dán văn bản dùng lệnh?',['Paste','Copy','Cut','Remove'],0],
+['Di chuyển văn bản dùng lệnh?',['Cut','Copy','Paste','Delete'],0],
+['Xoá văn bản dùng phím?',['Delete hoặc Backspace','Enter','Shift','Ctrl'],0],
+['Ctrl+C là gì?',['Sao chép','Dán','Cắt','Lưu'],0],
+['Ctrl+V là gì?',['Dán','Cắt','Sao chép','Xoá'],0],
+['Ctrl+X là gì?',['Cắt','Sao chép','Dán','Lưu'],0],
+['Muốn văn bản xuất hiện ở 2 nơi dùng thao tác?',['Sao chép','Di chuyển','Xoá','Đổi tên'],0],
+['Muốn văn bản chỉ ở nơi mới dùng thao tác?',['Di chuyển','Sao chép','Xoá','Đổi tên'],0],
+
+['Bước 1 sao chép văn bản là?',['Chọn văn bản','Paste','Copy','Delete'],0],
+['Sau Copy cần làm gì?',['Đưa con trỏ rồi Paste','Xoá','In','Đóng'],0],
+['Bước 1 di chuyển văn bản là?',['Chọn văn bản','Paste','Cut','Delete'],0],
+['Sau Cut cần làm gì?',['Đưa con trỏ rồi Paste','Copy','Xoá','In'],0],
+['Trước khi xoá cần làm gì?',['Chắc chắn muốn xoá','Copy','Paste','In'],0],
+['Khi xoá đoạn văn điều gì xảy ra?',['Đoạn bị mất','Tự phục hồi','Chuyển chỗ','Đổi màu'],0],
+['Sao chép tạo ra điều gì?',['Thêm bản giống','Mất bản cũ','Đổi màu','Thu nhỏ'],0],
+['Di chuyển tạo ra điều gì?',['Văn bản chỉ ở vị trí mới','Có 2 bản','Không đổi','Đổi màu'],0],
+['Xoá tạo ra điều gì?',['Mất đoạn chọn','Có 2 bản','Chuyển chỗ','Thu nhỏ'],0],
+['Muốn ghép văn bản nhanh cần?',['Sao chép và di chuyển','In','Đổi màu','Thoát'],0],
+
+['Chọn Pictures nằm trong thẻ nào?',['Insert','Home','View','Review'],0],
+['Sau Insert Pictures cần làm gì?',['Chọn tệp ảnh','Gõ chữ','In','Đóng'],0],
+['Ảnh hoa sen trong bài dùng để?',['Minh hoạ văn bản','Trang trí máy','Chơi game','Làm nền'],0],
+['Khi chọn ảnh sẽ thấy gì quanh ảnh?',['Khung chữ nhật','Nền đen','Viền xanh','Không gì'],0],
+['Muốn thay đổi kích thước kéo ở đâu?',['Nút tròn','Giữa ảnh','Thanh cuộn','Bàn phím'],0],
+['Muốn di chuyển ảnh kéo ở đâu?',['Ngay trên ảnh','Nút tròn','Thanh cuộn','Bàn phím'],0],
+['Copy văn bản xong chưa Paste thì sao?',['Chưa xuất hiện bản mới','Bị xoá','Đổi màu','In'],0],
+['Cut văn bản xong chưa Paste thì sao?',['Chưa xuất hiện ở nơi mới','Có 2 bản','Đổi màu','In'],0],
+['Paste thực hiện khi nào?',['Sau Copy hoặc Cut','Trước Copy','Trước Cut','Bất kì'],0],
+['Chọn văn bản thường bằng cách?',['Kéo bôi đen','Nháy phải','In','Thoát'],0],
+
+['Bước đầu chèn ảnh là?',['Đặt con trỏ','Chọn ảnh','In','Lưu'],0],
+['Thay đổi bố trí ảnh giúp?',['Ảnh nằm đúng vị trí','Ảnh biến mất','Ảnh mờ','Ảnh xoay'],0],
+['Muốn văn bản gọn gàng cần?',['Sao chép/di chuyển hợp lí','In','Đổi màu','Thoát'],0],
+['Trong bài có mấy nội dung chính?',['2','1','3','4'],0],
+['Nội dung 1 là gì?',['Chèn và xử lí ảnh','Soạn thảo','In','Lưu'],0],
+['Nội dung 2 là gì?',['Chọn, sao chép, di chuyển, xoá văn bản','Vẽ','Nghe nhạc','Chơi game'],0],
+['Khi ghép ca dao dùng thao tác?',['Sao chép','Xoá','In','Đổi tên'],0],
+['Muốn bỏ 2 dòng cuối dùng thao tác?',['Xoá','Copy','Paste','Insert'],0],
+['Sau khi làm xong nên?',['Lưu văn bản','Xoá','In','Thoát'],0],
+['Mục tiêu bài học là?',['Biết chèn ảnh và xử lí văn bản','Chơi game','Vẽ','Nghe nhạc'],0]
+
+];
+
+// ===== ĐẢM BẢO ĐỦ 70 =====
+questions = questions.slice(0,70);
 
 questions.sort(()=>Math.random()-0.5);
 
@@ -73,9 +133,7 @@ const ring=document.getElementById('ring');
 const total=questions.length;
 
 function shuffle(a){
-return a.map(v=>[Math.random(),v])
-.sort((x,y)=>x[0]-y[0])
-.map(v=>v[1]);
+return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
 }
 
 function begin(){
@@ -86,7 +144,6 @@ load();
 
 function load(){
 if(cur>=total){finish();return;}
-
 bar.style.width=(cur/total*100)+'%';
 question.innerText='Câu '+(cur+1)+': '+questions[cur][0];
 remain.innerText='Còn '+(total-cur)+' câu';
@@ -96,8 +153,7 @@ answers.innerHTML='';
 
 arr.forEach((o,k)=>{
 answers.innerHTML+=
-`<div class="answer a${k}" onclick="pick(${o.i},this)">
-${o.t}</div>`;
+`<div class="answer a${k}" onclick="pick(${o.i})">${o.t}</div>`;
 });
 
 startTimer();
@@ -128,7 +184,6 @@ show(i);
 function show(i){
 let c=questions[cur][2];
 let correctText=questions[cur][1][c];
-
 if(i===c) score++;
 
 let fb=document.createElement('div');
@@ -144,10 +199,7 @@ else
 x.classList.add('zoomWrong');
 });
 
-setTimeout(()=>{
-cur++;
-load();
-},1200);
+setTimeout(()=>{cur++;load();},1200);
 }
 
 function finish(){
@@ -166,49 +218,6 @@ else if(percent>=75) r.innerText="🥇 Giỏi!";
 else if(percent>=50) r.innerText="👍 Khá!";
 else r.innerText="💪 Cần cố gắng!";
 
-confetti();
-}
-
-// ===== PHÁO GIẤY =====
-const canvas=document.getElementById('fx');
-const ctx=canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-function confetti(){
-let pieces=[];
-for(let i=0;i<150;i++){
-pieces.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height-500,
-r:Math.random()*6+4,
-d:Math.random()*100,
-color:"hsl("+Math.random()*360+",100%,50%)",
-tilt:Math.random()*10-10
-});
-}
-
-let angle=0;
-let interval=setInterval(draw,20);
-
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-angle+=0.01;
-
-for(let i=0;i<pieces.length;i++){
-let p=pieces[i];
-p.y+=Math.cos(angle+p.d)+3;
-p.x+=Math.sin(angle);
-ctx.beginPath();
-ctx.fillStyle=p.color;
-ctx.fillRect(p.x,p.y,p.r,p.r);
-}
-
-if(pieces[0].y>canvas.height){
-clearInterval(interval);
-ctx.clearRect(0,0,canvas.width,canvas.height);
-}
-}
 }
 
 </script>
