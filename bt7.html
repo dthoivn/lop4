@@ -6,10 +6,11 @@
 
 <style>
 
-body{
+body{ 
 font-family:"Comic Sans MS", Arial;
 background:linear-gradient(135deg,#74ebd5,#acb6e5);
 padding:20px;
+user-select:none;  
 }
 
 .container{
@@ -217,6 +218,27 @@ m+":"+(s<10?"0"+s:s);
 if(time>0) time--;
 
 },1000);
+
+// chặn chuột phải
+document.addEventListener("contextmenu",function(e){
+e.preventDefault();
+});
+
+// chặn các phím tắt copy
+document.addEventListener("keydown",function(e){
+
+if(
+(e.ctrlKey && e.key==="c") ||
+(e.ctrlKey && e.key==="x") ||
+(e.ctrlKey && e.key==="u") ||
+(e.ctrlKey && e.key==="a") ||
+(e.ctrlKey && e.key==="s")
+){
+e.preventDefault();
+alert("⚠ Không được sao chép nội dung bài thực hành!");
+}
+
+});  
 
 </script>
 
