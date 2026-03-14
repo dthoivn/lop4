@@ -2,160 +2,181 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tin học – Bài 2</title>
+<title>🎮 Game kiểm tra – Gõ bàn phím đúng cách</title>
 
 <style>
-body{font-family:Arial;background:linear-gradient(120deg,#dbeafe,#dcfce7);margin:0}
-.screen{max-width:1000px;margin:auto;padding:20px}
-.card{background:white;border-radius:20px;padding:25px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.2)}
-
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}
-
-.answer{padding:18px;border-radius:15px;font-size:18px;cursor:pointer;font-weight:bold;transition:.3s}
-.answer:hover{transform:scale(1.07)}
-
-.a0{background:#ef4444;color:white}
-.a1{background:#3b82f6;color:white}
-.a2{background:#facc15}
-.a3{background:#22c55e}
-
-.correct{transform:scale(1.15);box-shadow:0 0 20px #22c55e}
-.wrong{opacity:.3}
-
-.progress{height:10px;background:#cbd5e1;border-radius:5px;margin-bottom:10px;overflow:hidden}
-.bar{height:100%;background:#22c55e;width:0%}
-
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#74b9ff,#a29bfe)}
+#app{max-width:1000px;margin:20px auto;background:#fff;border-radius:18px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{text-align:center;color:#2d3436}
+#top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#progress{flex:1;height:12px;background:#dfe6e9;border-radius:10px;overflow:hidden;margin:0 15px}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,#ffeaa7,#00b894);transition:.4s}
+#timer{font-weight:bold;color:#d63031}
+.question{font-size:20px;margin:20px 0}
+.answers button{display:block;width:100%;margin:10px 0;padding:12px;border:none;border-radius:14px;font-size:16px;cursor:pointer;background:#f1f2f6}
+.answers button:hover{background:#dff9fb;transform:scale(1.02)}
+.correct{background:#c8e6c9!important}
+.wrong{background:#ffcdd2!important}
+#next{display:none;margin:20px auto;padding:10px 40px;font-size:16px;border:none;border-radius:20px;background:#0984e3;color:#fff}
+#result{display:none;text-align:center;font-size:22px}
+#report{display:none;margin-top:20px}
+#report table{width:100%;border-collapse:collapse}
+#report th,#report td{border:1px solid #ccc;padding:6px;text-align:center}
 </style>
 </head>
 
 <body>
 
-<div class="screen">
+<div id="app">
 
-<div id="start" class="card">
-<h2>🎮 Tin học – Bài 2-Gõ bàn phím</h2>
-<input id="name" placeholder="Tên học sinh">
-<br><br>
-<button onclick="start()">Bắt đầu</button>
+<h1>🎮 GAME – GÕ BÀN PHÍM ĐÚNG CÁCH</h1>
+
+<div id="top">
+<div id="timer">⏱️ 15:00</div>
+<div id="progress"><div id="bar"></div></div>
 </div>
 
-<div id="quiz" class="card" style="display:none">
-
-<div class="progress"><div id="bar" class="bar"></div></div>
-
-<h3 id="question"></h3>
-<div id="answers" class="answers"></div>
-
+<div id="quiz">
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
 </div>
 
-<div id="end" class="card" style="display:none">
+<button id="next">Câu tiếp theo ▶</button>
 
-<h2>🎉 Hoàn thành</h2>
-<p id="result"></p>
-
-</div>
+<div id="result"></div>
+<div id="report"></div>
 
 </div>
 
 <script>
 
-let questions=[
+const questions=[
 
-["Gõ bàn phím đúng cách giúp?",["Gõ nhanh và chính xác","Hỏng phím","Đau tay","Sai nhiều"],0],
-["Gõ bàn phím đúng cách tốt cho?",["Sức khỏe","Không","Sai","Không"],0],
-["Gõ đúng cách giúp?",["Tăng hiệu quả công việc","Chậm hơn","Sai","Không"],0],
-["Hàng phím chuẩn?",["Hàng cơ sở","Hàng số","Hàng trên","Hàng dưới"],0],
-["Phím Backspace thuộc?",["Hàng phím số","Hàng cơ sở","Hàng trên","Hàng dưới"],0],
+{q:"Gõ bàn phím đúng cách giúp?",a:["Nhanh và chính xác","Chậm hơn","Sai nhiều","Không lợi ích"],c:0},
+{q:"Gõ đúng cách giúp?",a:["Bảo vệ sức khỏe","Hỏng bàn phím","Chậm hơn","Không"],c:0},
+{q:"Hàng phím chuẩn gọi là?",a:["Hàng cơ sở","Hàng trên","Hàng dưới","Hàng số"],c:0},
+{q:"Các ngón tay đặt ở đâu khi bắt đầu?",a:["Hàng phím cơ sở","Hàng trên","Hàng dưới","Hàng số"],c:0},
+{q:"Ngón trỏ trái đặt ở phím?",a:["F","A","S","D"],c:0},
 
-["Gõ sai cách gây?",["Đau tay","Nhanh hơn","Sai","Không"],0],
-["Gõ sai cách gây?",["Hỏng phím","Nhanh hơn","Sai","Không"],0],
-["Ngón tay phụ trách?",["Phím riêng","Phím bất kỳ","Sai","Không"],0],
-["Sau khi gõ phím cần?",["Trở về phím xuất phát","Không","Sai","Không"],0],
-["Gõ đúng cách cần?",["Luyện tập","Không","Sai","Không"],0]
+{q:"Ngón trỏ phải đặt ở phím?",a:["J","K","L","H"],c:0},
+{q:"Ngón cái dùng để nhấn phím?",a:["Space","Enter","Tab","Shift"],c:0},
+{q:"Phím dùng để tạo khoảng trắng?",a:["Space","Enter","Tab","Backspace"],c:0},
+{q:"Phím xuống dòng?",a:["Enter","Shift","Ctrl","Alt"],c:0},
+{q:"Phím xóa bên trái con trỏ?",a:["Backspace","Delete","Enter","Tab"],c:0},
 
-]
+{q:"Phím xóa bên phải con trỏ?",a:["Delete","Backspace","Enter","Shift"],c:0},
+{q:"Gõ đúng cách giúp?",a:["Không cần nhìn bàn phím","Gõ chậm hơn","Sai nhiều","Không"],c:0},
+{q:"Luyện gõ phím giúp?",a:["Tăng tốc độ gõ","Giảm tốc độ","Không thay đổi","Sai nhiều"],c:0},
+{q:"Ngón út trái phụ trách phím?",a:["A","S","D","F"],c:0},
+{q:"Ngón út phải phụ trách phím?",a:[";","J","K","L"],c:0},
 
-while(questions.length<50){
-questions.push(...questions.slice(0,10))
-}
+{q:"Ngón giữa trái phụ trách phím?",a:["S","A","D","F"],c:0},
+{q:"Ngón giữa phải phụ trách phím?",a:["K","J","L",";"],c:0},
+{q:"Ngón áp út trái phụ trách phím?",a:["D","S","F","A"],c:0},
+{q:"Ngón áp út phải phụ trách phím?",a:["L","K","J",";"],c:0},
+{q:"Ngón trỏ trái phụ trách phím?",a:["F","A","S","D"],c:0},
 
-questions=questions.slice(0,50)
+{q:"Ngón trỏ phải phụ trách phím?",a:["J","K","L",";"],c:0},
+{q:"Sau khi gõ xong phím cần?",a:["Trở về phím cơ sở","Giữ nguyên","Đổi tay","Không"],c:0},
+{q:"Phím Shift dùng để?",a:["Viết hoa","Xuống dòng","Xóa","Lưu"],c:0},
+{q:"Phím Caps Lock dùng để?",a:["Viết hoa liên tục","Xóa","Lưu","In"],c:0},
+{q:"Gõ đúng cách giúp?",a:["Giảm sai sót","Sai nhiều","Không","Chậm"],c:0},
 
-questions.sort(()=>Math.random()-0.5)
+{q:"Khi gõ không nên?",a:["Nhìn bàn phím","Nhìn màn hình","Gõ bằng hai tay","Luyện tập"],c:0},
+{q:"Luyện tập gõ phím giúp?",a:["Nhanh hơn","Chậm hơn","Không","Sai"],c:0},
+{q:"Phím Tab dùng để?",a:["Tạo khoảng cách","Xóa","In","Lưu"],c:0},
+{q:"Phím Ctrl dùng để?",a:["Phím chức năng","Nhập chữ","Xóa","In"],c:0},
+{q:"Phím Alt dùng để?",a:["Phím chức năng","Xóa","In","Lưu"],c:0},
 
-let current=0
-let score=0
+{q:"Phím Enter có tác dụng?",a:["Xuống dòng","Xóa","Lưu","In"],c:0},
+{q:"Phím Space dài nhất trên bàn phím?",a:["Đúng","Sai","Không","Không biết"],c:0},
+{q:"Bàn phím là thiết bị?",a:["Nhập dữ liệu","Xuất dữ liệu","Lưu dữ liệu","In dữ liệu"],c:0},
+{q:"Gõ đúng cách cần?",a:["Hai tay","Một tay","Không tay","Chân"],c:0},
+{q:"Ngón cái thường đặt ở?",a:["Space","Enter","Tab","Shift"],c:0},
 
-function start(){
+{q:"Gõ phím nhanh cần?",a:["Luyện tập","Không","Sai","Chậm"],c:0},
+{q:"Gõ phím đúng giúp?",a:["Hiệu quả hơn","Chậm hơn","Sai hơn","Không"],c:0},
+{q:"Bàn phím có nhiều?",a:["Phím","Chuột","Màn hình","Loa"],c:0},
+{q:"Gõ đúng giúp?",a:["Tiết kiệm thời gian","Mất thời gian","Sai","Không"],c:0},
+{q:"Bàn phím là thiết bị?",a:["Phần cứng","Phần mềm","Internet","File"],c:0},
 
-start.style.display="none"
-quiz.style.display="block"
+{q:"Phím dùng để xóa trái?",a:["Backspace","Delete","Enter","Tab"],c:0},
+{q:"Phím dùng để xóa phải?",a:["Delete","Backspace","Enter","Tab"],c:0},
+{q:"Phím dùng viết hoa?",a:["Shift","Enter","Ctrl","Alt"],c:0},
+{q:"Phím tạo khoảng trắng?",a:["Space","Enter","Shift","Tab"],c:0},
+{q:"Gõ đúng giúp?",a:["Nhanh hơn","Chậm hơn","Sai","Không"],c:0},
 
-load()
+{q:"Gõ đúng giúp?",a:["Chính xác hơn","Sai hơn","Không","Chậm"],c:0},
+{q:"Gõ đúng cần?",a:["Luyện tập thường xuyên","Không","Sai","Chậm"],c:0}
 
-}
+];
+
+// logic giống file mẫu bai7
+questions.sort(()=>Math.random()-0.5);
+
+let index=0,score=0,details=[];
+const qEl=document.getElementById('question');
+const aEl=document.getElementById('answers');
+const bar=document.getElementById('bar');
+const next=document.getElementById('next');
+const result=document.getElementById('result');
+const report=document.getElementById('report');
+
+let total=15*60;
+const timerEl=document.getElementById('timer');
+
+const countdown=setInterval(()=>{
+total--;
+let m=Math.floor(total/60), s=total%60;
+timerEl.textContent=`⏱️ ${m}:${s.toString().padStart(2,'0')}`;
+if(total<=0){clearInterval(countdown);finish();}
+},1000);
+
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
 
 function load(){
-
-bar.style.width=(current/50*100)+"%"
-
-question.innerText="Câu "+(current+1)+": "+questions[current][0]
-
-let ans=questions[current][1].map((a,i)=>({text:a,index:i})).sort(()=>Math.random()-0.5)
-
-answers.innerHTML=""
-
-ans.forEach((a,k)=>{
-
-answers.innerHTML+=`
-<div class="answer a${k}" onclick="choose(${a.index},this)">
-${a.text}
-</div>`
-
-})
-
+next.style.display='none';
+const q=questions[index];
+qEl.textContent=`Câu ${index+1}: ${q.q}`;
+aEl.innerHTML='';
+const answers=shuffle(q.a.map((t,i)=>({t,i})));
+answers.forEach(obj=>{
+const b=document.createElement('button');
+b.textContent=obj.t;
+b.onclick=()=>choose(b,obj.i,q.c,q.q,obj.t);
+aEl.appendChild(b);
+});
+bar.style.width=(index/questions.length*100)+'%';
 }
 
-function choose(index,el){
-
-let correct=questions[current][2]
-
-document.querySelectorAll(".answer").forEach(a=>{
-
-if(a.innerText===questions[current][1][correct]){
-a.classList.add("correct")
-}else{
-a.classList.add("wrong")
+function choose(btn,choice,correct,qtext,ans){
+[...aEl.children].forEach(b=>b.disabled=true);
+const ok=choice===correct;
+btn.classList.add(ok?'correct':'wrong');
+if(!ok){[...aEl.children].find(b=>b.textContent===questions[index].a[correct]).classList.add('correct');}
+if(ok) score++;
+details.push({q:qtext,choose:ans,correct:questions[index].a[correct],ok});
+next.style.display='block';
 }
 
-})
+next.onclick=()=>{index++;if(index<questions.length)load();else finish();};
 
-if(index===correct) score++
-
-setTimeout(()=>{
-
-current++
-
-if(current>=50){
-
-quiz.style.display="none"
-end.style.display="block"
-
-let n=document.getElementById("name").value||"Học sinh"
-
-result.innerText=n+" đạt "+score+"/50 điểm"
-
-}else{
-
-load()
-
+function finish(){
+clearInterval(countdown);
+document.getElementById('quiz').style.display='none';
+next.style.display='none';
+bar.style.width='100%';
+result.style.display='block';
+result.innerHTML=`🎉 Hoàn thành!<br>Điểm: <b>${score}/${questions.length}</b>`;
+report.style.display='block';
+let html='<h3>📊 BÁO CÁO CHI TIẾT</h3><table><tr><th>Câu</th><th>Đáp án HS</th><th>Đáp án đúng</th><th>Kết quả</th></tr>';
+details.forEach((d,i)=>{html+=`<tr><td>${i+1}</td><td>${d.choose}</td><td>${d.correct}</td><td>${d.ok?'✔':'✘'}</td></tr>`});
+html+='</table>';
+report.innerHTML=html;
 }
 
-},1200)
-
-}
+load();
 
 </script>
-
 </body>
 </html>
