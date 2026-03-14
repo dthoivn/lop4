@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thực hành 30 phút - Sử dụng phần mềm</title>
+
+<style>
+
+body{
+font-family:"Comic Sans MS",Arial;
+background:linear-gradient(135deg,#f6d365,#fda085);
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:1000px;
+margin:auto;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.25);
+}
+
+h1{text-align:center;color:#ff5722;}
+
+.timer{
+text-align:right;
+font-size:20px;
+color:red;
+font-weight:bold;
+}
+
+.section{
+background:#f5faff;
+margin:15px 0;
+padding:15px;
+border-left:8px solid #4caf50;
+border-radius:15px;
+}
+
+details{
+margin:10px 0;
+background:#fff3e0;
+padding:12px;
+border-radius:10px;
+}
+
+summary{
+cursor:pointer;
+font-weight:bold;
+font-size:18px;
+color:#1565c0;
+}
+
+ul{margin-left:25px;}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌟 THỰC HÀNH 30 PHÚT – SỬ DỤNG PHẦN MỀM 🌟</h1>
+
+<div class="timer">⏳ <span id="time">30:00</span></div>
+
+<div class="section">
+
+<h2>1️⃣ Bài 1: Phần mềm có bản quyền</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Quan sát phần mềm trên máy.</li>
+<li>Tìm phần mềm yêu cầu mã khóa.</li>
+<li>Thảo luận: tại sao phải có mã khóa.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>2️⃣ Bài 2: Phần mềm miễn phí</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Kể tên phần mềm miễn phí:</li>
+<li>• Unikey</li>
+<li>• Google Chrome</li>
+<li>• RapidTyping</li>
+<li>• Paint</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>3️⃣ Bài 3: Phần mềm không miễn phí</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Kể tên phần mềm:</li>
+<li>• Microsoft Word</li>
+<li>• Microsoft PowerPoint</li>
+<li>• Windows</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>🎯 Bài thực hành tổng hợp</h2>
+
+<details>
+<summary>▶ Xem yêu cầu</summary>
+
+<ul>
+<li>Kể tên 3 phần mềm miễn phí.</li>
+<li>Kể tên 3 phần mềm không miễn phí.</li>
+<li>Thảo luận: vì sao cần tôn trọng bản quyền phần mềm.</li>
+</ul>
+
+</details>
+
+</div>
+
+</div>
+
+<script>
+
+let time=1800;
+
+setInterval(()=>{
+let m=Math.floor(time/60);
+let s=time%60;
+
+document.getElementById("time").innerHTML=
+m+":"+(s<10?"0"+s:s);
+
+if(time>0) time--;
+
+},1000);
+
+</script>
+
+</body>
+</html>
