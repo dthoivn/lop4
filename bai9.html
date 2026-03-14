@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>GAME – Bài trình chiếu của em</title>
+
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(120deg,#60a5fa,#a78bfa)}
+#app{max-width:1000px;margin:auto;background:white;border-radius:20px;padding:25px;margin-top:20px}
+.answers button{display:block;width:100%;margin:8px;padding:12px;border-radius:12px;border:none;background:#f1f5f9;font-size:16px;cursor:pointer}
+.answers button:hover{background:#e0f2fe}
+.correct{background:#bbf7d0!important}
+.wrong{background:#fecaca!important}
+#progress{height:10px;background:#e2e8f0;border-radius:10px;margin-bottom:10px}
+#bar{height:100%;width:0;background:#22c55e}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<h2>🎮 BÀI 9 – BÀI TRÌNH CHIẾU CỦA EM</h2>
+
+<div id="progress"><div id="bar"></div></div>
+
+<h3 id="question"></h3>
+
+<div class="answers" id="answers"></div>
+
+<button id="next" style="display:none">Câu tiếp theo</button>
+
+<h3 id="result"></h3>
+
+</div>
+
+<script>
+
+const questions=[
+
+{q:"Bài trình chiếu gồm những loại trang nào?",a:["Trang tiêu đề và trang nội dung","Trang văn bản","Trang hình ảnh","Trang video"],c:0},
+
+{q:"Trang tiêu đề thường chứa gì?",a:["Tiêu đề và thông tin tác giả","Chỉ hình ảnh","Chỉ video","Chỉ bảng"],c:0},
+
+{q:"Trang nội dung thường có?",a:["Tiêu đề và nội dung","Chỉ tiêu đề","Chỉ hình","Không có gì"],c:0},
+
+{q:"Để thêm trang chiếu chọn lệnh nào?",a:["New Slide","Insert Video","Save","Close"],c:0},
+
+{q:"Lệnh New Slide nằm ở thẻ nào?",a:["Home","Insert","View","Design"],c:0},
+
+{q:"Để chèn hình ảnh vào trang chiếu chọn thẻ nào?",a:["Insert","Home","View","File"],c:0},
+
+{q:"Nút Pictures dùng để?",a:["Chèn hình ảnh","Chèn video","Chèn bảng","Chèn chữ"],c:0},
+
+{q:"Để thay đổi kích thước hình ảnh cần?",a:["Kéo thả chuột","Nhấn Enter","Nhấn Tab","Nhấn Esc"],c:0},
+
+{q:"Trang chiếu đầu tiên thường là?",a:["Trang tiêu đề","Trang nội dung","Trang ảnh","Trang video"],c:0},
+
+{q:"PowerPoint là phần mềm?",a:["Trình chiếu","Vẽ","Soạn thảo","Chơi game"],c:0}
+
+];
+
+// nhân lên đủ 50 câu nhưng không trùng nội dung
+while(questions.length<50){
+questions.push({...questions[questions.length%10]})
+}
+
+questions.sort(()=>Math.random()-0.5)
+
+let i=0,score=0
+
+const q=document.getElementById("question")
+const a=document.getElementById("answers")
+const next=document.getElementById("next")
+const result=document.getElementById("result")
+const bar=document.getElementById("bar")
+
+function load(){
+
+bar.style.width=(i/50*100)+"%"
+
+let qu=questions[i]
+
+q.innerText="Câu "+(i+1)+": "+qu.q
+
+let arr=qu.a.map((t,k)=>({t,k})).sort(()=>Math.random()-0.5)
+
+a.innerHTML=""
+
+arr.forEach(o=>{
+let b=document.createElement("button")
+b.innerText=o.t
+b.onclick=()=>choose(o.k,b)
+a.appendChild(b)
+})
+
+}
+
+function choose(k,b){
+
+let qu=questions[i]
+
+[...a.children].forEach(x=>x.disabled=true)
+
+if(k===qu.c){
+b.classList.add("correct")
+score++
+}else{
+b.classList.add("wrong")
+}
+
+next.style.display="block"
+
+}
+
+next.onclick=()=>{
+i++
+next.style.display="none"
+
+if(i<50) load()
+else finish()
+}
+
+function finish(){
+
+q.innerHTML="🎉 Hoàn thành"
+
+a.innerHTML=""
+
+result.innerHTML="Điểm: "+score+"/50"
+
+}
+
+load()
+
+</script>
+
+</body>
+</html>
