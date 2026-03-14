@@ -2,197 +2,181 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tin học – Bài 3</title>
+<title>🎮 Game kiểm tra – Thông tin trên trang web</title>
 
 <style>
-body{font-family:Arial;background:linear-gradient(120deg,#e0f2fe,#dcfce7);margin:0}
-
-.screen{max-width:1000px;margin:auto;padding:20px}
-
-.card{
-background:white;
-border-radius:20px;
-padding:25px;
-text-align:center;
-box-shadow:0 20px 40px rgba(0,0,0,.2)
-}
-
-.answers{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:20px
-}
-
-.answer{
-padding:18px;
-border-radius:15px;
-font-size:18px;
-cursor:pointer;
-font-weight:bold;
-transition:.3s
-}
-
-.answer:hover{transform:scale(1.07)}
-
-.a0{background:#ef4444;color:white}
-.a1{background:#3b82f6;color:white}
-.a2{background:#facc15}
-.a3{background:#22c55e}
-
-.correct{transform:scale(1.15);box-shadow:0 0 20px #22c55e}
-.wrong{opacity:.3}
-
-.progress{
-height:10px;
-background:#cbd5e1;
-border-radius:5px;
-margin-bottom:10px;
-overflow:hidden
-}
-
-.bar{
-height:100%;
-background:#22c55e;
-width:0%
-}
-
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#74b9ff,#a29bfe)}
+#app{max-width:1000px;margin:20px auto;background:#fff;border-radius:18px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{text-align:center;color:#2d3436}
+#top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#progress{flex:1;height:12px;background:#dfe6e9;border-radius:10px;overflow:hidden;margin:0 15px}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,#ffeaa7,#00b894);transition:.4s}
+#timer{font-weight:bold;color:#d63031}
+.question{font-size:20px;margin:20px 0}
+.answers button{display:block;width:100%;margin:10px 0;padding:12px;border:none;border-radius:14px;font-size:16px;cursor:pointer;background:#f1f2f6}
+.answers button:hover{background:#dff9fb;transform:scale(1.02)}
+.correct{background:#c8e6c9!important}
+.wrong{background:#ffcdd2!important}
+#next{display:none;margin:20px auto;padding:10px 40px;font-size:16px;border:none;border-radius:20px;background:#0984e3;color:#fff;cursor:pointer}
+#result{display:none;text-align:center;font-size:22px}
+#report{display:none;margin-top:20px}
+#report table{width:100%;border-collapse:collapse}
+#report th,#report td{border:1px solid #ccc;padding:6px;text-align:center}
 </style>
 </head>
 
 <body>
 
-<div class="screen">
+<div id="app">
 
-<div id="start" class="card">
+<h1>🎮 GAME – THÔNG TIN TRÊN TRANG WEB</h1>
 
-<h2>🎮 Tin học – Bài 3-Thông tin trên web</h2>
-
-<input id="name" placeholder="Tên học sinh">
-
-<br><br>
-
-<button onclick="start()">Bắt đầu</button>
-
+<div id="top">
+<div id="timer">⏱️ 15:00</div>
+<div id="progress"><div id="bar"></div></div>
 </div>
 
-<div id="quiz" class="card" style="display:none">
-
-<div class="progress"><div id="bar" class="bar"></div></div>
-
-<h3 id="question"></h3>
-
-<div id="answers" class="answers"></div>
-
+<div id="quiz">
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
 </div>
 
-<div id="end" class="card" style="display:none">
+<button id="next">Câu tiếp theo ▶</button>
 
-<h2>🎉 Hoàn thành</h2>
-
-<p id="result"></p>
-
-</div>
+<div id="result"></div>
+<div id="report"></div>
 
 </div>
 
 <script>
 
-let questions=[
+const questions=[
 
-["Trang web có thông tin dạng?",["Văn bản","Hình ảnh","Âm thanh","Tất cả"],3],
-["Video có thể chứa?",["Hình ảnh và âm thanh","Chỉ chữ","Chỉ ảnh","Không"],0],
-["Siêu liên kết nhận biết khi?",["Con trỏ chuột đổi dạng","Không","Sai","Không"],0],
-["Nháy chuột vào siêu liên kết sẽ?",["Mở nội dung khác","Tắt máy","Không","Sai"],0],
-["Trang web có nhiều liên kết gọi là?",["Siêu văn bản","File","Thư mục","Không"],0],
+{q:"Trang web có thể chứa loại thông tin nào?",a:["Văn bản, hình ảnh, âm thanh","Chỉ văn bản","Chỉ hình ảnh","Chỉ âm thanh"],c:0},
+{q:"Trang web là gì?",a:["Trang thông tin trên Internet","Tệp văn bản","Phần mềm","Thiết bị"],c:0},
+{q:"Để xem trang web cần dùng gì?",a:["Trình duyệt web","Chuột","Bàn phím","Máy in"],c:0},
+{q:"Ví dụ trình duyệt web?",a:["Chrome","Word","Paint","Excel"],c:0},
+{q:"Thông tin trên web có thể ở dạng?",a:["Văn bản","Hình ảnh","Video","Tất cả"],c:3},
 
-["Thông tin văn bản có thể?",["Đọc","Nghe","Nhìn","Không"],0],
-["Thông tin hình ảnh có thể?",["Quan sát","Nghe","Đọc","Không"],0],
-["Thông tin âm thanh có thể?",["Nghe","Đọc","Quan sát","Không"],0],
-["Video chứa?",["Hình ảnh và âm thanh","Chỉ chữ","Không","Sai"],0],
-["Siêu liên kết dùng để?",["Chuyển trang","Tắt máy","In","Không"],0]
+{q:"Liên kết trên web gọi là gì?",a:["Siêu liên kết","Đường dẫn tệp","File","Ổ đĩa"],c:0},
+{q:"Nháy vào siêu liên kết sẽ?",a:["Mở trang khác","Tắt máy","In trang","Không làm gì"],c:0},
+{q:"Khi trỏ chuột vào liên kết thường thấy?",a:["Con trỏ đổi dạng","Máy tính tắt","Màn hình tối","Âm thanh"],c:0},
+{q:"Trang web có nhiều liên kết gọi là?",a:["Siêu văn bản","Tệp văn bản","Thư mục","Ổ cứng"],c:0},
+{q:"Video trên web có thể chứa?",a:["Hình ảnh và âm thanh","Chỉ chữ","Chỉ ảnh","Không"],c:0},
 
-]
+{q:"Thông tin dạng chữ trên web gọi là?",a:["Văn bản","Âm thanh","Video","Hình động"],c:0},
+{q:"Thông tin dạng hình trên web gọi là?",a:["Hình ảnh","Văn bản","Âm thanh","Video"],c:0},
+{q:"Thông tin dạng âm thanh gọi là?",a:["Âm thanh","Văn bản","Hình ảnh","Video"],c:0},
+{q:"Video là gì?",a:["Hình ảnh chuyển động","Âm thanh","Chữ","Ảnh tĩnh"],c:0},
+{q:"Trang web có thể chứa nhiều loại?",a:["Thông tin","Thiết bị","Phần mềm","Bàn phím"],c:0},
 
-while(questions.length<50){
-questions.push(...questions.slice(0,10))
-}
+{q:"Internet giúp?",a:["Truy cập thông tin","Tắt máy","In văn bản","Xóa dữ liệu"],c:0},
+{q:"Trình duyệt giúp?",a:["Xem trang web","In giấy","Nghe nhạc","Xóa file"],c:0},
+{q:"Trang web thuộc?",a:["Internet","USB","Ổ cứng","Chuột"],c:0},
+{q:"Google Chrome là?",a:["Trình duyệt web","Phần cứng","Chuột","USB"],c:0},
+{q:"Trang web có thể chứa?",a:["Hình ảnh","Văn bản","Âm thanh","Tất cả"],c:3},
 
-questions=questions.slice(0,50)
+{q:"Liên kết giúp?",a:["Chuyển trang","In giấy","Tắt máy","Lưu file"],c:0},
+{q:"Khi nháy vào liên kết?",a:["Mở trang khác","Máy tắt","Không","In"],c:0},
+{q:"Trang web thường có?",a:["Nhiều thông tin","Không thông tin","Không chữ","Không ảnh"],c:0},
+{q:"Thông tin trên web giúp?",a:["Học tập","Giải trí","Tìm hiểu","Tất cả"],c:3},
+{q:"Internet kết nối?",a:["Nhiều máy tính","Chuột","Loa","USB"],c:0},
 
-questions.sort(()=>Math.random()-0.5)
+{q:"Trang web có thể chứa?",a:["Video","Hình ảnh","Văn bản","Tất cả"],c:3},
+{q:"Thông tin trên web thường?",a:["Cập nhật nhanh","Không đổi","Sai","Không"],c:0},
+{q:"Trình duyệt dùng để?",a:["Xem web","In giấy","Xóa file","Tắt máy"],c:0},
+{q:"Web là viết tắt của?",a:["World Wide Web","Windows Web","Wide Web","Word Web"],c:0},
+{q:"WWW nghĩa là?",a:["World Wide Web","Word Web","Wide Web","Window Web"],c:0},
 
-let current=0
-let score=0
+{q:"Trang web thuộc?",a:["Internet","USB","Chuột","Bàn phím"],c:0},
+{q:"Thông tin trên web giúp?",a:["Tìm hiểu kiến thức","Chạy bộ","Nấu ăn","Ngủ"],c:0},
+{q:"Video trên web có?",a:["Âm thanh","Hình ảnh","Cả hai","Không"],c:2},
+{q:"Trang web thường chứa?",a:["Thông tin","Chuột","Bàn phím","Loa"],c:0},
+{q:"Liên kết giúp người dùng?",a:["Di chuyển giữa trang","Tắt máy","In","Không"],c:0},
 
-function start(){
+{q:"Internet là mạng?",a:["Máy tính toàn cầu","Chuột","Bàn phím","USB"],c:0},
+{q:"Trình duyệt phổ biến?",a:["Chrome","Paint","Word","Excel"],c:0},
+{q:"Thông tin web có thể?",a:["Xem","Nghe","Đọc","Tất cả"],c:3},
+{q:"Trang web giúp?",a:["Tìm thông tin","In giấy","Xóa file","Tắt máy"],c:0},
+{q:"Liên kết thường có màu?",a:["Xanh","Đỏ","Vàng","Đen"],c:0},
 
-start.style.display="none"
-quiz.style.display="block"
+{q:"Internet giúp?",a:["Kết nối thông tin","Tắt máy","Ngủ","Chạy"],c:0},
+{q:"Trang web có nhiều?",a:["Liên kết","Chuột","Loa","Bàn phím"],c:0},
+{q:"Thông tin web có thể?",a:["Văn bản","Hình ảnh","Video","Tất cả"],c:3},
+{q:"Trang web là?",a:["Nguồn thông tin","Thiết bị","Phần mềm","USB"],c:0},
+{q:"Internet giúp truy cập?",a:["Trang web","Chuột","Bàn phím","Loa"],c:0}
 
-load()
+];
 
-}
+// ===== LOGIC GAME (giống file bai7) =====
+
+questions.sort(()=>Math.random()-0.5);
+
+let index=0,score=0,details=[];
+
+const qEl=document.getElementById('question');
+const aEl=document.getElementById('answers');
+const bar=document.getElementById('bar');
+const next=document.getElementById('next');
+const result=document.getElementById('result');
+const report=document.getElementById('report');
+
+let total=15*60;
+const timerEl=document.getElementById('timer');
+
+const countdown=setInterval(()=>{
+total--;
+let m=Math.floor(total/60), s=total%60;
+timerEl.textContent=`⏱️ ${m}:${s.toString().padStart(2,'0')}`;
+if(total<=0){clearInterval(countdown);finish();}
+},1000);
+
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
 
 function load(){
-
-bar.style.width=(current/50*100)+"%"
-
-question.innerText="Câu "+(current+1)+": "+questions[current][0]
-
-let ans=questions[current][1].map((a,i)=>({text:a,index:i})).sort(()=>Math.random()-0.5)
-
-answers.innerHTML=""
-
-ans.forEach((a,k)=>{
-
-answers.innerHTML+=`
-<div class="answer a${k}" onclick="choose(${a.index},this)">
-${a.text}
-</div>`
-
-})
-
+next.style.display='none';
+const q=questions[index];
+qEl.textContent=`Câu ${index+1}: ${q.q}`;
+aEl.innerHTML='';
+const answers=shuffle(q.a.map((t,i)=>({t,i})));
+answers.forEach(obj=>{
+const b=document.createElement('button');
+b.textContent=obj.t;
+b.onclick=()=>choose(b,obj.i,q.c,q.q,obj.t);
+aEl.appendChild(b);
+});
+bar.style.width=(index/questions.length*100)+'%';
 }
 
-function choose(index,el){
-
-let correct=questions[current][2]
-
-document.querySelectorAll(".answer").forEach(a=>{
-
-if(a.innerText===questions[current][1][correct]){
-a.classList.add("correct")
-}else{
-a.classList.add("wrong")
+function choose(btn,choice,correct,qtext,ans){
+[...aEl.children].forEach(b=>b.disabled=true);
+const ok=choice===correct;
+btn.classList.add(ok?'correct':'wrong');
+if(!ok){
+[...aEl.children].find(b=>b.textContent===questions[index].a[correct]).classList.add('correct');
+}
+if(ok) score++;
+details.push({q:qtext,choose:ans,correct:questions[index].a[correct],ok});
+next.style.display='block';
 }
 
-})
+next.onclick=()=>{index++;if(index<questions.length)load();else finish();};
 
-if(index===correct) score++
-
-setTimeout(()=>{
-
-current++
-
-if(current>=50){
-
-quiz.style.display="none"
-end.style.display="block"
-
-let n=document.getElementById("name").value||"Học sinh"
-
-result.innerText=n+" đạt "+score+"/50 điểm"
-
-}else{
-
-load()
-
+function finish(){
+clearInterval(countdown);
+document.getElementById('quiz').style.display='none';
+next.style.display='none';
+bar.style.width='100%';
+result.style.display='block';
+result.innerHTML=`🎉 Hoàn thành!<br>Điểm: <b>${score}/${questions.length}</b>`;
+report.style.display='block';
+let html='<h3>📊 BÁO CÁO CHI TIẾT</h3><table><tr><th>Câu</th><th>Đáp án HS</th><th>Đáp án đúng</th><th>Kết quả</th></tr>';
+details.forEach((d,i)=>{html+=`<tr><td>${i+1}</td><td>${d.choose}</td><td>${d.correct}</td><td>${d.ok?'✔':'✘'}</td></tr>`});
+html+='</table>';
+report.innerHTML=html;
 }
 
-},1200)
-
-}
+load();
 
 </script>
 
