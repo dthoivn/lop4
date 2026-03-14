@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tin học 5 – Bài 1</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#e8f0fe;
+color:#111;
+text-align:center
+}
+
+.card{
+max-width:900px;
+margin:auto;
+margin-top:30px;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.15)
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px
+}
+
+.answer{
+padding:18px;
+font-size:18px;
+border-radius:12px;
+cursor:pointer;
+transition:.3s
+}
+
+.a0{background:#ff7675}
+.a1{background:#74b9ff}
+.a2{background:#ffeaa7}
+.a3{background:#55efc4}
+
+.correct{
+background:#2ecc71!important;
+transform:scale(1.1)
+}
+
+.wrong{
+opacity:.3
+}
+
+.timer{
+font-size:20px;
+font-weight:bold;
+color:#e74c3c
+}
+
+</style>
+</head>
+
+<body oncontextmenu="return false">
+
+<div class="card">
+
+<h2>Tin học 5 – Bài 1</h2>
+
+<input id="name" placeholder="Họ tên học sinh"><br><br>
+
+<button onclick="start()">BẮT ĐẦU</button>
+
+<div id="quiz" style="display:none">
+
+<div class="timer" id="time">30:00</div>
+
+<h3 id="question"></h3>
+
+<div class="answers" id="answers"></div>
+
+<div id="correctText"></div>
+
+</div>
+
+</div>
+
+<script>
+
+// chống copy
+document.onkeydown=function(e){
+if(e.ctrlKey && e.key=="c") return false
+if(e.key=="F12") return false
+}
+
+let questions=[
+
+["Máy tính có thể giúp em học những gì?",
+["Học tiếng Anh","Nấu ăn","Tưới cây","Đánh bóng"],
+0],
+
+["Máy tính giúp tạo sản phẩm số nào?",
+["Bài trình chiếu","Văn bản","Phim hoạt hình","Tất cả"],
+3],
+
+["Máy tính giúp giải trí bằng cách nào?",
+["Chơi trò chơi","Nghe nhạc","Đọc truyện","Tất cả"],
+3]
+
+]
+
+questions.sort(()=>Math.random()-0.5)
+
+let current=0
+
+function start(){
+
+quiz.style.display="block"
+load()
+
+}
+
+function load(){
+
+if(current>=questions.length) return
+
+question.innerText=
+"Câu "+(current+1)+": "+questions[current][0]
+
+let ans=questions[current][1]
+.map((a,i)=>({t:a,i}))
+.sort(()=>Math.random()-0.5)
+
+answers.innerHTML=""
+
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=
+`<div class="answer a${k}" onclick="choose(${a.i})">${a.t}</div>`
+
+})
+
+}
+
+function choose(i){
+
+let correct=questions[current][2]
+let correctAns=questions[current][1][correct]
+
+document.querySelectorAll(".answer").forEach(el=>{
+
+if(el.innerText===correctAns)
+el.classList.add("correct")
+else
+el.classList.add("wrong")
+
+})
+
+correctText.innerText=
+"Đáp án đúng: "+correctAns
+
+setTimeout(()=>{
+
+current++
+load()
+
+},1500)
+
+}
+
+</script>
+
+</body>
+</html>
