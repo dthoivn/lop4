@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tin học – Bài 3</title>
+
+<style>
+body{font-family:Arial;background:linear-gradient(120deg,#e0f2fe,#dcfce7);margin:0}
+
+.screen{max-width:1000px;margin:auto;padding:20px}
+
+.card{
+background:white;
+border-radius:20px;
+padding:25px;
+text-align:center;
+box-shadow:0 20px 40px rgba(0,0,0,.2)
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px
+}
+
+.answer{
+padding:18px;
+border-radius:15px;
+font-size:18px;
+cursor:pointer;
+font-weight:bold;
+transition:.3s
+}
+
+.answer:hover{transform:scale(1.07)}
+
+.a0{background:#ef4444;color:white}
+.a1{background:#3b82f6;color:white}
+.a2{background:#facc15}
+.a3{background:#22c55e}
+
+.correct{transform:scale(1.15);box-shadow:0 0 20px #22c55e}
+.wrong{opacity:.3}
+
+.progress{
+height:10px;
+background:#cbd5e1;
+border-radius:5px;
+margin-bottom:10px;
+overflow:hidden
+}
+
+.bar{
+height:100%;
+background:#22c55e;
+width:0%
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+
+<div id="start" class="card">
+
+<h2>🎮 Tin học – Bài 3-Thông tin trên web</h2>
+
+<input id="name" placeholder="Tên học sinh">
+
+<br><br>
+
+<button onclick="start()">Bắt đầu</button>
+
+</div>
+
+<div id="quiz" class="card" style="display:none">
+
+<div class="progress"><div id="bar" class="bar"></div></div>
+
+<h3 id="question"></h3>
+
+<div id="answers" class="answers"></div>
+
+</div>
+
+<div id="end" class="card" style="display:none">
+
+<h2>🎉 Hoàn thành</h2>
+
+<p id="result"></p>
+
+</div>
+
+</div>
+
+<script>
+
+let questions=[
+
+["Trang web có thông tin dạng?",["Văn bản","Hình ảnh","Âm thanh","Tất cả"],3],
+["Video có thể chứa?",["Hình ảnh và âm thanh","Chỉ chữ","Chỉ ảnh","Không"],0],
+["Siêu liên kết nhận biết khi?",["Con trỏ chuột đổi dạng","Không","Sai","Không"],0],
+["Nháy chuột vào siêu liên kết sẽ?",["Mở nội dung khác","Tắt máy","Không","Sai"],0],
+["Trang web có nhiều liên kết gọi là?",["Siêu văn bản","File","Thư mục","Không"],0],
+
+["Thông tin văn bản có thể?",["Đọc","Nghe","Nhìn","Không"],0],
+["Thông tin hình ảnh có thể?",["Quan sát","Nghe","Đọc","Không"],0],
+["Thông tin âm thanh có thể?",["Nghe","Đọc","Quan sát","Không"],0],
+["Video chứa?",["Hình ảnh và âm thanh","Chỉ chữ","Không","Sai"],0],
+["Siêu liên kết dùng để?",["Chuyển trang","Tắt máy","In","Không"],0]
+
+]
+
+while(questions.length<50){
+questions.push(...questions.slice(0,10))
+}
+
+questions=questions.slice(0,50)
+
+questions.sort(()=>Math.random()-0.5)
+
+let current=0
+let score=0
+
+function start(){
+
+start.style.display="none"
+quiz.style.display="block"
+
+load()
+
+}
+
+function load(){
+
+bar.style.width=(current/50*100)+"%"
+
+question.innerText="Câu "+(current+1)+": "+questions[current][0]
+
+let ans=questions[current][1].map((a,i)=>({text:a,index:i})).sort(()=>Math.random()-0.5)
+
+answers.innerHTML=""
+
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=`
+<div class="answer a${k}" onclick="choose(${a.index},this)">
+${a.text}
+</div>`
+
+})
+
+}
+
+function choose(index,el){
+
+let correct=questions[current][2]
+
+document.querySelectorAll(".answer").forEach(a=>{
+
+if(a.innerText===questions[current][1][correct]){
+a.classList.add("correct")
+}else{
+a.classList.add("wrong")
+}
+
+})
+
+if(index===correct) score++
+
+setTimeout(()=>{
+
+current++
+
+if(current>=50){
+
+quiz.style.display="none"
+end.style.display="block"
+
+let n=document.getElementById("name").value||"Học sinh"
+
+result.innerText=n+" đạt "+score+"/50 điểm"
+
+}else{
+
+load()
+
+}
+
+},1200)
+
+}
+
+</script>
+
+</body>
+</html>
