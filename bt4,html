@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thực hành 30 phút - Tìm kiếm thông tin</title>
+
+<style>
+
+body{
+font-family:"Comic Sans MS",Arial;
+background:linear-gradient(135deg,#f6d365,#fda085);
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:1000px;
+margin:auto;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.2);
+}
+
+h1{text-align:center;color:#ff5722;}
+
+.timer{
+text-align:right;
+font-size:20px;
+color:red;
+font-weight:bold;
+}
+
+.section{
+background:#f5faff;
+margin:15px 0;
+padding:15px;
+border-left:8px solid #4caf50;
+border-radius:15px;
+}
+
+details{
+margin:10px 0;
+background:#fff3e0;
+padding:10px;
+border-radius:10px;
+}
+
+summary{
+cursor:pointer;
+font-weight:bold;
+font-size:18px;
+color:#1565c0;
+}
+
+ul{margin-left:25px;}
+li{margin:5px 0;}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌟 THỰC HÀNH 30 PHÚT – TÌM KIẾM THÔNG TIN 🌟</h1>
+
+<div class="timer">⏳ <span id="time">30:00</span></div>
+
+<div class="section">
+
+<h2>1️⃣ Bài 1: Mở máy tìm kiếm Google</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Mở trình duyệt web.</li>
+<li>Gõ địa chỉ: <b>google.com.vn</b>.</li>
+<li>Nhấn Enter.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>2️⃣ Bài 2: Tìm thông tin bằng từ khóa</h2>
+
+<details>
+<summary>▶ Các bước thực hiện</summary>
+
+<ul>
+<li>Nhập từ khóa: <b>Vườn quốc gia Cát Tiên</b>.</li>
+<li>Nhấn phím Enter.</li>
+<li>Quan sát kết quả tìm kiếm.</li>
+<li>Nháy vào một kết quả.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>3️⃣ Bài 3: Thực hành tìm kiếm</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Tìm thông tin với từ khóa: <b>Văn Miếu Quốc Tử Giám</b>.</li>
+<li>Tìm thông tin với từ khóa: <b>Bến Nhà Rồng</b>.</li>
+<li>Tìm thông tin với từ khóa: <b>Sao La</b>.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>🎯 Bài thực hành tổng hợp</h2>
+
+<details>
+<summary>▶ Xem yêu cầu</summary>
+
+<ul>
+<li>Mở Google.</li>
+<li>Tìm thông tin về Vườn quốc gia Cát Tiên.</li>
+<li>Tìm thông tin về Văn Miếu Quốc Tử Giám.</li>
+<li>Tìm thông tin về Bến Nhà Rồng.</li>
+<li>Quan sát kết quả tìm kiếm.</li>
+</ul>
+
+</details>
+
+</div>
+
+</div>
+
+<script>
+
+let time=1800;
+
+setInterval(()=>{
+
+let m=Math.floor(time/60);
+let s=time%60;
+
+document.getElementById("time").innerHTML =
+m+":"+(s<10?"0"+s:s);
+
+if(time>0) time--;
+
+},1000);
+
+</script>
+
+</body>
+</html>
