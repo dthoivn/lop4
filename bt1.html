@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thực hành 30 phút - Phần cứng và phần mềm</title>
+
+<style>
+
+body{
+font-family:"Comic Sans MS",Arial;
+background:linear-gradient(135deg,#84fab0,#8fd3f4);
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:1000px;
+margin:auto;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.25);
+}
+
+h1{text-align:center;color:#ff5722;}
+
+.timer{
+text-align:right;
+font-size:20px;
+color:red;
+font-weight:bold;
+}
+
+.section{
+background:#f5faff;
+margin:15px 0;
+padding:15px;
+border-left:8px solid #4caf50;
+border-radius:15px;
+}
+
+details{
+margin:10px 0;
+background:#fff3e0;
+padding:12px;
+border-radius:10px;
+}
+
+summary{
+cursor:pointer;
+font-weight:bold;
+font-size:18px;
+color:#1565c0;
+}
+
+ul{margin-left:25px;}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌟 THỰC HÀNH 30 PHÚT – PHẦN CỨNG & PHẦN MỀM 🌟</h1>
+
+<div class="timer">⏳ <span id="time">30:00</span></div>
+
+<div class="section">
+
+<h2>1️⃣ Bài 1: Nhận biết phần cứng</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Quan sát máy tính trước mặt.</li>
+<li>Tìm các thiết bị phần cứng:</li>
+<li>• Màn hình</li>
+<li>• Bàn phím</li>
+<li>• Chuột</li>
+<li>• Loa</li>
+<li>• Máy in</li>
+<li>• Thân máy</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>2️⃣ Bài 2: Nhận biết phần mềm</h2>
+
+<details>
+<summary>▶ Xem hướng dẫn</summary>
+
+<ul>
+<li>Quan sát các biểu tượng phần mềm trên màn hình.</li>
+<li>Tìm các phần mềm:</li>
+<li>• Paint</li>
+<li>• Google Chrome</li>
+<li>• PowerPoint</li>
+<li>• RapidTyping</li>
+<li>• Basic Mouse Skills</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>3️⃣ Bài 3: Phân biệt phần cứng và phần mềm</h2>
+
+<details>
+<summary>▶ Các bước thực hiện</summary>
+
+<ul>
+<li>Liệt kê 3 thiết bị phần cứng.</li>
+<li>Liệt kê 3 phần mềm máy tính.</li>
+<li>Thảo luận với bạn bên cạnh.</li>
+<li>Nêu vai trò của phần cứng và phần mềm.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>🎯 Bài thực hành tổng hợp</h2>
+
+<details>
+<summary>▶ Xem yêu cầu</summary>
+
+<ul>
+<li>Quan sát máy tính.</li>
+<li>Kể tên các thiết bị phần cứng.</li>
+<li>Kể tên các phần mềm.</li>
+<li>Nhận xét mối quan hệ giữa phần cứng và phần mềm.</li>
+</ul>
+
+</details>
+
+</div>
+
+</div>
+
+<script>
+
+let time=1800;
+
+setInterval(()=>{
+let m=Math.floor(time/60);
+let s=time%60;
+
+document.getElementById("time").innerHTML=
+m+":"+(s<10?"0"+s:s);
+
+if(time>0) time--;
+
+},1000);
+
+</script>
+
+</body>
+</html>
