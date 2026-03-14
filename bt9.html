@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thực hành 30 phút - Bài trình chiếu</title>
+
+<style>
+body{font-family:Comic Sans MS;background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:20px}
+.container{background:white;max-width:1000px;margin:auto;padding:25px;border-radius:20px}
+h1{text-align:center;color:#ff5722}
+.timer{text-align:right;color:red;font-size:20px}
+.section{background:#f5faff;padding:15px;margin:15px 0;border-left:8px solid #4caf50;border-radius:15px}
+details{background:#fff3e0;padding:10px;margin:10px 0;border-radius:10px}
+summary{cursor:pointer;font-weight:bold}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌟 THỰC HÀNH 30 PHÚT – BÀI TRÌNH CHIẾU 🌟</h1>
+<div class="timer">⏳ <span id="time">30:00</span></div>
+
+<div class="section">
+<h2>1️⃣ Khởi động PowerPoint</h2>
+
+<details>
+<summary>▶ Xem các bước</summary>
+<ul>
+<li>Nháy đúp biểu tượng PowerPoint.</li>
+<li>Tạo tệp trình chiếu mới.</li>
+</ul>
+</details>
+
+</div>
+
+<div class="section">
+<h2>2️⃣ Tạo trang chiếu</h2>
+
+<details>
+<summary>▶ Hướng dẫn</summary>
+<ul>
+<li>Chọn Home.</li>
+<li>Chọn New Slide.</li>
+<li>Nhập tiêu đề.</li>
+<li>Nhập nội dung.</li>
+</ul>
+</details>
+
+</div>
+
+<div class="section">
+<h2>3️⃣ Chèn hình ảnh</h2>
+
+<details>
+<summary>▶ Hướng dẫn</summary>
+<ul>
+<li>Chọn trang chiếu.</li>
+<li>Chọn Insert.</li>
+<li>Chọn Pictures.</li>
+<li>Chọn ảnh và nhấn Insert.</li>
+</ul>
+</details>
+
+</div>
+
+</div>
+
+<script>
+let t=1800;
+setInterval(()=>{
+let m=Math.floor(t/60);
+let s=t%60;
+document.getElementById("time").innerHTML=m+":"+(s<10?"0"+s:s);
+if(t>0)t--;
+},1000);
+</script>
+
+</body>
+</html>
