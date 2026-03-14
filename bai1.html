@@ -1,112 +1,222 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tin học 5 – Bài 1: Máy tính có thể giúp em làm gì</title>
+<title>Tin học – Bài 1</title>
 
 <style>
-body{font-family:Arial;background:#eef4ff;margin:0;text-align:center}
-.container{max-width:900px;margin:auto;margin-top:30px;background:white;padding:30px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,.15)}
-.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}
-.answer{padding:18px;border-radius:12px;cursor:pointer;font-size:18px;transition:.3s}
-.a0{background:#ff7675}.a1{background:#74b9ff}.a2{background:#ffeaa7}.a3{background:#55efc4}
-.correct{background:#2ecc71!important;transform:scale(1.15)}
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(120deg,#dbeafe,#e0f2fe,#dcfce7);
+background-size:400% 400%;
+animation:bgMove 12s infinite alternate;
+}
+
+@keyframes bgMove{
+0%{background-position:left}
+100%{background-position:right}
+}
+
+.screen{
+max-width:1000px;
+margin:auto;
+padding:20px
+}
+
+.card{
+background:white;
+border-radius:20px;
+padding:25px;
+text-align:center;
+box-shadow:0 20px 40px rgba(0,0,0,.2);
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px
+}
+
+.answer{
+padding:18px;
+border-radius:15px;
+font-size:18px;
+cursor:pointer;
+transition:.3s;
+font-weight:bold
+}
+
+.answer:hover{transform:scale(1.08)}
+
+.a0{background:#ef4444;color:white}
+.a1{background:#3b82f6;color:white}
+.a2{background:#facc15}
+.a3{background:#22c55e}
+
+.correct{
+transform:scale(1.15);
+box-shadow:0 0 20px #22c55e
+}
+
 .wrong{opacity:.3}
-.progress{height:10px;background:#ddd;border-radius:5px;margin-top:10px}
-.bar{height:100%;background:#2ecc71;width:0%}
-.timer{font-size:22px;color:#e74c3c;margin-top:10px}
+
+.progress{
+height:10px;
+background:#cbd5e1;
+border-radius:5px;
+overflow:hidden;
+margin-bottom:10px
+}
+
+.bar{
+height:100%;
+background:#22c55e;
+width:0%
+}
+
 </style>
-
 </head>
-<body oncontextmenu="return false">
 
-<div class="container">
+<body>
 
-<h2>Tin học 5 – Bài 1: Máy tính có thể giúp em làm gì</h2>
+<div class="screen">
 
-<div id="start">
-<input id="name" placeholder="Họ tên học sinh"><br><br>
-<button onclick="start()">BẮT ĐẦU</button>
+<div id="start" class="card">
+
+<h2>🎮 Tin học – Bài 1-Phần cứng, phần mềm</h2>
+
+<input id="name" placeholder="Tên học sinh">
+
+<br><br>
+
+<button onclick="start()">Bắt đầu</button>
+
 </div>
 
-<div id="quiz" style="display:none">
-<div class="timer" id="time">30:00</div>
-<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="quiz" class="card" style="display:none">
+
+<div class="progress"><div id="bar" class="bar"></div></div>
+
 <h3 id="question"></h3>
-<div class="answers" id="answers"></div>
-<div id="correctText"></div>
-</div>
+
+<div id="answers" class="answers"></div>
 
 </div>
 
+<div id="end" class="card" style="display:none">
+
+<h2>🎉 Kết quả</h2>
+
+<p id="result"></p>
+
+</div>
+
+</div>
 
 <script>
-document.onkeydown=function(e){
- if(e.ctrlKey && (e.key=="c"||e.key=="C")) return false;
- if(e.key=="F12") return false;
-}
-let questions = [{"q": "Máy tính giúp em học tập những gì (biến thể 1)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 2)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 3)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 4)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 5)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 6)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 7)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 8)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 9)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 10)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 11)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 12)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 13)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 14)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 15)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 16)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 17)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 18)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 19)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 20)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 21)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 22)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 23)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 24)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 25)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 26)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 27)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 28)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 29)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 30)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 31)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 32)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 33)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 34)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 35)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 36)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 37)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 38)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 39)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 40)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 41)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 42)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 43)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 44)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 45)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 46)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 47)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 48)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 49)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 50)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 51)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 52)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 53)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 54)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 55)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 56)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 57)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 58)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 59)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 60)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 61)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 62)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 63)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 64)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 65)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp em học tập những gì (biến thể 66)", "a": ["Học tiếng Anh", "Học Toán", "Khám phá Hệ mặt trời", "Tất cả"], "c": 3}, {"q": "Máy tính giúp tạo sản phẩm số nào (biến thể 67)", "a": ["Văn bản Word", "Bài trình chiếu PowerPoint", "Chương trình Scratch", "Tất cả"], "c": 3}, {"q": "Máy tính giúp giải trí bằng cách nào (biến thể 68)", "a": ["Chơi trò chơi", "Nghe nhạc", "Đọc truyện", "Tất cả"], "c": 3}, {"q": "Ví dụ chia sẻ thông tin bằng máy tính (biến thể 69)", "a": ["Zalo", "Messenger Kids", "Cả hai", "Không"], "c": 2}, {"q": "Máy tính giúp luyện tập kỹ năng gì (biến thể 70)", "a": ["Chuột", "Bàn phím", "Cả hai", "Không"], "c": 2}];
 
-function shuffle(a){return a.sort(()=>Math.random()-0.5)}
-shuffle(questions)
+let questions=[
+
+["Thiết bị hiển thị hình ảnh?",["Màn hình","Chuột","Loa","USB"],0],
+["Thiết bị nhập dữ liệu?",["Bàn phím","Màn hình","Loa","Máy in"],0],
+["Thiết bị phát âm thanh?",["Loa","Chuột","USB","Màn hình"],0],
+["Thiết bị in tài liệu?",["Máy in","Chuột","Loa","USB"],0],
+["Thiết bị điều khiển máy tính?",["Chuột","Loa","Màn hình","USB"],0],
+
+["Phần cứng là gì?",["Thiết bị có thể chạm","Phần mềm","Internet","File"],0],
+["Phần mềm là gì?",["Chương trình","Chuột","Màn hình","USB"],0],
+["Ví dụ phần mềm?",["Paint","Bàn phím","Chuột","Màn hình"],0],
+["Ví dụ phần cứng?",["Chuột","Chrome","Windows","Paint"],0],
+["Máy tính cần?",["Phần cứng và phần mềm","Chuột","USB","Internet"],0]
+
+]
+
+while(questions.length<50){
+questions.push(...questions.slice(0,10))
+}
+
+questions=questions.slice(0,50)
+
+questions.sort(()=>Math.random()-0.5)
 
 let current=0
 let score=0
-let total=questions.length
 
 function start(){
- document.getElementById("start").style.display="none"
- document.getElementById("quiz").style.display="block"
- load()
+
+start.style.display="none"
+quiz.style.display="block"
+
+load()
+
 }
 
 function load(){
- document.getElementById("bar").style.width=(current/total*100)+"%"
- let q=questions[current]
- document.getElementById("question").innerText="Câu "+(current+1)+": "+q.q
- let ans=q.a.map((v,i)=>({t:v,i}))
- shuffle(ans)
- let html=""
- ans.forEach((a,k)=>{
-   html+=`<div class="answer a${k}" onclick="choose(${a.i})">${a.t}</div>`
- })
- document.getElementById("answers").innerHTML=html
- document.getElementById("correctText").innerText=""
+
+bar.style.width=(current/50*100)+"%"
+
+question.innerText="Câu "+(current+1)+": "+questions[current][0]
+
+let ans=questions[current][1]
+.map((a,i)=>({text:a,index:i}))
+.sort(()=>Math.random()-0.5)
+
+answers.innerHTML=""
+
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=`
+<div class="answer a${k}" onclick="choose(${a.index},this)">
+${a.text}
+</div>`
+
+})
+
 }
 
-function choose(i){
- let q=questions[current]
- let correct=q.c
- let correctAns=q.a[correct]
- document.querySelectorAll(".answer").forEach(el=>{
-   if(el.innerText===correctAns) el.classList.add("correct")
-   else el.classList.add("wrong")
- })
- if(i===correct) score++
- document.getElementById("correctText").innerText="Đáp án đúng: "+correctAns
- setTimeout(()=>{
-   current++
-   if(current<total) load()
-   else finish()
- },1200)
+function choose(index,el){
+
+let correct=questions[current][2]
+
+document.querySelectorAll(".answer").forEach(a=>{
+
+if(a.innerText===questions[current][1][correct]){
+a.classList.add("correct")
+}else{
+a.classList.add("wrong")
 }
 
-let seconds=1800
-setInterval(()=>{
- if(document.getElementById("quiz").style.display==="block"){
-   seconds--
-   let m=Math.floor(seconds/60)
-   let s=seconds%60
-   document.getElementById("time").innerText=(m<10?"0":"")+m+":"+(s<10?"0":"")+s
- }
-},1000)
+})
 
-function finish(){
- document.getElementById("quiz").innerHTML="<h2>Hoàn thành</h2><p>"+document.getElementById("name").value+" đạt "+score+"/"+total+" điểm</p>"
+if(index===correct) score++
+
+setTimeout(()=>{
+
+current++
+
+if(current>=50){
+
+quiz.style.display="none"
+end.style.display="block"
+
+let n=document.getElementById("name").value||"Học sinh"
+
+result.innerText=n+" đạt "+score+"/50 điểm"
+
+}else{
+
+load()
+
 }
+
+},1200)
+
+}
+
 </script>
-
 
 </body>
 </html>
