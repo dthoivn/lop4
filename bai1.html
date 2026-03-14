@@ -2,221 +2,253 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Tin học – Bài 1</title>
+<title>🎮 Game kiểm tra Tin học – Phần cứng và phần mềm</title>
 
 <style>
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#74b9ff,#a29bfe)}
+#app{max-width:1000px;margin:20px auto;background:#fff;border-radius:18px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{text-align:center;color:#2d3436}
+#top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+#progress{flex:1;height:12px;background:#dfe6e9;border-radius:10px;overflow:hidden;margin:0 15px}
+#bar{height:100%;width:0%;background:linear-gradient(90deg,#ffeaa7,#00b894);transition:.4s}
+#timer{font-weight:bold;color:#d63031}
 
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(120deg,#dbeafe,#e0f2fe,#dcfce7);
-background-size:400% 400%;
-animation:bgMove 12s infinite alternate;
+.question{font-size:20px;margin:20px 0}
+
+.answers button{
+display:block;width:100%;margin:10px 0;padding:12px;
+border:none;border-radius:14px;font-size:16px;
+cursor:pointer;background:#f1f2f6;transition:.25s
 }
 
-@keyframes bgMove{
-0%{background-position:left}
-100%{background-position:right}
+.answers button:hover{background:#dff9fb;transform:scale(1.02)}
+
+.correct{background:#c8e6c9!important}
+.wrong{background:#ffcdd2!important}
+
+#next{
+display:none;margin:20px auto;padding:10px 40px;
+font-size:16px;border:none;border-radius:20px;
+background:#0984e3;color:#fff;cursor:pointer
 }
 
-.screen{
-max-width:1000px;
-margin:auto;
-padding:20px
+#result{display:none;text-align:center;font-size:22px}
+
+#report{display:none;margin-top:20px}
+
+#report table{width:100%;border-collapse:collapse}
+
+#report th,#report td{
+border:1px solid #ccc;padding:6px;text-align:center
 }
-
-.card{
-background:white;
-border-radius:20px;
-padding:25px;
-text-align:center;
-box-shadow:0 20px 40px rgba(0,0,0,.2);
-}
-
-.answers{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:20px
-}
-
-.answer{
-padding:18px;
-border-radius:15px;
-font-size:18px;
-cursor:pointer;
-transition:.3s;
-font-weight:bold
-}
-
-.answer:hover{transform:scale(1.08)}
-
-.a0{background:#ef4444;color:white}
-.a1{background:#3b82f6;color:white}
-.a2{background:#facc15}
-.a3{background:#22c55e}
-
-.correct{
-transform:scale(1.15);
-box-shadow:0 0 20px #22c55e
-}
-
-.wrong{opacity:.3}
-
-.progress{
-height:10px;
-background:#cbd5e1;
-border-radius:5px;
-overflow:hidden;
-margin-bottom:10px
-}
-
-.bar{
-height:100%;
-background:#22c55e;
-width:0%
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="screen">
+<div id="app">
 
-<div id="start" class="card">
+<h1>🎮 GAME KIỂM TRA – PHẦN CỨNG VÀ PHẦN MỀM</h1>
 
-<h2>🎮 Tin học – Bài 1-Phần cứng, phần mềm</h2>
-
-<input id="name" placeholder="Tên học sinh">
-
-<br><br>
-
-<button onclick="start()">Bắt đầu</button>
-
+<div id="top">
+<div id="timer">⏱️ 15:00</div>
+<div id="progress"><div id="bar"></div></div>
 </div>
 
-<div id="quiz" class="card" style="display:none">
-
-<div class="progress"><div id="bar" class="bar"></div></div>
-
-<h3 id="question"></h3>
-
-<div id="answers" class="answers"></div>
-
+<div id="quiz">
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
 </div>
 
-<div id="end" class="card" style="display:none">
+<button id="next">Câu tiếp theo ▶</button>
 
-<h2>🎉 Kết quả</h2>
-
-<p id="result"></p>
-
-</div>
+<div id="result"></div>
+<div id="report"></div>
 
 </div>
 
 <script>
 
-let questions=[
+// ===== 50 CÂU HỎI =====
 
-["Thiết bị hiển thị hình ảnh?",["Màn hình","Chuột","Loa","USB"],0],
-["Thiết bị nhập dữ liệu?",["Bàn phím","Màn hình","Loa","Máy in"],0],
-["Thiết bị phát âm thanh?",["Loa","Chuột","USB","Màn hình"],0],
-["Thiết bị in tài liệu?",["Máy in","Chuột","Loa","USB"],0],
-["Thiết bị điều khiển máy tính?",["Chuột","Loa","Màn hình","USB"],0],
+const questions=[
 
-["Phần cứng là gì?",["Thiết bị có thể chạm","Phần mềm","Internet","File"],0],
-["Phần mềm là gì?",["Chương trình","Chuột","Màn hình","USB"],0],
-["Ví dụ phần mềm?",["Paint","Bàn phím","Chuột","Màn hình"],0],
-["Ví dụ phần cứng?",["Chuột","Chrome","Windows","Paint"],0],
-["Máy tính cần?",["Phần cứng và phần mềm","Chuột","USB","Internet"],0]
+{q:"Máy tính gồm những thành phần nào?",a:["Phần cứng và phần mềm","Chuột và bàn phím","Internet","USB"],c:0},
+{q:"Thiết bị dùng để nhập dữ liệu?",a:["Bàn phím","Màn hình","Loa","Máy in"],c:0},
+{q:"Thiết bị hiển thị hình ảnh?",a:["Màn hình","Chuột","Loa","USB"],c:0},
+{q:"Thiết bị phát âm thanh?",a:["Loa","Chuột","Màn hình","Bàn phím"],c:0},
+{q:"Thiết bị in tài liệu?",a:["Máy in","Chuột","Loa","Màn hình"],c:0},
 
-]
+{q:"Phần cứng là gì?",a:["Thiết bị có thể chạm","Chương trình","File","Internet"],c:0},
+{q:"Phần mềm là gì?",a:["Chương trình máy tính","Chuột","Bàn phím","Màn hình"],c:0},
+{q:"Ví dụ phần mềm?",a:["Paint","Chuột","Bàn phím","Màn hình"],c:0},
+{q:"Ví dụ phần cứng?",a:["Chuột","Paint","Chrome","Windows"],c:0},
+{q:"Máy tính cần cả?",a:["Phần cứng và phần mềm","Chuột","Màn hình","Internet"],c:0}
 
+];
+
+// nhân lên đủ 50 câu
 while(questions.length<50){
-questions.push(...questions.slice(0,10))
+questions.push(...questions.slice(0,10));
 }
 
-questions=questions.slice(0,50)
+questions.splice(50);
 
-questions.sort(()=>Math.random()-0.5)
+questions.sort(()=>Math.random()-0.5);
 
-let current=0
-let score=0
 
-function start(){
+// ===== GAME LOGIC =====
 
-start.style.display="none"
-quiz.style.display="block"
+let index=0,score=0,details=[];
 
-load()
+const qEl=document.getElementById('question');
+const aEl=document.getElementById('answers');
+const bar=document.getElementById('bar');
+const next=document.getElementById('next');
+const result=document.getElementById('result');
+const report=document.getElementById('report');
 
+let total=15*60;
+
+const timerEl=document.getElementById('timer');
+
+const countdown=setInterval(()=>{
+
+total--;
+
+let m=Math.floor(total/60), s=total%60;
+
+timerEl.textContent=`⏱️ ${m}:${s.toString().padStart(2,'0')}`;
+
+if(total<=0){clearInterval(countdown);finish();}
+
+},1000);
+
+
+function shuffle(arr){
+return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
 }
+
 
 function load(){
 
-bar.style.width=(current/50*100)+"%"
+next.style.display='none';
 
-question.innerText="Câu "+(current+1)+": "+questions[current][0]
+const q=questions[index];
 
-let ans=questions[current][1]
-.map((a,i)=>({text:a,index:i}))
-.sort(()=>Math.random()-0.5)
+qEl.textContent=`Câu ${index+1}: ${q.q}`;
 
-answers.innerHTML=""
+aEl.innerHTML='';
 
-ans.forEach((a,k)=>{
+const answers=shuffle(q.a.map((t,i)=>({t,i})));
 
-answers.innerHTML+=`
-<div class="answer a${k}" onclick="choose(${a.index},this)">
-${a.text}
-</div>`
+answers.forEach(obj=>{
 
-})
+const b=document.createElement('button');
 
-}
+b.textContent=obj.t;
 
-function choose(index,el){
+b.onclick=()=>choose(b,obj.i,q.c,q.q,obj.t);
 
-let correct=questions[current][2]
+aEl.appendChild(b);
 
-document.querySelectorAll(".answer").forEach(a=>{
+});
 
-if(a.innerText===questions[current][1][correct]){
-a.classList.add("correct")
-}else{
-a.classList.add("wrong")
-}
-
-})
-
-if(index===correct) score++
-
-setTimeout(()=>{
-
-current++
-
-if(current>=50){
-
-quiz.style.display="none"
-end.style.display="block"
-
-let n=document.getElementById("name").value||"Học sinh"
-
-result.innerText=n+" đạt "+score+"/50 điểm"
-
-}else{
-
-load()
+bar.style.width=(index/questions.length*100)+'%';
 
 }
 
-},1200)
+
+function choose(btn,choice,correct,qtext,ans){
+
+[...aEl.children].forEach(b=>b.disabled=true);
+
+const ok=choice===correct;
+
+btn.classList.add(ok?'correct':'wrong');
+
+if(!ok){
+
+[...aEl.children]
+
+.find(b=>b.textContent===questions[index].a[correct])
+
+.classList.add('correct');
 
 }
+
+if(ok) score++;
+
+details.push({
+
+q:qtext,
+
+choose:ans,
+
+correct:questions[index].a[correct],
+
+ok
+
+});
+
+next.style.display='block';
+
+}
+
+
+next.onclick=()=>{
+
+index++;
+
+if(index<questions.length) load();
+
+else finish();
+
+};
+
+
+function finish(){
+
+clearInterval(countdown);
+
+document.getElementById('quiz').style.display='none';
+
+next.style.display='none';
+
+bar.style.width='100%';
+
+result.style.display='block';
+
+result.innerHTML=`🎉 Hoàn thành!<br>Điểm: <b>${score}/${questions.length}</b>`;
+
+report.style.display='block';
+
+let html='<h3>📊 BÁO CÁO CHI TIẾT</h3><table><tr><th>Câu</th><th>Đáp án HS</th><th>Đáp án đúng</th><th>Kết quả</th></tr>';
+
+details.forEach((d,i)=>{
+
+html+=`<tr>
+
+<td>${i+1}</td>
+
+<td>${d.choose}</td>
+
+<td>${d.correct}</td>
+
+<td>${d.ok?'✔':'✘'}</td>
+
+</tr>`;
+
+});
+
+html+='</table>';
+
+report.innerHTML=html;
+
+}
+
+load();
 
 </script>
-
 </body>
 </html>
