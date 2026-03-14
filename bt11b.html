@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thực hành 30 phút - Xem video</title>
+
+<style>
+
+body{
+font-family:"Comic Sans MS";
+background:linear-gradient(135deg,#84fab0,#8fd3f4);
+padding:20px;
+}
+
+.container{
+background:white;
+max-width:1000px;
+margin:auto;
+padding:25px;
+border-radius:20px;
+}
+
+h1{text-align:center;color:#ff5722}
+
+.timer{text-align:right;color:red;font-size:20px}
+
+.section{
+background:#e3f2fd;
+padding:15px;
+margin:15px 0;
+border-radius:15px;
+}
+
+details{
+background:#fff3e0;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎬 THỰC HÀNH 30 PHÚT – XEM VIDEO LỊCH SỬ</h1>
+
+<div class="timer">⏳ <span id="time">30:00</span></div>
+
+<div class="section">
+
+<h2>1️⃣ Tìm video</h2>
+
+<details>
+<summary>▶ Các bước thực hiện</summary>
+
+<ul>
+<li>Mở Google Chrome.</li>
+<li>Gõ địa chỉ <b>youtubekids.com</b>.</li>
+<li>Chọn tài khoản của em.</li>
+<li>Nhập từ khóa: <b>văn hóa Việt Nam</b>.</li>
+<li>Nhấn Enter.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>2️⃣ Xem video</h2>
+
+<details>
+<summary>▶ Các thao tác</summary>
+
+<ul>
+<li>Chọn một video trong danh sách.</li>
+<li>Dùng nút <b>Pause</b> để tạm dừng.</li>
+<li>Dùng nút <b>Volume</b> để chỉnh âm lượng.</li>
+<li>Dùng nút <b>Full Screen</b> để xem toàn màn hình.</li>
+</ul>
+
+</details>
+
+</div>
+
+<div class="section">
+
+<h2>🎯 Bài thực hành</h2>
+
+<details>
+<summary>▶ Yêu cầu</summary>
+
+<ul>
+<li>Xem 2 video về lịch sử Việt Nam.</li>
+<li>Xem 2 video về văn hóa Việt Nam.</li>
+<li>Kể cho bạn nghe điều thú vị trong video.</li>
+</ul>
+
+</details>
+
+</div>
+
+</div>
+
+<script>
+
+let t=1800;
+
+setInterval(()=>{
+
+let m=Math.floor(t/60)
+let s=t%60
+
+document.getElementById("time").innerHTML=m+":"+(s<10?"0"+s:s)
+
+if(t>0)t--
+
+},1000)
+
+</script>
+
+</body>
+</html>
