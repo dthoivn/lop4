@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>🎮 Game kiểm tra Tin học – Phần cứng và phần mềm</title>
+<title>🎮 Game kiểm tra – Phần cứng và phần mềm</title>
 
 <style>
 body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#74b9ff,#a29bfe)}
@@ -12,35 +12,16 @@ h1{text-align:center;color:#2d3436}
 #progress{flex:1;height:12px;background:#dfe6e9;border-radius:10px;overflow:hidden;margin:0 15px}
 #bar{height:100%;width:0%;background:linear-gradient(90deg,#ffeaa7,#00b894);transition:.4s}
 #timer{font-weight:bold;color:#d63031}
-
 .question{font-size:20px;margin:20px 0}
-
-.answers button{
-display:block;width:100%;margin:10px 0;padding:12px;
-border:none;border-radius:14px;font-size:16px;
-cursor:pointer;background:#f1f2f6;transition:.25s
-}
-
+.answers button{display:block;width:100%;margin:10px 0;padding:12px;border:none;border-radius:14px;font-size:16px;cursor:pointer;background:#f1f2f6}
 .answers button:hover{background:#dff9fb;transform:scale(1.02)}
-
 .correct{background:#c8e6c9!important}
 .wrong{background:#ffcdd2!important}
-
-#next{
-display:none;margin:20px auto;padding:10px 40px;
-font-size:16px;border:none;border-radius:20px;
-background:#0984e3;color:#fff;cursor:pointer
-}
-
+#next{display:none;margin:20px auto;padding:10px 40px;font-size:16px;border:none;border-radius:20px;background:#0984e3;color:#fff;cursor:pointer}
 #result{display:none;text-align:center;font-size:22px}
-
 #report{display:none;margin-top:20px}
-
 #report table{width:100%;border-collapse:collapse}
-
-#report th,#report td{
-border:1px solid #ccc;padding:6px;text-align:center
-}
+#report th,#report td{border:1px solid #ccc;padding:6px;text-align:center}
 </style>
 </head>
 
@@ -48,7 +29,7 @@ border:1px solid #ccc;padding:6px;text-align:center
 
 <div id="app">
 
-<h1>🎮 GAME KIỂM TRA – PHẦN CỨNG VÀ PHẦN MỀM</h1>
+<h1>🎮 GAME – PHẦN CỨNG VÀ PHẦN MỀM</h1>
 
 <div id="top">
 <div id="timer">⏱️ 15:00</div>
@@ -69,35 +50,72 @@ border:1px solid #ccc;padding:6px;text-align:center
 
 <script>
 
-// ===== 50 CÂU HỎI =====
-
 const questions=[
 
-{q:"Máy tính gồm những thành phần nào?",a:["Phần cứng và phần mềm","Chuột và bàn phím","Internet","USB"],c:0},
-{q:"Thiết bị dùng để nhập dữ liệu?",a:["Bàn phím","Màn hình","Loa","Máy in"],c:0},
-{q:"Thiết bị hiển thị hình ảnh?",a:["Màn hình","Chuột","Loa","USB"],c:0},
-{q:"Thiết bị phát âm thanh?",a:["Loa","Chuột","Màn hình","Bàn phím"],c:0},
-{q:"Thiết bị in tài liệu?",a:["Máy in","Chuột","Loa","Màn hình"],c:0},
+{q:"Máy tính gồm hai phần chính là gì?",a:["Phần cứng và phần mềm","Chuột và bàn phím","Màn hình và loa","Internet và USB"],c:0},
+{q:"Thiết bị nào thuộc phần cứng?",a:["Chuột","Word","Paint","Chrome"],c:0},
+{q:"Phần mềm là gì?",a:["Chương trình máy tính","Thiết bị điện tử","Bàn phím","Chuột"],c:0},
+{q:"Thiết bị nào hiển thị hình ảnh?",a:["Màn hình","Chuột","Loa","USB"],c:0},
+{q:"Thiết bị dùng để nhập văn bản?",a:["Bàn phím","Loa","Màn hình","Máy in"],c:0},
 
-{q:"Phần cứng là gì?",a:["Thiết bị có thể chạm","Chương trình","File","Internet"],c:0},
-{q:"Phần mềm là gì?",a:["Chương trình máy tính","Chuột","Bàn phím","Màn hình"],c:0},
-{q:"Ví dụ phần mềm?",a:["Paint","Chuột","Bàn phím","Màn hình"],c:0},
-{q:"Ví dụ phần cứng?",a:["Chuột","Paint","Chrome","Windows"],c:0},
-{q:"Máy tính cần cả?",a:["Phần cứng và phần mềm","Chuột","Màn hình","Internet"],c:0}
+{q:"Thiết bị phát âm thanh?",a:["Loa","Chuột","Bàn phím","USB"],c:0},
+{q:"Thiết bị in tài liệu?",a:["Máy in","Chuột","Loa","Màn hình"],c:0},
+{q:"Chuột máy tính dùng để làm gì?",a:["Điều khiển con trỏ","In văn bản","Nghe nhạc","Lưu dữ liệu"],c:0},
+{q:"Ví dụ phần mềm?",a:["Paint","Chuột","Màn hình","Bàn phím"],c:0},
+{q:"Windows là gì?",a:["Hệ điều hành","Chuột","Loa","USB"],c:0},
+
+{q:"Phần cứng là?",a:["Thiết bị có thể chạm","Chương trình","File","Dữ liệu"],c:0},
+{q:"Phần mềm giúp máy tính?",a:["Hoạt động","Tắt máy","In giấy","Phát sáng"],c:0},
+{q:"Thiết bị lưu trữ dữ liệu?",a:["USB","Chuột","Loa","Màn hình"],c:0},
+{q:"Ổ cứng dùng để?",a:["Lưu dữ liệu","Nghe nhạc","In văn bản","Xem phim"],c:0},
+{q:"Máy tính cần phần mềm để?",a:["Hoạt động","Phát sáng","Đứng yên","In giấy"],c:0},
+
+{q:"Thiết bị nào không phải phần mềm?",a:["Bàn phím","Word","Paint","Excel"],c:0},
+{q:"Excel là?",a:["Phần mềm","Phần cứng","Chuột","USB"],c:0},
+{q:"Word dùng để?",a:["Soạn thảo văn bản","Nghe nhạc","Xem phim","Chơi game"],c:0},
+{q:"Paint dùng để?",a:["Vẽ tranh","Soạn thảo","Tính toán","Nghe nhạc"],c:0},
+{q:"Internet giúp?",a:["Kết nối thông tin","In giấy","Tắt máy","Phát sáng"],c:0},
+
+{q:"Thiết bị nào dùng để di chuyển con trỏ?",a:["Chuột","Bàn phím","Màn hình","Máy in"],c:0},
+{q:"Thiết bị nhập dữ liệu?",a:["Bàn phím","Loa","Màn hình","Máy in"],c:0},
+{q:"Màn hình là?",a:["Thiết bị hiển thị","Phần mềm","Chuột","USB"],c:0},
+{q:"Loa là?",a:["Thiết bị phát âm thanh","Phần mềm","Chuột","USB"],c:0},
+{q:"Máy in là?",a:["Thiết bị in","Phần mềm","Chuột","USB"],c:0},
+
+{q:"Phần mềm giúp người dùng?",a:["Làm việc với máy tính","Nghe nhạc","Chơi bóng","Chạy bộ"],c:0},
+{q:"Phần cứng gồm?",a:["Thiết bị vật lý","Chương trình","Internet","Dữ liệu"],c:0},
+{q:"Máy tính hoạt động cần?",a:["Phần cứng và phần mềm","Chuột","Loa","USB"],c:0},
+{q:"Thiết bị lưu trữ nhỏ gọn?",a:["USB","Loa","Chuột","Bàn phím"],c:0},
+{q:"Ổ cứng trong máy dùng để?",a:["Lưu dữ liệu lâu dài","Nghe nhạc","In giấy","Phát sáng"],c:0},
+
+{q:"Chrome là?",a:["Trình duyệt web","Chuột","Bàn phím","Màn hình"],c:0},
+{q:"Phần mềm giúp máy tính chạy?",a:["Hệ điều hành","Chuột","Loa","USB"],c:0},
+{q:"Ví dụ hệ điều hành?",a:["Windows","Word","Paint","Chrome"],c:0},
+{q:"Chuột có mấy nút chính?",a:["2","3","4","5"],c:0},
+{q:"Màn hình dùng để?",a:["Hiển thị thông tin","In giấy","Nghe nhạc","Tắt máy"],c:0},
+
+{q:"Bàn phím dùng để?",a:["Nhập dữ liệu","In văn bản","Nghe nhạc","Xem phim"],c:0},
+{q:"USB dùng để?",a:["Lưu dữ liệu","Nghe nhạc","In giấy","Phát sáng"],c:0},
+{q:"Máy tính giúp?",a:["Xử lý thông tin","Chạy bộ","Nấu ăn","Trồng cây"],c:0},
+{q:"Thiết bị nhập dữ liệu phổ biến?",a:["Bàn phím","Loa","Màn hình","Máy in"],c:0},
+{q:"Thiết bị xuất dữ liệu?",a:["Màn hình","Chuột","Bàn phím","USB"],c:0},
+
+{q:"Thiết bị phát âm thanh từ máy?",a:["Loa","Chuột","Màn hình","USB"],c:0},
+{q:"Thiết bị in ra giấy?",a:["Máy in","Chuột","Loa","USB"],c:0},
+{q:"Phần mềm giúp người dùng?",a:["Thực hiện công việc","Chạy bộ","Ngủ","Nấu ăn"],c:0},
+{q:"Phần cứng là?",a:["Thiết bị vật lý","Chương trình","Internet","File"],c:0},
+{q:"Phần mềm là?",a:["Chương trình","Chuột","Màn hình","Bàn phím"],c:0},
+
+{q:"Máy tính gồm?",a:["Phần cứng và phần mềm","Chuột","Loa","USB"],c:0},
+{q:"Thiết bị hiển thị?",a:["Màn hình","Chuột","Loa","USB"],c:0},
+{q:"Thiết bị nhập văn bản?",a:["Bàn phím","Loa","Màn hình","USB"],c:0},
+{q:"Thiết bị phát âm thanh?",a:["Loa","Chuột","Bàn phím","USB"],c:0},
+{q:"Thiết bị lưu trữ di động?",a:["USB","Chuột","Loa","Bàn phím"],c:0}
 
 ];
 
-// nhân lên đủ 50 câu
-while(questions.length<50){
-questions.push(...questions.slice(0,10));
-}
-
-questions.splice(50);
-
+// phần logic giống bai7
 questions.sort(()=>Math.random()-0.5);
-
-
-// ===== GAME LOGIC =====
 
 let index=0,score=0,details=[];
 
@@ -109,142 +127,58 @@ const result=document.getElementById('result');
 const report=document.getElementById('report');
 
 let total=15*60;
-
 const timerEl=document.getElementById('timer');
 
 const countdown=setInterval(()=>{
-
 total--;
-
 let m=Math.floor(total/60), s=total%60;
-
 timerEl.textContent=`⏱️ ${m}:${s.toString().padStart(2,'0')}`;
-
 if(total<=0){clearInterval(countdown);finish();}
-
 },1000);
 
-
-function shuffle(arr){
-return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
-}
-
+function shuffle(arr){return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);}
 
 function load(){
-
 next.style.display='none';
-
 const q=questions[index];
-
 qEl.textContent=`Câu ${index+1}: ${q.q}`;
-
 aEl.innerHTML='';
-
 const answers=shuffle(q.a.map((t,i)=>({t,i})));
-
 answers.forEach(obj=>{
-
 const b=document.createElement('button');
-
 b.textContent=obj.t;
-
 b.onclick=()=>choose(b,obj.i,q.c,q.q,obj.t);
-
 aEl.appendChild(b);
-
 });
-
 bar.style.width=(index/questions.length*100)+'%';
-
 }
-
 
 function choose(btn,choice,correct,qtext,ans){
-
 [...aEl.children].forEach(b=>b.disabled=true);
-
 const ok=choice===correct;
-
 btn.classList.add(ok?'correct':'wrong');
-
 if(!ok){
-
-[...aEl.children]
-
-.find(b=>b.textContent===questions[index].a[correct])
-
-.classList.add('correct');
-
+[...aEl.children].find(b=>b.textContent===questions[index].a[correct]).classList.add('correct');
 }
-
 if(ok) score++;
-
-details.push({
-
-q:qtext,
-
-choose:ans,
-
-correct:questions[index].a[correct],
-
-ok
-
-});
-
+details.push({q:qtext,choose:ans,correct:questions[index].a[correct],ok});
 next.style.display='block';
-
 }
 
-
-next.onclick=()=>{
-
-index++;
-
-if(index<questions.length) load();
-
-else finish();
-
-};
-
+next.onclick=()=>{index++;if(index<questions.length)load();else finish();};
 
 function finish(){
-
 clearInterval(countdown);
-
 document.getElementById('quiz').style.display='none';
-
 next.style.display='none';
-
 bar.style.width='100%';
-
 result.style.display='block';
-
 result.innerHTML=`🎉 Hoàn thành!<br>Điểm: <b>${score}/${questions.length}</b>`;
-
 report.style.display='block';
-
 let html='<h3>📊 BÁO CÁO CHI TIẾT</h3><table><tr><th>Câu</th><th>Đáp án HS</th><th>Đáp án đúng</th><th>Kết quả</th></tr>';
-
-details.forEach((d,i)=>{
-
-html+=`<tr>
-
-<td>${i+1}</td>
-
-<td>${d.choose}</td>
-
-<td>${d.correct}</td>
-
-<td>${d.ok?'✔':'✘'}</td>
-
-</tr>`;
-
-});
-
+details.forEach((d,i)=>{html+=`<tr><td>${i+1}</td><td>${d.choose}</td><td>${d.correct}</td><td>${d.ok?'✔':'✘'}</td></tr>`});
 html+='</table>';
-
 report.innerHTML=html;
-
 }
 
 load();
