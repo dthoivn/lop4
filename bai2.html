@@ -1,17 +1,161 @@
-<!-- cấu trúc giống file trên -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Tin học – Bài 2</title>
 
-questions=[
+<style>
+body{font-family:Arial;background:linear-gradient(120deg,#dbeafe,#dcfce7);margin:0}
+.screen{max-width:1000px;margin:auto;padding:20px}
+.card{background:white;border-radius:20px;padding:25px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.2)}
 
-["Mục nào không có trong truyện trên website truyencotich.vn?",
-["Cổ tích Việt Nam","Cổ tích thế giới","Truyện dân gian","Truyện thiếu nhi"],
-2],
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}
 
-["Thông tin trên website được sắp xếp theo danh mục để?",
-["Đẹp hơn","Dễ tìm thông tin","Theo quy định","Không lý do"],
-1],
+.answer{padding:18px;border-radius:15px;font-size:18px;cursor:pointer;font-weight:bold;transition:.3s}
+.answer:hover{transform:scale(1.07)}
 
-["Khi tìm truyện Tấm Cám cần gõ gì?",
-["Từ khóa","Tên giáo viên","Tên lớp","Tên bài"],
-0]
+.a0{background:#ef4444;color:white}
+.a1{background:#3b82f6;color:white}
+.a2{background:#facc15}
+.a3{background:#22c55e}
+
+.correct{transform:scale(1.15);box-shadow:0 0 20px #22c55e}
+.wrong{opacity:.3}
+
+.progress{height:10px;background:#cbd5e1;border-radius:5px;margin-bottom:10px;overflow:hidden}
+.bar{height:100%;background:#22c55e;width:0%}
+
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+
+<div id="start" class="card">
+<h2>🎮 Tin học – Bài 2-Gõ bàn phím</h2>
+<input id="name" placeholder="Tên học sinh">
+<br><br>
+<button onclick="start()">Bắt đầu</button>
+</div>
+
+<div id="quiz" class="card" style="display:none">
+
+<div class="progress"><div id="bar" class="bar"></div></div>
+
+<h3 id="question"></h3>
+<div id="answers" class="answers"></div>
+
+</div>
+
+<div id="end" class="card" style="display:none">
+
+<h2>🎉 Hoàn thành</h2>
+<p id="result"></p>
+
+</div>
+
+</div>
+
+<script>
+
+let questions=[
+
+["Gõ bàn phím đúng cách giúp?",["Gõ nhanh và chính xác","Hỏng phím","Đau tay","Sai nhiều"],0],
+["Gõ bàn phím đúng cách tốt cho?",["Sức khỏe","Không","Sai","Không"],0],
+["Gõ đúng cách giúp?",["Tăng hiệu quả công việc","Chậm hơn","Sai","Không"],0],
+["Hàng phím chuẩn?",["Hàng cơ sở","Hàng số","Hàng trên","Hàng dưới"],0],
+["Phím Backspace thuộc?",["Hàng phím số","Hàng cơ sở","Hàng trên","Hàng dưới"],0],
+
+["Gõ sai cách gây?",["Đau tay","Nhanh hơn","Sai","Không"],0],
+["Gõ sai cách gây?",["Hỏng phím","Nhanh hơn","Sai","Không"],0],
+["Ngón tay phụ trách?",["Phím riêng","Phím bất kỳ","Sai","Không"],0],
+["Sau khi gõ phím cần?",["Trở về phím xuất phát","Không","Sai","Không"],0],
+["Gõ đúng cách cần?",["Luyện tập","Không","Sai","Không"],0]
 
 ]
+
+while(questions.length<50){
+questions.push(...questions.slice(0,10))
+}
+
+questions=questions.slice(0,50)
+
+questions.sort(()=>Math.random()-0.5)
+
+let current=0
+let score=0
+
+function start(){
+
+start.style.display="none"
+quiz.style.display="block"
+
+load()
+
+}
+
+function load(){
+
+bar.style.width=(current/50*100)+"%"
+
+question.innerText="Câu "+(current+1)+": "+questions[current][0]
+
+let ans=questions[current][1].map((a,i)=>({text:a,index:i})).sort(()=>Math.random()-0.5)
+
+answers.innerHTML=""
+
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=`
+<div class="answer a${k}" onclick="choose(${a.index},this)">
+${a.text}
+</div>`
+
+})
+
+}
+
+function choose(index,el){
+
+let correct=questions[current][2]
+
+document.querySelectorAll(".answer").forEach(a=>{
+
+if(a.innerText===questions[current][1][correct]){
+a.classList.add("correct")
+}else{
+a.classList.add("wrong")
+}
+
+})
+
+if(index===correct) score++
+
+setTimeout(()=>{
+
+current++
+
+if(current>=50){
+
+quiz.style.display="none"
+end.style.display="block"
+
+let n=document.getElementById("name").value||"Học sinh"
+
+result.innerText=n+" đạt "+score+"/50 điểm"
+
+}else{
+
+load()
+
+}
+
+},1200)
+
+}
+
+</script>
+
+</body>
+</html>
