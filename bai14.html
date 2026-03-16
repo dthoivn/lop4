@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Classroom PRO</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef4ff;
+margin:0;
+text-align:center
+}
+
+.card{
+max-width:900px;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15)
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ccc;
+width:220px
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px
+}
+
+.answer{
+padding:18px;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+transition:.25s;
+font-weight:bold
+}
+
+.answer:hover{
+transform:scale(1.05)
+}
+
+.a0{background:#ff7675}
+.a1{background:#74b9ff}
+.a2{background:#ffeaa7}
+.a3{background:#55efc4}
+
+.correct{
+background:#2ecc71!important;
+transform:scale(1.15)
+}
+
+.wrong{
+opacity:.3
+}
+
+.timer{
+font-size:24px;
+color:#e74c3c;
+font-weight:bold
+}
+
+#progressBar{
+width:100%;
+height:12px;
+background:#ddd;
+border-radius:10px;
+margin-top:15px;
+overflow:hidden
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#2ecc71
+}
+
+button{
+padding:12px 25px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#0984e3;
+color:white;
+cursor:pointer
+}
+
+button:hover{
+background:#0652dd
+}
+
+canvas{
+max-width:300px;
+margin-top:20px
+}
+
+/* mobile */
+
+@media(max-width:600px){
+
+.answers{
+grid-template-columns:1fr
+}
+
+.answer{
+font-size:16px
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Quiz Tin học 4 - Bài 14- Điều khiển nhân vật</h2>
+
+<input id="name" placeholder="Họ tên học sinh">
+<br><br>
+
+<input id="class" placeholder="Lớp">
+<br><br>
+
+<button onclick="start()">BẮT ĐẦU</button>
+
+<div id="quiz" style="display:none">
+
+<div class="timer" id="time">30:00</div>
+
+<div id="progressBar">
+<div id="progress"></div>
+</div>
+
+<h3 id="question"></h3>
+
+<div class="answers" id="answers"></div>
+
+<div id="correctText"></div>
+
+</div>
+
+<div id="result"></div>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<audio id="correctSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b0f4d2c03.mp3"></audio>
+<audio id="wrongSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0d30a3c0d2.mp3"></audio>
+
+<script>
+
+let studentName=""
+let studentClass=""
+
+let questions=[
+
+["Bài 14 trong Scratch dạy điều gì?",["Điều khiển nhân vật di chuyển","Nghe nhạc","Vẽ tranh","Xem video"],0],
+["Nhân vật trong Scratch gọi là gì?",["Sprite","Robot","Actor","Object"],0],
+["Để xóa nhân vật hiện tại cần làm gì?",["Nháy nút xóa","Nhấn Enter","Nhấn Ctrl","Nhấn Alt"],0],
+["Để thêm nhân vật mới cần làm gì?",["Chọn biểu tượng thêm nhân vật","Nhấn Delete","Nhấn Esc","Nhấn Tab"],0],
+["Ví dụ nhân vật mới trong bài là gì?",["Bọ cánh cứng","Mèo","Chó","Chuột"],0],
+
+["Nhân vật di chuyển trên đâu?",["Sân khấu","Chuột","Bàn phím","Ổ đĩa"],0],
+["Để di chuyển nhân vật tiến thẳng dùng lệnh nào?",["Di chuyển 100 bước","Xóa nhân vật","Đổi màu","Phát nhạc"],0],
+["Lệnh xoay phải 90° dùng để làm gì?",["Xoay theo chiều kim đồng hồ","Xoay trái","Dừng lại","Xóa"],0],
+["Lệnh xoay trái 90° dùng để làm gì?",["Xoay ngược chiều kim đồng hồ","Xoay phải","Dừng lại","Xóa"],0],
+["Các lệnh này nằm trong nhóm nào?",["Chuyển động","Âm thanh","Hiển thị","Bút"],0],
+
+["Lệnh di chuyển 100 bước dùng để làm gì?",["Tiến thẳng","Xóa nhân vật","Đổi màu","Phát nhạc"],0],
+["Để nhân vật quay về vị trí cũ cần làm gì?",["Kết hợp các lệnh","Xóa lệnh","Tắt máy","Đổi màu"],0],
+["Khi có nhiều lệnh di chuyển cần thêm gì?",["Lệnh dừng","Lệnh xóa","Lệnh âm thanh","Lệnh màu"],0],
+["Có thể tìm nhân vật bằng cách nào?",["Gõ tên vào ô tìm kiếm","Nhấn Delete","Nhấn Ctrl","Nhấn Esc"],0],
+["Nhân vật có thể di chuyển theo hình gì?",["Hình vuông","Hình tròn","Hình tam giác","Hình sao"],0],
+
+["Trong bài có nhân vật nào khác?",["Chú cá","Chó","Chuột","Rồng"],0],
+["Chú cá bơi ở đâu?",["Dưới nước","Trên trời","Trên cây","Trên đường"],0],
+["Phông nền dùng cho chú cá là gì?",["Underwater 1","City","Forest","Sky"],0],
+["Để thay phông nền cần nháy vào gì?",["Chọn phông nền","Chọn nhân vật","Chọn âm thanh","Chọn video"],0],
+["Phông nền giúp gì?",["Thay đổi cảnh sân khấu","Xóa nhân vật","Tắt máy","Đổi màu"],0],
+
+["Lệnh nào giúp di chuyển đến vị trí ngẫu nhiên?",["Glide to random position","Move 100","Turn","Stop"],0],
+["Lệnh nào giúp quay lại khi chạm cạnh?",["If on edge bounce","Move","Say","Wait"],0],
+["Nếu chú cá chỉ di chuyển một lần thì sao?",["Dừng lại","Biến mất","Nhanh hơn","Chậm hơn"],0],
+["Để cá bơi nhiều lần cần làm gì?",["Thêm nhiều lệnh","Xóa lệnh","Đổi màu","Tắt máy"],0],
+["Nhóm lệnh điều khiển bắt đầu chương trình là gì?",["Sự kiện","Chuyển động","Âm thanh","Bút"],0],
+
+["Lệnh cờ xanh dùng để làm gì?",["Bắt đầu chương trình","Xóa chương trình","Lưu chương trình","Đóng chương trình"],0],
+["Sau khi nhấn cờ xanh điều gì xảy ra?",["Chương trình chạy","Máy tắt","Chuột tắt","File xóa"],0],
+["Để điều khiển nhân vật cần gì?",["Các khối lệnh","Video","Ảnh","Âm thanh"],0],
+["Các khối lệnh được ghép như thế nào?",["Khớp nối","Dây điện","Chuột","Bàn phím"],0],
+["Nếu thay đổi lệnh thì sao?",["Chuyển động thay đổi","Không đổi","Máy tắt","Game lỗi"],0],
+
+["Nếu tăng số bước thì sao?",["Đi nhanh hơn","Chậm hơn","Không đổi","Dừng"],0],
+["Nếu giảm số bước thì sao?",["Đi chậm hơn","Nhanh hơn","Không đổi","Dừng"],0],
+["Chú cá có thể làm gì?",["Bơi","Bay","Nhảy","Ngủ"],0],
+["Bọ cánh cứng có thể làm gì?",["Di chuyển","Ngủ","Bay","Biến mất"],0],
+["Scratch giúp học sinh làm gì?",["Lập trình","Chỉ chơi game","Chỉ vẽ","Chỉ nghe nhạc"],0],
+
+["Một chương trình Scratch gồm gì?",["Các lệnh","Các ảnh","Các video","Các nhạc"],0],
+["Chương trình chạy ở đâu?",["Sân khấu","Chuột","Bàn phím","Ổ đĩa"],0],
+["Nhân vật thực hiện gì khi chạy?",["Thực hiện lệnh","Ngủ","Biến mất","Tắt"],0],
+["Phông nền nằm ở đâu?",["Sân khấu","Chuột","Ổ đĩa","Bàn phím"],0],
+["Scratch có thể tạo gì?",["Trò chơi","Chỉ văn bản","Chỉ video","Chỉ ảnh"],0],
+
+["Nếu gặp cạnh sân khấu thì sao?",["Quay lại","Biến mất","Nhanh hơn","Chậm hơn"],0],
+["Chú cá di chuyển nhiều lần giống như gì?",["Đang bơi","Đang ngủ","Đang đứng","Đang bay"],0],
+["Để thay nhân vật cần làm gì trước?",["Xóa nhân vật cũ","Xóa nền","Xóa âm thanh","Xóa chương trình"],0],
+["Sau đó làm gì?",["Thêm nhân vật mới","Tắt máy","Xóa file","Đổi màu"],0],
+["Bài 14 dạy học sinh điều gì?",["Điều khiển nhân vật chuyển động","Chơi game","Nghe nhạc","Vẽ hình"],0]
+
+];
+
+questions.sort(()=>Math.random()-0.5)
+
+let current=0
+let correctCount=0
+let wrongCount=0
+let totalTime=1800
+let timer
+
+function start(){
+
+studentName=document.getElementById("name").value.trim()
+studentClass=document.getElementById("class").value.trim()
+
+if(studentName==""||studentClass==""){
+alert("Nhập tên và lớp")
+return
+}
+
+quiz.style.display="block"
+
+startTimer()
+
+load()
+
+}
+
+function startTimer(){
+
+timer=setInterval(()=>{
+
+totalTime--
+
+let m=Math.floor(totalTime/60)
+let s=totalTime%60
+
+time.innerText=
+String(m).padStart(2,'0')+":"+
+String(s).padStart(2,'0')
+
+if(totalTime<=0){
+finish()
+}
+
+},1000)
+
+}
+
+function load(){
+
+correctText.innerText=""
+
+progress.style.width=(current/questions.length*100)+"%"
+
+question.innerText="Câu "+(current+1)+": "+questions[current][0]
+
+let ans=questions[current][1]
+.map((a,i)=>({t:a,i}))
+.sort(()=>Math.random()-0.5)
+
+answers.innerHTML=""
+
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=
+`<div class="answer a${k}" onclick="choose(${a.i})">${a.t}</div>`
+
+})
+
+}
+
+function choose(i){
+
+let correct=questions[current][2]
+let correctAns=questions[current][1][correct]
+
+document.querySelectorAll(".answer").forEach(el=>{
+
+if(el.innerText===correctAns)
+el.classList.add("correct")
+else
+el.classList.add("wrong")
+
+})
+
+if(i===correct){
+correctCount++
+correctSound.play()
+}else{
+wrongCount++
+wrongSound.play()
+}
+
+correctText.innerText="Đáp án đúng: "+correctAns
+
+setTimeout(()=>{
+
+current++
+
+if(current<questions.length){
+load()
+}else{
+finish()
+}
+
+},1200)
+
+}
+
+function finish(){
+
+clearInterval(timer)
+
+quiz.style.display="none"
+
+let total=questions.length
+let percent=Math.round(correctCount/total*100)
+
+let grade=""
+
+if(percent>=80) grade="Giỏi"
+else if(percent>=65) grade="Khá"
+else if(percent>=50) grade="Trung bình"
+else grade="Cần cố gắng"
+
+result.innerHTML=
+
+"<h2>Hoàn thành bài</h2>"+
+"<p>Học sinh: "+studentName+"</p>"+
+"<p>Lớp: "+studentClass+"</p>"+
+"<h3>Đúng: "+correctCount+"</h3>"+
+"<h3>Sai: "+wrongCount+"</h3>"+
+"<h3>Tỷ lệ: "+percent+"%</h3>"+
+"<h3>Xếp loại: "+grade+"</h3>"+
+"<br><button onclick='location.reload()'>Làm lại bài</button>"
+
+drawChart()
+
+}
+
+function drawChart(){
+
+let c=document.getElementById("chart")
+let ctx=c.getContext("2d")
+
+let total=correctCount+wrongCount
+
+let correctAngle=(correctCount/total)*2*Math.PI
+
+ctx.clearRect(0,0,300,300)
+
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.arc(150,150,120,0,correctAngle)
+ctx.fillStyle="#2ecc71"
+ctx.fill()
+
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.arc(150,150,120,correctAngle,2*Math.PI)
+ctx.fillStyle="#e74c3c"
+ctx.fill()
+
+}
+
+</script>
+
+</body>
+</html>
