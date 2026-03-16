@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Classroom PRO</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef4ff;
+margin:0;
+text-align:center
+}
+
+.card{
+max-width:900px;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15)
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ccc;
+width:220px
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px
+}
+
+.answer{
+padding:18px;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+transition:.25s;
+font-weight:bold
+}
+
+.answer:hover{
+transform:scale(1.05)
+}
+
+.a0{background:#ff7675}
+.a1{background:#74b9ff}
+.a2{background:#ffeaa7}
+.a3{background:#55efc4}
+
+.correct{
+background:#2ecc71!important;
+transform:scale(1.15)
+}
+
+.wrong{
+opacity:.3
+}
+
+.timer{
+font-size:24px;
+color:#e74c3c;
+font-weight:bold
+}
+
+#progressBar{
+width:100%;
+height:12px;
+background:#ddd;
+border-radius:10px;
+margin-top:15px;
+overflow:hidden
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#2ecc71
+}
+
+button{
+padding:12px 25px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#0984e3;
+color:white;
+cursor:pointer
+}
+
+button:hover{
+background:#0652dd
+}
+
+canvas{
+max-width:300px;
+margin-top:20px
+}
+
+/* mobile */
+
+@media(max-width:600px){
+
+.answers{
+grid-template-columns:1fr
+}
+
+.answer{
+font-size:16px
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Quiz Tin học 4 - Bài 10 - Đinh dạng tạo hiệu ứng</h2>
+
+<input id="name" placeholder="Họ tên học sinh">
+<br><br>
+
+<input id="class" placeholder="Lớp">
+<br><br>
+
+<button onclick="start()">BẮT ĐẦU</button>
+
+<div id="quiz" style="display:none">
+
+<div class="timer" id="time">30:00</div>
+
+<div id="progressBar">
+<div id="progress"></div>
+</div>
+
+<h3 id="question"></h3>
+
+<div class="answers" id="answers"></div>
+
+<div id="correctText"></div>
+
+</div>
+
+<div id="result"></div>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<audio id="correctSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b0f4d2c03.mp3"></audio>
+<audio id="wrongSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0d30a3c0d2.mp3"></audio>
+
+<script>
+
+let studentName=""
+let studentClass=""
+
+let questions=[
+
+["Định dạng văn bản trên trang chiếu dùng để làm gì?",["Làm trang chiếu đẹp và rõ ràng hơn","Xóa trang chiếu","Tắt PowerPoint","Mở tệp"],0],
+["Định dạng văn bản gồm những gì?",["Kiểu chữ, cỡ chữ, màu chữ","Âm thanh","Video","Hình nền"],0],
+["Thay đổi kiểu chữ, cỡ chữ, màu chữ gọi là gì?",["Định dạng văn bản","Chèn ảnh","Chèn video","Tạo trang chiếu"],0],
+["Định dạng văn bản giúp trang chiếu như thế nào?",["Rõ ràng và sinh động","Chậm hơn","Nhỏ hơn","Tối hơn"],0],
+["Để định dạng văn bản cần làm gì trước?",["Chọn văn bản","Chọn hình ảnh","Chọn trang chiếu","Chọn video"],0],
+
+["Sau khi chọn văn bản cần chọn thẻ nào?",["Home","Insert","View","Design"],0],
+["Trong thẻ Home ta có thể thay đổi gì?",["Kiểu chữ","Âm thanh","Video","Hiệu ứng"],0],
+["Để thay đổi cỡ chữ dùng lệnh nào?",["Font Size","Picture","Layout","Slide"],0],
+["Để thay đổi màu chữ dùng lệnh nào?",["Font Color","Picture","Layout","Slide"],0],
+["Để thay đổi kiểu chữ dùng lệnh nào?",["Font","Picture","Layout","Slide"],0],
+
+["Khi chọn màu chữ cần lưu ý điều gì?",["Dễ đọc","Phải tối","Phải sáng","Phải nhỏ"],0],
+["Có thể nhập trực tiếp cỡ chữ không?",["Có","Không","Chỉ một lần","Chỉ khi lưu"],0],
+["Muốn nhập cỡ chữ cần làm gì?",["Gõ số vào ô cỡ chữ","Nhấn Delete","Nhấn Ctrl","Nhấn Esc"],0],
+["Khung văn bản có bao nhiêu nút tròn quanh khung?",["8","4","6","10"],0],
+["Nút tròn quanh khung dùng để làm gì?",["Thay đổi kích thước","Xóa khung","Đổi màu","Chèn hình"],0],
+
+["Để thay đổi kích thước khung văn bản cần làm gì?",["Kéo nút tròn","Nhấn Enter","Nhấn Delete","Nhấn Tab"],0],
+["Để di chuyển khung văn bản cần làm gì?",["Kéo thả khung","Nhấn Ctrl","Nhấn Alt","Nhấn Esc"],0],
+["Định dạng văn bản nằm ở thẻ nào?",["Home","Insert","Design","View"],0],
+["Hiệu ứng chuyển trang dùng để làm gì?",["Làm bài trình chiếu sinh động","Xóa trang","Tắt máy","Đổi tên tệp"],0],
+["Hiệu ứng chuyển trang giúp bài trình chiếu như thế nào?",["Ấn tượng hơn","Chậm hơn","Nhỏ hơn","Tối hơn"],0],
+
+["Để tạo hiệu ứng chuyển trang cần chọn thẻ nào?",["Transitions","Home","Insert","View"],0],
+["Sau khi chọn Transitions cần làm gì?",["Chọn hiệu ứng","Xóa trang","Chèn ảnh","Chèn video"],0],
+["Trước khi tạo hiệu ứng cần chọn gì?",["Trang chiếu","Hình ảnh","Video","Âm thanh"],0],
+["Một trang chiếu có thể dùng bao nhiêu hiệu ứng chuyển trang?",["1","2","3","4"],0],
+["Hiệu ứng chuyển trang áp dụng cho cái gì?",["Trang chiếu","Hình ảnh","Video","Âm thanh"],0],
+
+["Để áp dụng hiệu ứng cho tất cả trang chiếu chọn gì?",["Apply to All","Insert","Font","Picture"],0],
+["Để bỏ hiệu ứng chuyển trang cần chọn gì?",["None","Font","Insert","Layout"],0],
+["Hiệu ứng chuyển trang nằm ở thẻ nào?",["Transitions","Home","Insert","View"],0],
+["Trước khi tạo hiệu ứng cần làm gì?",["Chọn trang chiếu","Chọn hình","Chọn video","Chọn âm thanh"],0],
+["Sau khi chọn hiệu ứng thì gì xảy ra?",["Trang chiếu có hiệu ứng","Trang chiếu bị xóa","Máy tắt","Tệp đóng"],0],
+
+["Hiệu ứng chuyển trang giúp gì?",["Bài trình chiếu hấp dẫn","Máy nhanh","Pin lâu","Màn hình sáng"],0],
+["Định dạng văn bản giúp gì?",["Trang chiếu rõ ràng","Máy nhanh","Pin lâu","Màn hình sáng"],0],
+["Có thể áp dụng nhiều hiệu ứng chuyển trang cùng lúc không?",["Không","Có","Luôn luôn","Chỉ 2"],0],
+["Có bắt buộc tất cả trang chiếu cùng hiệu ứng không?",["Không","Có","Luôn luôn","Chỉ 1"],0],
+["Có thể thay đổi vị trí khung văn bản không?",["Có","Không","Chỉ một lần","Chỉ khi lưu"],0],
+
+["Có thể thay đổi kích thước khung văn bản không?",["Có","Không","Chỉ khi lưu","Chỉ khi in"],0],
+["Để di chuyển khung văn bản cần đặt chuột ở đâu?",["Viền khung","Giữa khung","Góc màn hình","Thanh menu"],0],
+["Sau đó cần làm gì?",["Kéo thả chuột","Nhấn Enter","Nhấn Esc","Nhấn Ctrl"],0],
+["Định dạng văn bản giúp gì cho bài trình chiếu?",["Dễ đọc","Khó đọc","Chậm hơn","Tối hơn"],0],
+["Hiệu ứng chuyển trang tạo cảm giác gì?",["Sinh động","Chậm","Nhỏ","Tối"],0],
+
+["Thẻ Home chứa công cụ gì?",["Định dạng văn bản","Hiệu ứng","Video","Âm thanh"],0],
+["Thẻ Transitions dùng để làm gì?",["Tạo hiệu ứng chuyển trang","Chèn ảnh","Định dạng chữ","Xóa trang"],0],
+["Trước khi định dạng chữ cần làm gì?",["Chọn văn bản","Chọn trang","Chọn ảnh","Chọn video"],0],
+["Sau khi định dạng xong nên làm gì?",["Lưu tệp","Xóa tệp","Tắt máy","Đổi tên"],0],
+["Bài 10 dạy học sinh điều gì?",["Định dạng và tạo hiệu ứng","Chơi game","Nghe nhạc","Vẽ hình"],0]
+
+];
+
+questions.sort(()=>Math.random()-0.5)
+
+let current=0
+let correctCount=0
+let wrongCount=0
+let totalTime=1800
+let timer
+
+function start(){
+
+studentName=document.getElementById("name").value.trim()
+studentClass=document.getElementById("class").value.trim()
+
+if(studentName==""||studentClass==""){
+alert("Nhập tên và lớp")
+return
+}
+
+quiz.style.display="block"
+
+startTimer()
+
+load()
+
+}
+
+function startTimer(){
+
+timer=setInterval(()=>{
+
+totalTime--
+
+let m=Math.floor(totalTime/60)
+let s=totalTime%60
+
+time.innerText=
+String(m).padStart(2,'0')+":"+
+String(s).padStart(2,'0')
+
+if(totalTime<=0){
+finish()
+}
+
+},1000)
+
+}
+
+function load(){
+
+correctText.innerText=""
+
+progress.style.width=(current/questions.length*100)+"%"
+
+question.innerText="Câu "+(current+1)+": "+questions[current][0]
+
+let ans=questions[current][1]
+.map((a,i)=>({t:a,i}))
+.sort(()=>Math.random()-0.5)
+
+answers.innerHTML=""
+
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=
+`<div class="answer a${k}" onclick="choose(${a.i})">${a.t}</div>`
+
+})
+
+}
+
+function choose(i){
+
+let correct=questions[current][2]
+let correctAns=questions[current][1][correct]
+
+document.querySelectorAll(".answer").forEach(el=>{
+
+if(el.innerText===correctAns)
+el.classList.add("correct")
+else
+el.classList.add("wrong")
+
+})
+
+if(i===correct){
+correctCount++
+correctSound.play()
+}else{
+wrongCount++
+wrongSound.play()
+}
+
+correctText.innerText="Đáp án đúng: "+correctAns
+
+setTimeout(()=>{
+
+current++
+
+if(current<questions.length){
+load()
+}else{
+finish()
+}
+
+},1200)
+
+}
+
+function finish(){
+
+clearInterval(timer)
+
+quiz.style.display="none"
+
+let total=questions.length
+let percent=Math.round(correctCount/total*100)
+
+let grade=""
+
+if(percent>=80) grade="Giỏi"
+else if(percent>=65) grade="Khá"
+else if(percent>=50) grade="Trung bình"
+else grade="Cần cố gắng"
+
+result.innerHTML=
+
+"<h2>Hoàn thành bài</h2>"+
+"<p>Học sinh: "+studentName+"</p>"+
+"<p>Lớp: "+studentClass+"</p>"+
+"<h3>Đúng: "+correctCount+"</h3>"+
+"<h3>Sai: "+wrongCount+"</h3>"+
+"<h3>Tỷ lệ: "+percent+"%</h3>"+
+"<h3>Xếp loại: "+grade+"</h3>"+
+"<br><button onclick='location.reload()'>Làm lại bài</button>"
+
+drawChart()
+
+}
+
+function drawChart(){
+
+let c=document.getElementById("chart")
+let ctx=c.getContext("2d")
+
+let total=correctCount+wrongCount
+
+let correctAngle=(correctCount/total)*2*Math.PI
+
+ctx.clearRect(0,0,300,300)
+
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.arc(150,150,120,0,correctAngle)
+ctx.fillStyle="#2ecc71"
+ctx.fill()
+
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.arc(150,150,120,correctAngle,2*Math.PI)
+ctx.fillStyle="#e74c3c"
+ctx.fill()
+
+}
+
+</script>
+
+</body>
+</html>
