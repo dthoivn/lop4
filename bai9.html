@@ -2,136 +2,397 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>GAME – Bài trình chiếu của em</title>
+<title>Quiz Classroom PRO</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(120deg,#60a5fa,#a78bfa)}
-#app{max-width:1000px;margin:auto;background:white;border-radius:20px;padding:25px;margin-top:20px}
-.answers button{display:block;width:100%;margin:8px;padding:12px;border-radius:12px;border:none;background:#f1f5f9;font-size:16px;cursor:pointer}
-.answers button:hover{background:#e0f2fe}
-.correct{background:#bbf7d0!important}
-.wrong{background:#fecaca!important}
-#progress{height:10px;background:#e2e8f0;border-radius:10px;margin-bottom:10px}
-#bar{height:100%;width:0;background:#22c55e}
+
+body{
+font-family:Arial;
+background:#eef4ff;
+margin:0;
+text-align:center
+}
+
+.card{
+max-width:900px;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.15)
+}
+
+input{
+padding:10px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ccc;
+width:220px
+}
+
+.answers{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:20px
+}
+
+.answer{
+padding:18px;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+transition:.25s;
+font-weight:bold
+}
+
+.answer:hover{
+transform:scale(1.05)
+}
+
+.a0{background:#ff7675}
+.a1{background:#74b9ff}
+.a2{background:#ffeaa7}
+.a3{background:#55efc4}
+
+.correct{
+background:#2ecc71!important;
+transform:scale(1.15)
+}
+
+.wrong{
+opacity:.3
+}
+
+.timer{
+font-size:24px;
+color:#e74c3c;
+font-weight:bold
+}
+
+#progressBar{
+width:100%;
+height:12px;
+background:#ddd;
+border-radius:10px;
+margin-top:15px;
+overflow:hidden
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#2ecc71
+}
+
+button{
+padding:12px 25px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#0984e3;
+color:white;
+cursor:pointer
+}
+
+button:hover{
+background:#0652dd
+}
+
+canvas{
+max-width:300px;
+margin-top:20px
+}
+
+/* mobile */
+
+@media(max-width:600px){
+
+.answers{
+grid-template-columns:1fr
+}
+
+.answer{
+font-size:16px
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="app">
+<div class="card">
 
-<h2>🎮 BÀI 9 – BÀI TRÌNH CHIẾU CỦA EM</h2>
+<h2>Quiz Tin học 5 - Bài 9 – BÀI TRÌNH CHIẾU CỦA EM</h2>
 
-<div id="progress"><div id="bar"></div></div>
+<input id="name" placeholder="Họ tên học sinh">
+<br><br>
+
+<input id="class" placeholder="Lớp">
+<br><br>
+
+<button onclick="start()">BẮT ĐẦU</button>
+
+<div id="quiz" style="display:none">
+
+<div class="timer" id="time">30:00</div>
+
+<div id="progressBar">
+<div id="progress"></div>
+</div>
 
 <h3 id="question"></h3>
 
 <div class="answers" id="answers"></div>
 
-<button id="next" style="display:none">Câu tiếp theo</button>
-
-<h3 id="result"></h3>
+<div id="correctText"></div>
 
 </div>
 
+<div id="result"></div>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+<audio id="correctSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b0f4d2c03.mp3"></audio>
+<audio id="wrongSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0d30a3c0d2.mp3"></audio>
+
 <script>
 
-const questions=[
+let studentName=""
+let studentClass=""
 
-{q:"Bài trình chiếu gồm những loại trang nào?",a:["Trang tiêu đề và trang nội dung","Trang văn bản","Trang hình ảnh","Trang video"],c:0},
+let questions=[
 
-{q:"Trang tiêu đề thường chứa gì?",a:["Tiêu đề và thông tin tác giả","Chỉ hình ảnh","Chỉ video","Chỉ bảng"],c:0},
+["Bài trình chiếu thường gồm những gì?",["Các trang chiếu","Các tệp","Các thư mục","Các ổ đĩa"],0],
+["Trang chiếu đầu tiên thường là gì?",["Trang tiêu đề","Trang nội dung","Trang hình ảnh","Trang kết thúc"],0],
+["Các trang chiếu sau thường là gì?",["Trang nội dung","Trang tiêu đề","Trang trống","Trang ảnh"],0],
+["Trang tiêu đề thường có mấy khung văn bản?",["2","1","3","4"],0],
+["Hai khung văn bản của trang tiêu đề là gì?",["Tiêu đề và tác giả","Tiêu đề và hình ảnh","Tác giả và ảnh","Tên và ngày"],0],
 
-{q:"Trang nội dung thường có?",a:["Tiêu đề và nội dung","Chỉ tiêu đề","Chỉ hình","Không có gì"],c:0},
+["Trang nội dung thường có mấy khung văn bản?",["2","1","3","4"],0],
+["Hai khung văn bản của trang nội dung là gì?",["Tiêu đề và nội dung","Ảnh và âm thanh","Video và văn bản","Tiêu đề và ảnh"],0],
+["Để thêm trang chiếu mới ta dùng lệnh nào?",["New Slide","Open","Save","Delete"],0],
+["Lệnh New Slide nằm ở thẻ nào?",["Home","Insert","Design","View"],0],
+["Để nhập văn bản vào trang chiếu ta làm gì?",["Nháy vào khung văn bản","Nháy vào hình","Nháy vào nền","Nháy vào menu"],0],
 
-{q:"Để thêm trang chiếu chọn lệnh nào?",a:["New Slide","Insert Video","Save","Close"],c:0},
+["Để chèn hình ảnh vào trang chiếu dùng thẻ nào?",["Insert","Home","View","Design"],0],
+["Lệnh chèn hình ảnh có tên là gì?",["Pictures","Images","Photo","InsertPic"],0],
+["Sau khi chọn Pictures cần làm gì?",["Chọn tệp hình","Tắt máy","Đổi nền","Chạy chương trình"],0],
+["Sau khi chọn tệp hình ta nháy nút gì?",["Insert","Open","Save","Close"],0],
+["Để thay đổi kích thước hình ảnh cần làm gì?",["Kéo nút tròn ở cạnh hình","Nháy chuột phải","Nhấn Enter","Nhấn Delete"],0],
 
-{q:"Lệnh New Slide nằm ở thẻ nào?",a:["Home","Insert","View","Design"],c:0},
+["Nút tròn nhỏ quanh hình dùng để làm gì?",["Thay đổi kích thước","Xóa hình","Đổi màu","Phát nhạc"],0],
+["Để di chuyển hình ảnh ta làm gì?",["Kéo thả hình","Nhấn Enter","Nhấn Delete","Nhấn Tab"],0],
+["Để thay đổi kích thước khung văn bản cần làm gì?",["Kéo các nút tròn","Nhấn Delete","Nhấn Enter","Nhấn Ctrl"],0],
+["Để di chuyển khung văn bản cần làm gì?",["Kéo thả khung","Nhấn Tab","Nhấn Alt","Nhấn Shift"],0],
+["Dấu đầu dòng thường xuất hiện ở đâu?",["Đầu mỗi dòng","Cuối dòng","Giữa dòng","Không có"],0],
 
-{q:"Để chèn hình ảnh vào trang chiếu chọn thẻ nào?",a:["Insert","Home","View","File"],c:0},
+["Dấu đầu dòng mặc định trong PowerPoint là gì?",["Chấm tròn","Ngôi sao","Tam giác","Hình vuông"],0],
+["Để thay đổi dấu đầu dòng cần chọn gì trước?",["Văn bản","Hình ảnh","Video","Trang chiếu"],0],
+["Sau khi chọn văn bản cần chọn thẻ nào?",["Home","Insert","View","Design"],0],
+["Trong thẻ Home cần nháy vào gì?",["Mũi tên Bullets","Pictures","Font","Layout"],0],
+["Sau đó chọn gì?",["Mẫu dấu đầu dòng","Hình ảnh","Video","Âm thanh"],0],
 
-{q:"Nút Pictures dùng để?",a:["Chèn hình ảnh","Chèn video","Chèn bảng","Chèn chữ"],c:0},
+["Phần mềm trình chiếu thường dùng là gì?",["PowerPoint","Paint","Word","Chrome"],0],
+["Có mấy cách kích hoạt PowerPoint?",["3","2","4","5"],0],
+["Cách 1 mở PowerPoint là gì?",["Nháy đúp biểu tượng","Nhấn Enter","Nhấn Delete","Nhấn Tab"],0],
+["Cách 2 mở PowerPoint là gì?",["Nháy biểu tượng trên thanh tác vụ","Nhấn Alt","Nhấn Shift","Nhấn Ctrl"],0],
+["Cách 3 mở PowerPoint là gì?",["Tìm trong ô Search","Nhấn Delete","Nhấn Esc","Nhấn Tab"],0],
 
-{q:"Để thay đổi kích thước hình ảnh cần?",a:["Kéo thả chuột","Nhấn Enter","Nhấn Tab","Nhấn Esc"],c:0},
+["Biểu tượng PowerPoint thường nằm ở đâu?",["Màn hình nền","Chuột","Bàn phím","Loa"],0],
+["Thanh tác vụ nằm ở đâu?",["Dưới màn hình","Trên màn hình","Giữa màn hình","Trong thư mục"],0],
+["Ô tìm kiếm dùng để làm gì?",["Tìm chương trình","Xóa chương trình","Đổi màu","Phát nhạc"],0],
+["Để thoát PowerPoint có thể nhấn gì?",["Alt + F4","Ctrl + C","Ctrl + V","Ctrl + Z"],0],
+["Nút Close dùng để làm gì?",["Đóng chương trình","Mở chương trình","Lưu tệp","Tạo tệp"],0],
 
-{q:"Trang chiếu đầu tiên thường là?",a:["Trang tiêu đề","Trang nội dung","Trang ảnh","Trang video"],c:0},
+["Khi có nhiều tệp đang mở thì Close làm gì?",["Đóng tệp hiện tại","Đóng máy","Đóng tất cả","Không làm gì"],0],
+["Để đóng tất cả cửa sổ có thể chọn gì?",["Close all windows","New Slide","Save","Insert"],0],
+["Trước khi thoát nên làm gì?",["Lưu tệp","Xóa tệp","Đổi màu","Đổi nền"],0],
+["Bài trình chiếu thường có bao nhiêu trang ví dụ trong bài?",["4","2","3","5"],0],
+["Trang đầu của ví dụ giới thiệu gì?",["Chủ đề","Hình ảnh","Video","Âm thanh"],0],
 
-{q:"PowerPoint là phần mềm?",a:["Trình chiếu","Vẽ","Soạn thảo","Chơi game"],c:0}
+["Ba trang sau trình bày gì?",["Các loài hoa","Các máy tính","Các bài hát","Các tệp"],0],
+["Một bài trình chiếu thường có gì?",["Văn bản và hình ảnh","Chỉ âm thanh","Chỉ video","Chỉ văn bản"],0],
+["Chèn hình ảnh giúp gì?",["Trang chiếu sinh động","Máy nhanh hơn","Pin lâu hơn","Màn hình sáng"],0],
+["Dấu đầu dòng giúp gì?",["Liệt kê nội dung","Xóa nội dung","Đổi màu","Chạy chương trình"],0],
+["Trang tiêu đề giúp gì?",["Giới thiệu chủ đề","Kết thúc bài","Chạy chương trình","Xóa dữ liệu"],0],
+
+["Trang nội dung dùng để làm gì?",["Trình bày nội dung","Xóa bài","Tắt máy","Cài game"],0],
+["PowerPoint thuộc loại phần mềm gì?",["Trình chiếu","Vẽ","Chơi game","Nghe nhạc"],0],
+["Bài 9 dạy học sinh điều gì?",["Tạo bài trình chiếu","Chơi game","Nghe nhạc","Lập trình"],0]
 
 ];
 
-// nhân lên đủ 50 câu nhưng không trùng nội dung
-while(questions.length<50){
-questions.push({...questions[questions.length%10]})
-}
-
 questions.sort(()=>Math.random()-0.5)
 
-let i=0,score=0
+let current=0
+let correctCount=0
+let wrongCount=0
+let totalTime=1800
+let timer
 
-const q=document.getElementById("question")
-const a=document.getElementById("answers")
-const next=document.getElementById("next")
-const result=document.getElementById("result")
-const bar=document.getElementById("bar")
+function start(){
+
+studentName=document.getElementById("name").value.trim()
+studentClass=document.getElementById("class").value.trim()
+
+if(studentName==""||studentClass==""){
+alert("Nhập tên và lớp")
+return
+}
+
+quiz.style.display="block"
+
+startTimer()
+
+load()
+
+}
+
+function startTimer(){
+
+timer=setInterval(()=>{
+
+totalTime--
+
+let m=Math.floor(totalTime/60)
+let s=totalTime%60
+
+time.innerText=
+String(m).padStart(2,'0')+":"+
+String(s).padStart(2,'0')
+
+if(totalTime<=0){
+finish()
+}
+
+},1000)
+
+}
 
 function load(){
 
-bar.style.width=(i/50*100)+"%"
+correctText.innerText=""
 
-let qu=questions[i]
+progress.style.width=(current/questions.length*100)+"%"
 
-q.innerText="Câu "+(i+1)+": "+qu.q
+question.innerText="Câu "+(current+1)+": "+questions[current][0]
 
-let arr=qu.a.map((t,k)=>({t,k})).sort(()=>Math.random()-0.5)
+let ans=questions[current][1]
+.map((a,i)=>({t:a,i}))
+.sort(()=>Math.random()-0.5)
 
-a.innerHTML=""
+answers.innerHTML=""
 
-arr.forEach(o=>{
-let b=document.createElement("button")
-b.innerText=o.t
-b.onclick=()=>choose(o.k,b)
-a.appendChild(b)
+ans.forEach((a,k)=>{
+
+answers.innerHTML+=
+`<div class="answer a${k}" onclick="choose(${a.i})">${a.t}</div>`
+
 })
 
 }
 
-function choose(k,b){
+function choose(i){
 
-let qu=questions[i]
+let correct=questions[current][2]
+let correctAns=questions[current][1][correct]
 
-[...a.children].forEach(x=>x.disabled=true)
+document.querySelectorAll(".answer").forEach(el=>{
 
-if(k===qu.c){
-b.classList.add("correct")
-score++
+if(el.innerText===correctAns)
+el.classList.add("correct")
+else
+el.classList.add("wrong")
+
+})
+
+if(i===correct){
+correctCount++
+correctSound.play()
 }else{
-b.classList.add("wrong")
+wrongCount++
+wrongSound.play()
 }
 
-next.style.display="block"
+correctText.innerText="Đáp án đúng: "+correctAns
 
+setTimeout(()=>{
+
+current++
+
+if(current<questions.length){
+load()
+}else{
+finish()
 }
 
-next.onclick=()=>{
-i++
-next.style.display="none"
+},1200)
 
-if(i<50) load()
-else finish()
 }
 
 function finish(){
 
-q.innerHTML="🎉 Hoàn thành"
+clearInterval(timer)
 
-a.innerHTML=""
+quiz.style.display="none"
 
-result.innerHTML="Điểm: "+score+"/50"
+let total=questions.length
+let percent=Math.round(correctCount/total*100)
+
+let grade=""
+
+if(percent>=80) grade="Giỏi"
+else if(percent>=65) grade="Khá"
+else if(percent>=50) grade="Trung bình"
+else grade="Cần cố gắng"
+
+result.innerHTML=
+
+"<h2>Hoàn thành bài</h2>"+
+"<p>Học sinh: "+studentName+"</p>"+
+"<p>Lớp: "+studentClass+"</p>"+
+"<h3>Đúng: "+correctCount+"</h3>"+
+"<h3>Sai: "+wrongCount+"</h3>"+
+"<h3>Tỷ lệ: "+percent+"%</h3>"+
+"<h3>Xếp loại: "+grade+"</h3>"+
+"<br><button onclick='location.reload()'>Làm lại bài</button>"
+
+drawChart()
 
 }
 
-load()
+function drawChart(){
+
+let c=document.getElementById("chart")
+let ctx=c.getContext("2d")
+
+let total=correctCount+wrongCount
+
+let correctAngle=(correctCount/total)*2*Math.PI
+
+ctx.clearRect(0,0,300,300)
+
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.arc(150,150,120,0,correctAngle)
+ctx.fillStyle="#2ecc71"
+ctx.fill()
+
+ctx.beginPath()
+ctx.moveTo(150,150)
+ctx.arc(150,150,120,correctAngle,2*Math.PI)
+ctx.fillStyle="#e74c3c"
+ctx.fill()
+
+}
 
 </script>
 
