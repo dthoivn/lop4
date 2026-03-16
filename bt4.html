@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thực hành Tin học 5</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef4ff;
+margin:0;
+text-align:center
+}
+
+.container{
+max-width:900px;
+margin:auto;
+margin-top:30px;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,.15)
+}
+
+h2{
+color:#2c3e50
+}
+
+.timer{
+font-size:28px;
+color:#e74c3c;
+font-weight:bold;
+margin-bottom:20px
+}
+
+.step{
+text-align:left;
+margin:15px 0;
+font-size:18px
+}
+
+ul{
+margin-left:20px
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+background:#0984e3;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer
+}
+
+button:hover{
+background:#0652dd
+}
+
+.task{
+background:#f1f8ff;
+padding:15px;
+border-radius:10px;
+margin-top:20px
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>THỰC HÀNH 30 PHÚT</h2>
+<h3>Tìm kiếm thông tin trên Internet</h3>
+
+<div class="timer" id="time">30:00</div>
+
+<button onclick="startTimer()">Bắt đầu thực hành</button>
+
+<hr>
+
+<div class="step">
+
+<h3>Hướng dẫn các bước thực hiện</h3>
+
+<ul>
+
+<li><b>Bước 1:</b> Mở trình duyệt web (Chrome, Edge hoặc Firefox).</li>
+
+<li><b>Bước 2:</b> Nhập địa chỉ trang web máy tìm kiếm  
+<ul>
+<li>google.com.vn</li>
+</ul>
+</li>
+
+<li><b>Bước 3:</b> Nhấp chuột vào ô tìm kiếm của Google.</li>
+
+<li><b>Bước 4:</b> Gõ từ khóa cần tìm kiếm.</li>
+
+<ul>
+<li>Ví dụ: <b>Vườn quốc gia Cát Tiên</b></li>
+</ul>
+
+<li><b>Bước 5:</b> Nhấn phím <b>Enter</b> để thực hiện tìm kiếm.</li>
+
+<li><b>Bước 6:</b> Quan sát các kết quả mà Google trả về.</li>
+
+<li><b>Bước 7:</b> Nhấp chuột vào một kết quả phù hợp để đọc thông tin chi tiết.</li>
+
+</ul>
+
+</div>
+
+<div class="task">
+
+<h3>Nhiệm vụ thực hành</h3>
+
+<ul>
+
+<li>Tìm thông tin về <b>Vườn quốc gia Cát Tiên</b>.</li>
+
+<li>Cho biết Vườn quốc gia Cát Tiên thuộc các tỉnh nào?</li>
+
+<li>Tìm thông tin về một địa danh khác như:</li>
+
+<ul>
+<li>Văn Miếu Quốc Tử Giám</li>
+<li>Bến Nhà Rồng</li>
+<li>Sao La</li>
+</ul>
+
+<li>Quan sát và nhận xét kết quả tìm kiếm.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<script>
+
+let totalTime=1800
+let timer
+
+function startTimer(){
+
+timer=setInterval(()=>{
+
+totalTime--
+
+let m=Math.floor(totalTime/60)
+let s=totalTime%60
+
+time.innerText=
+String(m).padStart(2,'0')+":"+
+String(s).padStart(2,'0')
+
+if(totalTime<=0){
+clearInterval(timer)
+alert("Hết thời gian thực hành!")
+}
+
+},1000)
+
+}
+
+</script>
+
+</body>
+</html>
