@@ -53,12 +53,12 @@ h1{text-align:center;color:#2d3436}
 const questions=[
 
 {q:"Gõ bàn phím đúng cách giúp?",a:["Nhanh và chính xác","Chậm hơn","Sai nhiều","Không lợi ích"],c:0},
-{q:"Gõ đúng cách giúp?",a:["Bảo vệ sức khỏe","Hỏng bàn phím","Chậm hơn","Không"],c:0},
+{q:"Gõ đúng cách giúp?",a:["Bảo vệ sức khỏe tay","Hỏng bàn phím","Chậm hơn","Không"],c:0},
 {q:"Hàng phím chuẩn gọi là?",a:["Hàng cơ sở","Hàng trên","Hàng dưới","Hàng số"],c:0},
-{q:"Các ngón tay đặt ở đâu khi bắt đầu?",a:["Hàng phím cơ sở","Hàng trên","Hàng dưới","Hàng số"],c:0},
-{q:"Ngón trỏ trái đặt ở phím?",a:["F","A","S","D"],c:0},
+{q:"Các ngón tay đặt ở đâu khi bắt đầu gõ?",a:["Hàng phím cơ sở","Hàng trên","Hàng dưới","Hàng số"],c:0},
+{q:"Ngón trỏ trái đặt ở phím nào?",a:["F","A","S","D"],c:0},
 
-{q:"Ngón trỏ phải đặt ở phím?",a:["J","K","L","H"],c:0},
+{q:"Ngón trỏ phải đặt ở phím nào?",a:["J","K","L","H"],c:0},
 {q:"Ngón cái dùng để nhấn phím?",a:["Space","Enter","Tab","Shift"],c:0},
 {q:"Phím dùng để tạo khoảng trắng?",a:["Space","Enter","Tab","Backspace"],c:0},
 {q:"Phím xuống dòng?",a:["Enter","Shift","Ctrl","Alt"],c:0},
@@ -67,18 +67,18 @@ const questions=[
 {q:"Phím xóa bên phải con trỏ?",a:["Delete","Backspace","Enter","Shift"],c:0},
 {q:"Gõ đúng cách giúp?",a:["Không cần nhìn bàn phím","Gõ chậm hơn","Sai nhiều","Không"],c:0},
 {q:"Luyện gõ phím giúp?",a:["Tăng tốc độ gõ","Giảm tốc độ","Không thay đổi","Sai nhiều"],c:0},
-{q:"Ngón út trái phụ trách phím?",a:["A","S","D","F"],c:0},
-{q:"Ngón út phải phụ trách phím?",a:[";","J","K","L"],c:0},
+{q:"Ngón út trái phụ trách phím nào ở hàng cơ sở?",a:["A","S","D","F"],c:0},
+{q:"Ngón út phải phụ trách phím nào ở hàng cơ sở?",a:[";","J","K","L"],c:0},
 
-{q:"Ngón giữa trái phụ trách phím?",a:["S","A","D","F"],c:0},
-{q:"Ngón giữa phải phụ trách phím?",a:["K","J","L",";"],c:0},
-{q:"Ngón áp út trái phụ trách phím?",a:["D","S","F","A"],c:0},
-{q:"Ngón áp út phải phụ trách phím?",a:["L","K","J",";"],c:0},
-{q:"Ngón trỏ trái phụ trách phím?",a:["F","A","S","D"],c:0},
+{q:"Ngón giữa trái phụ trách phím nào ở hàng cơ sở?",a:["D","S","A","F"],c:0},
+{q:"Ngón giữa phải phụ trách phím nào ở hàng cơ sở?",a:["K","J","L",";"],c:0},
+{q:"Ngón áp út trái phụ trách phím nào ở hàng cơ sở?",a:["S","A","D","F"],c:0},
+{q:"Ngón áp út phải phụ trách phím nào ở hàng cơ sở?",a:["L","K","J",";"],c:0},
+{q:"Ngón trỏ trái phụ trách phím nào ở hàng cơ sở?",a:["F","D","S","A"],c:0},
 
-{q:"Ngón trỏ phải phụ trách phím?",a:["J","K","L",";"],c:0},
+{q:"Ngón trỏ phải phụ trách phím nào ở hàng cơ sở?",a:["J","K","L",";"],c:0},
 {q:"Sau khi gõ xong phím cần?",a:["Trở về phím cơ sở","Giữ nguyên","Đổi tay","Không"],c:0},
-{q:"Phím Shift dùng để?",a:["Viết hoa","Xuống dòng","Xóa","Lưu"],c:0},
+{q:"Phím Shift dùng để?",a:["Viết hoa tạm thời","Xuống dòng","Xóa","Lưu"],c:0},
 {q:"Phím Caps Lock dùng để?",a:["Viết hoa liên tục","Xóa","Lưu","In"],c:0},
 {q:"Gõ đúng cách giúp?",a:["Giảm sai sót","Sai nhiều","Không","Chậm"],c:0},
 
@@ -89,10 +89,10 @@ const questions=[
 {q:"Phím Alt dùng để?",a:["Phím chức năng","Xóa","In","Lưu"],c:0},
 
 {q:"Phím Enter có tác dụng?",a:["Xuống dòng","Xóa","Lưu","In"],c:0},
-{q:"Phím Space dài nhất trên bàn phím?",a:["Đúng","Sai","Không","Không biết"],c:0},
+{q:"Phím Space là phím?",a:["Dài nhất trên bàn phím","Nhỏ nhất","Ít dùng","Không dùng"],c:0},
 {q:"Bàn phím là thiết bị?",a:["Nhập dữ liệu","Xuất dữ liệu","Lưu dữ liệu","In dữ liệu"],c:0},
-{q:"Gõ đúng cách cần?",a:["Hai tay","Một tay","Không tay","Chân"],c:0},
-{q:"Ngón cái thường đặt ở?",a:["Space","Enter","Tab","Shift"],c:0},
+{q:"Gõ đúng cách cần dùng?",a:["Hai tay","Một tay","Không tay","Chân"],c:0},
+{q:"Ngón cái thường đặt ở phím?",a:["Space","Enter","Tab","Shift"],c:0},
 
 {q:"Gõ phím nhanh cần?",a:["Luyện tập","Không","Sai","Chậm"],c:0},
 {q:"Gõ phím đúng giúp?",a:["Hiệu quả hơn","Chậm hơn","Sai hơn","Không"],c:0},
@@ -100,10 +100,10 @@ const questions=[
 {q:"Gõ đúng giúp?",a:["Tiết kiệm thời gian","Mất thời gian","Sai","Không"],c:0},
 {q:"Bàn phím là thiết bị?",a:["Phần cứng","Phần mềm","Internet","File"],c:0},
 
-{q:"Phím dùng để xóa trái?",a:["Backspace","Delete","Enter","Tab"],c:0},
-{q:"Phím dùng để xóa phải?",a:["Delete","Backspace","Enter","Tab"],c:0},
-{q:"Phím dùng viết hoa?",a:["Shift","Enter","Ctrl","Alt"],c:0},
-{q:"Phím tạo khoảng trắng?",a:["Space","Enter","Shift","Tab"],c:0},
+{q:"Phím dùng để xóa bên trái?",a:["Backspace","Delete","Enter","Tab"],c:0},
+{q:"Phím dùng để xóa bên phải?",a:["Delete","Backspace","Enter","Tab"],c:0},
+{q:"Phím dùng để viết hoa tạm thời?",a:["Shift","Enter","Ctrl","Alt"],c:0},
+{q:"Phím tạo khoảng trắng giữa các từ?",a:["Space","Enter","Shift","Tab"],c:0},
 {q:"Gõ đúng giúp?",a:["Nhanh hơn","Chậm hơn","Sai","Không"],c:0},
 
 {q:"Gõ đúng giúp?",a:["Chính xác hơn","Sai hơn","Không","Chậm"],c:0},
