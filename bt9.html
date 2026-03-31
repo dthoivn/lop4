@@ -5,7 +5,11 @@
 <title>Thực hành 30 phút - Bài trình chiếu</title>
 
 <style>
-body{font-family:Comic Sans MS;background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:20px}
+body{font-family:Comic Sans MS;background:linear-gradient(135deg,#ffecd2,#fcb69f);padding:20px;
+-webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;    
+}
 .container{background:white;max-width:1000px;margin:auto;padding:25px;border-radius:20px}
 h1{text-align:center;color:#ff5722}
 .timer{text-align:right;color:red;font-size:20px}
@@ -16,7 +20,7 @@ summary{cursor:pointer;font-weight:bold}
 
 </head>
 
-<body>
+<body oncontextmenu="return false;">
 
 <div class="container">
 
@@ -83,6 +87,10 @@ let s=t%60;
 document.getElementById("time").innerHTML=m+":"+(s<10?"0"+s:s);
 if(t>0)t--;
 },1000);
+document.addEventListener("copy", function(e) {
+    e.preventDefault();
+    alert("Không được copy!");
+});  
 </script>
 
 </body>
