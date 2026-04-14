@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thi thực hành</title>
+<title>Thi thực hành Tin học lớp 4</title>
 
 <style>
 body {
@@ -18,6 +18,10 @@ body {
     background: white;
     padding: 20px;
     border-radius: 15px;
+}
+
+h1, h2 {
+    text-align: center;
 }
 
 .timer {
@@ -39,6 +43,10 @@ ul {
     list-style-type: "👉 ";
 }
 
+.checklist input {
+    margin-right: 10px;
+}
+
 button {
     display: block;
     margin: 20px auto;
@@ -47,96 +55,104 @@ button {
     color: white;
     border: none;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: darkgreen;
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h2 id="info"></h2>
+<h1>🖥️ THI THỰC HÀNH TIN HỌC</h1>
+<h2>Lớp 4 - Thời gian 35 phút</h2>
+
 <div class="timer" id="timer">⏳ 35:00</div>
 
+<!-- Bài 1 -->
 <div class="task">
-<h3>🛠️ Bài 1 (1đ)</h3>
+<h3>🛠️ Bài 1: Tạo thư mục (1 điểm)</h3>
 <ul>
-<li>Tạo thư mục đúng tên</li>
+<li>Tạo thư mục trong ổ D</li>
+<li>Tên: Họ và tên_Lớp_Kiểm tra học kỳ 2</li>
 </ul>
-<input type="checkbox" id="b1"> Hoàn thành
 </div>
 
+<!-- Bài 2 -->
 <div class="task">
-<h3>💻 Bài 2 (4đ)</h3>
+<h3>💻 Bài 2: Scratch (4 điểm)</h3>
 <ul>
-<li>Scratch đầy đủ yêu cầu</li>
+<li>Bấm cờ xanh</li>
+<li>Chọn nhân vật và phông nền</li>
+<li>Di chuyển 100 bước</li>
+<li>Lướt 1 giây đến vị trí ngẫu nhiên</li>
+<li>Nói “Xin chào các bạn!”</li>
+<li>Dừng 1 giây</li>
+<li>Nói “Ở đây vui quá!”</li>
 </ul>
-<input type="checkbox" id="b2"> Hoàn thành
 </div>
 
+<!-- Bài 3 -->
 <div class="task">
-<h3>🎞️ Bài 3 (4đ)</h3>
+<h3>🎞️ Bài 3: PowerPoint (4 điểm)</h3>
 <ul>
-<li>PowerPoint đủ 3 slide + hiệu ứng</li>
+<li>Slide 1: Giới thiệu bản thân</li>
+<li>Slide 2: Con vật yêu thích + hình ảnh</li>
+<li>Slide 3: Các loài hoa</li>
+<li>Có hiệu ứng</li>
 </ul>
-<input type="checkbox" id="b3"> Hoàn thành
 </div>
 
+<!-- Bài 4 -->
 <div class="task">
-<h3>💾 Bài 4 (1đ)</h3>
+<h3>💾 Bài 4: Lưu bài (1 điểm)</h3>
 <ul>
-<li>Lưu đúng tên file</li>
+<li>Lưu vào thư mục đã tạo</li>
+<li>Scratch: Lập trình scratch</li>
+<li>PowerPoint: Địa điểm du lịch yêu thích</li>
 </ul>
-<input type="checkbox" id="b4"> Hoàn thành
 </div>
 
-<button onclick="submit()">Nộp bài</button>
+<!-- Checklist -->
+<div class="task checklist">
+<h3>✅ Checklist hoàn thành</h3>
 
-<h2 id="result"></h2>
+<label><input type="checkbox"> Đã tạo thư mục</label><br>
+<label><input type="checkbox"> Đã làm Scratch</label><br>
+<label><input type="checkbox"> Đã làm PowerPoint</label><br>
+<label><input type="checkbox"> Đã lưu bài</label><br>
+
+</div>
+
+<button onclick="finish()">Nộp bài</button>
 
 </div>
 
 <script>
-// hiển thị info
-let name = localStorage.getItem("studentName");
-let lop = localStorage.getItem("studentClass");
-
-document.getElementById("info").innerText =
-    "👤 " + name + " - Lớp " + lop;
-
-// TIMER
+// TIMER 35 phút
 let time = 35 * 60;
 
 let timer = setInterval(() => {
-    let m = Math.floor(time / 60);
-    let s = time % 60;
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
 
     document.getElementById("timer").innerText =
-        "⏳ " + m + ":" + (s < 10 ? "0" : "") + s;
+        "⏳ " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 
     time--;
 
     if (time < 0) {
         clearInterval(timer);
-        submit();
+        alert("⏰ Hết giờ!");
     }
 }, 1000);
 
-// chấm điểm
-function submit() {
-    let score = 0;
-
-    if (b1.checked) score += 1;
-    if (b2.checked) score += 4;
-    if (b3.checked) score += 4;
-    if (b4.checked) score += 1;
-
-    document.getElementById("result").innerText =
-        "🎯 Điểm: " + score + "/10";
-
-    // lưu điểm
-    localStorage.setItem("score", score);
+function finish() {
+    alert("🎉 Nộp bài thành công!");
 }
 </script>
 
