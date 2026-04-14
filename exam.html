@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thi thực hành</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #f6d365, #fda085);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.timer {
+    text-align: center;
+    font-size: 22px;
+    color: red;
+    font-weight: bold;
+}
+
+.task {
+    background: #f9f9f9;
+    padding: 15px;
+    margin: 15px 0;
+    border-left: 6px solid #3498db;
+    border-radius: 10px;
+}
+
+ul {
+    list-style-type: "👉 ";
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 id="info"></h2>
+<div class="timer" id="timer">⏳ 35:00</div>
+
+<div class="task">
+<h3>🛠️ Bài 1 (1đ)</h3>
+<ul>
+<li>Tạo thư mục đúng tên</li>
+</ul>
+<input type="checkbox" id="b1"> Hoàn thành
+</div>
+
+<div class="task">
+<h3>💻 Bài 2 (4đ)</h3>
+<ul>
+<li>Scratch đầy đủ yêu cầu</li>
+</ul>
+<input type="checkbox" id="b2"> Hoàn thành
+</div>
+
+<div class="task">
+<h3>🎞️ Bài 3 (4đ)</h3>
+<ul>
+<li>PowerPoint đủ 3 slide + hiệu ứng</li>
+</ul>
+<input type="checkbox" id="b3"> Hoàn thành
+</div>
+
+<div class="task">
+<h3>💾 Bài 4 (1đ)</h3>
+<ul>
+<li>Lưu đúng tên file</li>
+</ul>
+<input type="checkbox" id="b4"> Hoàn thành
+</div>
+
+<button onclick="submit()">Nộp bài</button>
+
+<h2 id="result"></h2>
+
+</div>
+
+<script>
+// hiển thị info
+let name = localStorage.getItem("studentName");
+let lop = localStorage.getItem("studentClass");
+
+document.getElementById("info").innerText =
+    "👤 " + name + " - Lớp " + lop;
+
+// TIMER
+let time = 35 * 60;
+
+let timer = setInterval(() => {
+    let m = Math.floor(time / 60);
+    let s = time % 60;
+
+    document.getElementById("timer").innerText =
+        "⏳ " + m + ":" + (s < 10 ? "0" : "") + s;
+
+    time--;
+
+    if (time < 0) {
+        clearInterval(timer);
+        submit();
+    }
+}, 1000);
+
+// chấm điểm
+function submit() {
+    let score = 0;
+
+    if (b1.checked) score += 1;
+    if (b2.checked) score += 4;
+    if (b3.checked) score += 4;
+    if (b4.checked) score += 1;
+
+    document.getElementById("result").innerText =
+        "🎯 Điểm: " + score + "/10";
+
+    // lưu điểm
+    localStorage.setItem("score", score);
+}
+</script>
+
+</body>
+</html>
