@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Kiểm tra Tin học lớp 4 - Cuối năm</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.question {
+    background: #f3f6ff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#result {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>KIỂM TRA CUỐI NĂM</h1>
+<h2>MÔN TIN HỌC – LỚP 4</h2>
+
+<p>Họ tên: <input type="text" id="hoten"></p>
+<p>Lớp: <input type="text"></p>
+
+<h2>PHẦN I: TRẮC NGHIỆM</h2>
+
+<form id="quizForm">
+
+<div class="question">
+<p><b>Câu 1:</b> Biểu tượng PowerPoint là?</p>
+<label><input type="radio" name="q1" value="A"> A
+<img src="https://i.postimg.cc/sGYsfb3w/cau2b.jpg" alt="cau2b">  
+</label>
+<label><input type="radio" name="q1" value="B"> B
+<img src="https://i.postimg.cc/LJhDpYKz/Scratch.png" alt="Scratch">
+</label>
+<label><input type="radio" name="q1" value="C"> C
+<img src="https://i.postimg.cc/9DzbhR5W/Powerpoint.png" alt="Powerpoint">  
+</label>
+<label><input type="radio" name="q1" value="D"> D
+<img src="https://i.postimg.cc/XrXLbGSg/rapidtyping.png" alt="rapidtyping">
+</label>
+</div>
+
+<div class="question">
+<p><b>Câu 2:</b> Đổi hình nền Scratch dùng biểu tượng nào?</p>
+<label><input type="radio" name="q2" value="A"> A
+<a href="https://postimages.org/" target="_blank"><img src="https://i.postimg.cc/v4TV6TbQ/2a.png" alt="2a"></a><br><br>
+</label>
+<label><input type="radio" name="q2" value="B"> B
+<a href="https://postimages.org/" target="_blank"><img src="https://i.postimg.cc/qNq3Cq4B/2b.png" alt="2b"></a><br><br>
+</label>
+<label><input type="radio" name="q2" value="C"> C
+<a href="https://postimages.org/" target="_blank"><img src="https://i.postimg.cc/ZWndyn4b/2c.png" alt="2c"></a><br><br>
+</label>
+<label><input type="radio" name="q2" value="D"> D
+<a href="https://postimages.org/" target="_blank"><img src="https://i.postimg.cc/sMxhZxsg/2d.png" alt="2d"></a><br><br>
+</label>
+</div>
+
+<div class="question">
+<p><b>Câu 3:</b> Lệnh xoay phải 90 độ?</p>
+<label><input type="radio" name="q3" value="A"> A</label>
+<label><input type="radio" name="q3" value="B"> B</label>
+<label><input type="radio" name="q3" value="C"> C</label>
+<label><input type="radio" name="q3" value="D"> D</label>
+</div>
+
+<div class="question">
+<p><b>Câu 4:</b> Nhân vật vẽ hình gì?</p>
+<label><input type="radio" name="q4" value="A"> Tam giác</label>
+<label><input type="radio" name="q4" value="B"> HCN</label>
+<label><input type="radio" name="q4" value="C"> Hình vuông</label>
+<label><input type="radio" name="q4" value="D"> Hình tròn</label>
+</div>
+
+<div class="question">
+<p><b>Câu 5:</b> Nhân vật Scratch là?</p>
+<label><input type="radio" name="q5" value="A"> Cá</label>
+<label><input type="radio" name="q5" value="B"> Mèo</label>
+<label><input type="radio" name="q5" value="C"> Chó</label>
+<label><input type="radio" name="q5" value="D"> Thỏ</label>
+</div>
+
+<div class="question">
+<p><b>Câu 6:</b> Lệnh lặp là?</p>
+<label><input type="radio" name="q6" value="A"> Lặp mãi</label>
+<label><input type="radio" name="q6" value="B"> Lặp 10 lần</label>
+<label><input type="radio" name="q6" value="C"> Điều kiện</label>
+<label><input type="radio" name="q6" value="D"> Kết thúc</label>
+</div>
+
+<div class="question">
+<p><b>Câu 7:</b> Thứ tự lưu Scratch?</p>
+<label><input type="radio" name="q7" value="A"> 3-4-2-1</label>
+<label><input type="radio" name="q7" value="B"> 3-4-1-2</label>
+<label><input type="radio" name="q7" value="C"> 4-3-1-2</label>
+<label><input type="radio" name="q7" value="D"> 3-2-1-4</label>
+</div>
+
+<div class="question">
+<p><b>Câu 8:</b> Tạo hiệu ứng slide?</p>
+<label><input type="radio" name="q8" value="A"> Home</label>
+<label><input type="radio" name="q8" value="B"> Insert</label>
+<label><input type="radio" name="q8" value="C"> Transitions</label>
+<label><input type="radio" name="q8" value="D"> Animations</label>
+</div>
+
+<div class="question">
+<p><b>Câu 9:</b> Phím Backspace?</p>
+<label><input type="radio" name="q9" value="A"> Xóa phải</label>
+<label><input type="radio" name="q9" value="B"> Xuống dòng</label>
+<label><input type="radio" name="q9" value="C"> Xóa trái</label>
+<label><input type="radio" name="q9" value="D"> Khoảng cách</label>
+</div>
+
+<button type="button" onclick="tinhDiem()">NỘP BÀI</button>
+
+</form>
+
+<p id="result"></p>
+
+<h2>PHẦN II: THỰC HÀNH</h2>
+
+<ul>
+<li><b>Câu 1:</b> Tạo thư mục: “Họ tên_Lớp_Kiểm tra học kỳ 2” trong ổ D</li>
+
+<li><b>Câu 2:</b> Tạo chương trình Scratch:
+<ul>
+<li>Khi bấm cờ xanh</li>
+<li>Lướt 1 giây đến vị trí ngẫu nhiên</li>
+<li>Nói “Xin chào các bạn!” (2 giây)</li>
+<li>Dừng 1 giây</li>
+<li>Nói “Ở đây vui quá!”</li>
+</ul>
+</li>
+
+<li><b>Câu 3:</b> Tạo PowerPoint:
+<ul>
+<li>3 slide về các loài hoa</li>
+<li>Có hình ảnh + hiệu ứng</li>
+</ul>
+</li>
+
+<li><b>Câu 4:</b> Lưu file tên: “Địa điểm du lịch yêu thích”</li>
+
+</ul>
+
+</div>
+
+<script>
+function tinhDiem() {
+
+    let ten = document.getElementById("hoten").value;
+
+    if (ten.trim() === "") {
+        alert("Nhập họ tên!");
+        return;
+    }
+
+    let dapAn = {
+        q1: "C",
+        q2: "C",
+        q3: "A",
+        q4: "C",
+        q5: "B",
+        q6: "B",
+        q7: "A",
+        q8: "C",
+        q9: "C"
+    };
+
+    let diem = 0;
+
+    for (let i = 1; i <= 9; i++) {
+        let checked = document.querySelector('input[name="q'+i+'"]:checked');
+        if (!checked) {
+            alert("Chưa làm câu " + i);
+            return;
+        }
+
+        if (checked.value === dapAn['q'+i]) {
+            diem++;
+        }
+    }
+
+    let xepLoai = "";
+    if (diem >= 8) xepLoai = "Xuất sắc 🏆";
+    else if (diem >= 6) xepLoai = "Giỏi 👍";
+    else if (diem >= 4) xepLoai = "Trung bình 🙂";
+    else xepLoai = "Cần cố gắng 💪";
+
+    document.getElementById("result").innerHTML =
+    "🎉 " + ten + " đạt " + diem + "/9 (" + (diem*10/9).toFixed(1) + " điểm)<br>" + xepLoai;
+}
+</script>
+
+</body>
+</html>
