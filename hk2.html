@@ -219,11 +219,29 @@ function tinhDiem() {
     let diem = 0;
 
     for (let i = 1; i <= 9; i++) {
+
+        let options = document.querySelectorAll('input[name="q'+i+'"]');
         let checked = document.querySelector('input[name="q'+i+'"]:checked');
+
         if (!checked) {
             alert("Chưa làm câu " + i);
             return;
         }
+
+        options.forEach(opt => {
+            let parent = opt.parentElement;
+
+            // reset màu trước
+            parent.style.background = "";
+
+            if (opt.value === dapAn['q'+i]) {
+                parent.style.background = "#c8f7c5"; // xanh (đúng)
+            }
+
+            if (opt.checked && opt.value !== dapAn['q'+i]) {
+                parent.style.background = "#f7c5c5"; // đỏ (sai)
+            }
+        });
 
         if (checked.value === dapAn['q'+i]) {
             diem++;
